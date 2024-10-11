@@ -17,9 +17,9 @@ export class CommentButtonComponent {
 
   handleCommentClick(){
     this.dialog.open(PostCommentListComponent,{
-      width:'100%',
-      height:'100%',
-      position:{bottom:'0px'},
+      width:'90vw',
+      height:'90vh',
+      position:{bottom:'0vh', top:'10vh'},
       panelClass:'full-screen-dialog'
     })
   }

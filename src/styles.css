@@ -10,6 +10,13 @@ mat-card{
     margin: 16px 0;
     transition: box-shadow 0.3 ease;
 }
+mat-card-title.profile_title{
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+mat-card-subtitle.profile_subtitle{
+  font-size: 0.8rem;
+}
 .card-container{
     display:flex;
     flex-wrap: wrap;
@@ -22,6 +29,8 @@ mat-card{
 .responsive-card .avatar img{
     width:50px;
     height:50px;
+    /* width:10vw;
+    height:10vw; */
     border-radius:50%;
     object-fit: cover;
 }
@@ -42,5 +51,24 @@ mat-card{
     padding:0;
     position:fixed;
     top:0;
-    left:0
+    left:0;
+  }
+  .dialog-content {
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .centralizedHeading{
+    margin:12px;
+    font-weight: bold;
+    font-size:1rem;
+    text-align: center;
+  }
+  .flex-row{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items:center;
   }

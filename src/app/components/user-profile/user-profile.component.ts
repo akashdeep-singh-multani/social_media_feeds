@@ -9,5 +9,6 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent {
-
+  title="Alice";
+  subtitle="Sponsored";
 }
