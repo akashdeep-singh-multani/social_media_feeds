@@ -16,7 +16,7 @@ export const commentsReducer=createReducer(
     initialState,
     on(loadCommentsSuccess, (state, {comments})=>({
         ...state,
-        comments:comments,
+        comments:[...comments],
         error:null
     })),
     on(addCommentSuccess, (state, {comment})=>({
