@@ -1,8 +1,12 @@
 <div class="centralizedHeading">Comments</div>
-<!-- <mat-dialog-content> -->
-<!-- </mat-dialog-content> -->
-<div class="flex-row">
-    <app-user-profile></app-user-profile>
-    <!-- <a href="">Reply</a> -->
-     <app-like-button></app-like-button>
+<div class="comments-container">
+    <div class="comments-list">
+        <div class="flex-row" *ngFor="let i of arraySample">
+            <app-user-profile></app-user-profile>
+             <app-like-button></app-like-button>
+        </div>
+    </div>
+    <div class="flex-end-column">
+        <app-post-comment-form></app-post-comment-form>
+    </div>
 </div>

@@ -72,3 +72,33 @@ mat-card-subtitle.profile_subtitle{
     justify-content:space-between;
     align-items:center;
   }
+
+.comments-list{
+  margin-bottom:100px;
+  overflow-y: auto;
+  padding:10px;
+  align-items: flex-start;
+}
+
+.comment-form{
+  display: flex;
+  align-items: center;
+}
+
+.comments-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height:100vh;
+  width:100%;
+  padding:10px;
+  box-sizing: border-box;
+  /* position: relative; */
+}
+
+.flex-end-column{
+  /* display: flex; */
+  align-items: flex-end;
+  position: sticky;
+  bottom:0;
+}
