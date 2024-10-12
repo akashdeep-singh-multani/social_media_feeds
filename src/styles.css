@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -7,7 +9,7 @@ mat-card{
     border-radius: 8px;
     padding: 16px;
     background-color: #ffffff;
-    margin: 16px 0;
+    /* margin: 16px 0; */
     transition: box-shadow 0.3 ease;
 }
 mat-card-title.profile_title{
@@ -24,7 +26,7 @@ mat-card-subtitle.profile_subtitle{
 }
 .responsive-card{
     flex: 1 1 300px;
-    margin: 16px;
+    /* margin: 16px; */
 }
 .responsive-card .avatar img{
     width:50px;
@@ -101,4 +103,23 @@ mat-card-subtitle.profile_subtitle{
   align-items: flex-end;
   position: sticky;
   bottom:0;
+}
+
+.feature_buttons{
+  width:100px;
+  height:100px;
+  /* margin:10px; */
+  /* border-radius: 50%; */
+  font-size:0.6em !important;
+  font-weight:bold !important;
+  margin-bottom: 10px;
+  text-transform: uppercase !important;
+}
+
+.page_style{
+  margin:16px;
+}
+
+.post_textarea{
+  width:100%;
 }
