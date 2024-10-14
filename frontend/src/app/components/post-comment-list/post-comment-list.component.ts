@@ -25,7 +25,7 @@ export class PostCommentListComponent {
   }
 
   ngOnInit(){
-    this.store.dispatch(loadComments());
+    // this.store.dispatch(loadComments());
   }
 
   onCommentAddition(comment:string){

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { PostService } from "../../services/post.service";
 import { addPost, addPostFailure, addPostSuccess, loadPosts, loadPostsFailure, loadPostsSuccess } from "../actions/post.action";
-import { catchError, map, mergeMap, of } from "rxjs";
+import { catchError, map, mergeMap, of, take, tap } from "rxjs";
 
 @Injectable()
 export class PostEffects{
@@ -11,6 +11,8 @@ export class PostEffects{
     loadPosts$=createEffect(()=>
         this.actions$.pipe(
             ofType(loadPosts),
+            take(1),
+            tap(() => console.log('Loading posts...')),
             mergeMap(()=>
                 this.postService.getPosts().pipe(
                     map(posts=> loadPostsSuccess({posts})),
@@ -23,6 +25,7 @@ export class PostEffects{
     addPost$=createEffect(()=>
         this.actions$.pipe(
             ofType(addPost),
+            tap(() => console.log('Adding posts...')),
             mergeMap(action=>
                 this.postService.addPost(action.post).pipe(
                     map(post=> addPostSuccess({post})),

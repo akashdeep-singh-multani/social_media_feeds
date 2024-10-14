@@ -16,8 +16,9 @@ exports.getPosts=async(req,res, next)=>{
 
 
 exports.createPost=async(req,res)=>{
-    const {title, content, image}=req.body;
-    const newPost=new Post({title, content, image});
+    // const {title, content, image}=req.body;
+    const {text, image}=req.body;
+    const newPost=new Post({text, image});
     try{
         const savedPost=newPost.save();
          return res.status(201).json({status:true, message:"Post uploaded successfully"});

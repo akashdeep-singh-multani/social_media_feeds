@@ -1,8 +1,9 @@
 const mongoose=require('mongoose');
 
 const postSchema=new mongoose.Schema({
-    title: String,
-    content: String,
+    // title: String,
+    // content: String,
+    text:String,
     image: String,
     created_at: {type: Date, Default: Date.now}
 });

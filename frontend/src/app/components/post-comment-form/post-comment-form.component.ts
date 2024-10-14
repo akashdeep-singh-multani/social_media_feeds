@@ -31,7 +31,7 @@ export class PostCommentFormComponent {
     }
     this.store.dispatch(addComment({comment:newComment}));
     //for testing without calling api
-    this.store.dispatch(addCommentSuccess({ comment: newComment }));
+    // this.store.dispatch(addCommentSuccess({ comment: newComment }));
     // this.addComment.emit(value);
     this.commentsForm.reset();
     

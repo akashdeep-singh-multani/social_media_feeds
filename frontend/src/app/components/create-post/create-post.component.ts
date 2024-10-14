@@ -33,7 +33,7 @@ export class CreatePostComponent {
     }
     this.store.dispatch(addPost({post:request}));
     //have to call the ngrx effects also call the api then only have to do following
-    this.store.dispatch(addPostSuccess({post:request}))
+    // this.store.dispatch(addPostSuccess({post:request}))
     this.router.navigate(['user_post'])
   }
 

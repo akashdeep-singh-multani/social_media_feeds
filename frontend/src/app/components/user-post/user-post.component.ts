@@ -22,17 +22,19 @@ import { Observable, of } from 'rxjs';
 export class UserPostComponent {
   posts:Post[]=[];
   posts$: Observable<Post[]>=of([{text:"",image:""}]);
+  private isLoaded=false;
 
   constructor(private router: Router, private store:Store<{posts:{posts:Post[]}}>){
     this.posts$=this.store.select(state=>state.posts?.posts);
   }
 
   ngOnInit(){
-    this.store.dispatch(loadPosts());
-    this.store.select(state=>state.posts?.posts).subscribe((result)=>{
-      console.log(result)
-      this.posts=result;
-    })
+      // this.store.dispatch(loadPosts());
+    
+    // this.store.select(state=>state.posts?.posts).subscribe((result)=>{
+    //   console.log("result from posts"+result)
+    //   this.posts=result;
+    // })
   }
 
   handleCreatePostClick(){
