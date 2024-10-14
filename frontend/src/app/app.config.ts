@@ -7,7 +7,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { commentsReducer } from './store/reducers/comment.reducer';
+import { postsReducer } from './store/reducers/post.reducer';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideStore({comments: commentsReducer}), provideEffects()]
+  providers: [provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideStore({comments: commentsReducer, posts: postsReducer}), provideEffects()]
 };

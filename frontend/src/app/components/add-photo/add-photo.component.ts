@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Output, ViewChild, EventEmitter } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class AddPhotoComponent {
   selectedImage: string | ArrayBuffer | null=null;
   @ViewChild('fileInput') fileInput!: ElementRef;
+  @Output() onPhotoSelection=new EventEmitter();
 
   constructor(){}
 
@@ -27,6 +28,7 @@ export class AddPhotoComponent {
         const result=e.target?.result;
         if(result!==undefined){
           this.selectedImage=result;
+          this.onPhotoSelection.emit(this.selectedImage);
         }
         else{
           this.selectedImage=null;

@@ -1,6 +1,6 @@
 export interface Post{
-    id:number;
+    // id:number;
     text:string;
-    image:string;
-    date:string;
+    image:string | ArrayBuffer | null;
+    // date:string;
 }

@@ -4,7 +4,7 @@ const AppError = require('../utils/AppError');
 exports.getPosts=async(req,res, next)=>{
     try{
         const posts=await Post.find().sort({createdAt:-1});
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             data: posts
         });
@@ -20,7 +20,7 @@ exports.createPost=async(req,res)=>{
     const newPost=new Post({title, content, image});
     try{
         const savedPost=newPost.save();
-         res.status(201).json(savedPost);
+         return res.status(201).json({status:true, message:"Post uploaded successfully"});
     }
     catch(error){
         return next(new AppError('Failed to create post', 400));
