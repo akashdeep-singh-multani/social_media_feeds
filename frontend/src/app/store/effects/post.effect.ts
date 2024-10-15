@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { PostService } from "../../services/post.service";
 import { addPost, addPostFailure, addPostSuccess, loadPosts, loadPostsFailure, loadPostsSuccess } from "../actions/post.action";
 import { catchError, map, mergeMap, of, take, tap } from "rxjs";
+import { PostResponse } from "../../models/post-response.model";
 
 @Injectable()
 export class PostEffects{
@@ -15,8 +16,22 @@ export class PostEffects{
             tap(() => console.log('Loading posts...')),
             mergeMap(()=>
                 this.postService.getPosts().pipe(
-                    map(posts=> loadPostsSuccess({posts})),
-                    catchError(error=>of(loadPostsFailure({error:error.message})))
+                    map((response:PostResponse)=> {
+                        // console.log("fetched posts: ",posts)
+                        // const posts=response.data;
+                        if(response.success){
+                            return loadPostsSuccess({posts:response.data})
+                        }
+                        else{
+                            return loadPostsFailure({error:'Failed to load posts'})
+                        }
+                        
+                    }),
+                    catchError(error=>{
+                        console.error("error fetching posts: ",error);
+                        return of(loadPostsFailure({error:error.message}))
+                    }
+                    )
                 )
             )
         )
@@ -26,8 +41,8 @@ export class PostEffects{
         this.actions$.pipe(
             ofType(addPost),
             tap(() => console.log('Adding posts...')),
-            mergeMap(action=>
-                this.postService.addPost(action.post).pipe(
+            mergeMap(({post})=>
+                this.postService.addPost(post).pipe(
                     map(post=> addPostSuccess({post})),
                     catchError(error=>of(addPostFailure({error:error.message})))
                 )

@@ -10,9 +10,10 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './add-photo.component.css'
 })
 export class AddPhotoComponent {
-  selectedImage: string | ArrayBuffer | null=null;
+  selectedImage: File | null=null;
   @ViewChild('fileInput') fileInput!: ElementRef;
   @Output() onPhotoSelection=new EventEmitter();
+  imagePreviewUrl:string | null=null;
 
   constructor(){}
 
@@ -21,20 +22,33 @@ export class AddPhotoComponent {
   }
 
   onFileSelected(event: Event){
+    // const target=event.target as HTMLInputElement;
+    // if(target.files && target.files.length>0){
+    //   const reader=new FileReader();
+    //   reader.onload=(e)=>{
+    //     const result=e.target?.result;
+    //     if(result!==undefined){
+    //       this.selectedImage=result;
+    //       this.onPhotoSelection.emit(this.selectedImage);
+    //     }
+    //     else{
+    //       this.selectedImage=null;
+    //     }
+    //   }
+    //   reader.readAsDataURL(target.files[0])
+    // }
+
+
     const target=event.target as HTMLInputElement;
     if(target.files && target.files.length>0){
-      const reader=new FileReader();
-      reader.onload=(e)=>{
-        const result=e.target?.result;
-        if(result!==undefined){
-          this.selectedImage=result;
-          this.onPhotoSelection.emit(this.selectedImage);
-        }
-        else{
-          this.selectedImage=null;
-        }
-      }
-      reader.readAsDataURL(target.files[0])
+      this.selectedImage=target.files[0];
+      this.imagePreviewUrl=URL.createObjectURL(this.selectedImage)
+      this.onPhotoSelection.emit(this.selectedImage)
+    }
+    else{
+      this.selectedImage=null;
+      this.imagePreviewUrl=null;
+      this.onPhotoSelection.emit(this.selectedImage);
     }
   }
 

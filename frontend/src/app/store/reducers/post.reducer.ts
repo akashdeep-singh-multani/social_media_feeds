@@ -17,7 +17,7 @@ export const postsReducer=createReducer(
     initialState,
     on(loadPostsSuccess, (state, {posts})=>({
         ...state,
-        posts:[...posts],
+        posts:Array.isArray(posts) ? [...posts] : [],
         error:null
     })),
     on(addPostSuccess, (state, {post})=>({

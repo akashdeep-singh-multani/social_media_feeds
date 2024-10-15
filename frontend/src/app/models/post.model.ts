@@ -1,6 +1,6 @@
 export interface Post{
     // id:number;
     text:string;
-    image:string | ArrayBuffer | null;
+    image:File | null;
     // date:string;
 }

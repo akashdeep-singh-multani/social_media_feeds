@@ -16,22 +16,31 @@ import { Post } from '../../models/post.model';
   styleUrl: './create-post.component.css'
 })
 export class CreatePostComponent {
-  selectedImageBase64Uri: string | ArrayBuffer | null="";
+  selectedImageObject: File | null=null;
   // @ViewChild('postText') postText!:ElementRef;
   postText="";
 
   constructor(private router: Router, private store:Store<{posts:{posts:Post[]}}>){}
 
-  handlePhotoSelection(image: string | ArrayBuffer | null){
-    this.selectedImageBase64Uri=image;
+  handlePhotoSelection(imageObj: File | null){
+    this.selectedImageObject=imageObj;
   }
 
   handleCreatePostSubmission(){
-    let request:Post={
-      text:this.postText,
-      image:this.selectedImageBase64Uri
+    // let request:Post={
+    //   text:this.postText,
+    //   image:this.selectedImageObject
+    // }
+    const formData=new FormData();
+    formData.append('text', this.postText);
+    console.log("this.selectedImageObject: "+this.selectedImageObject)
+    if(this.selectedImageObject){
+      formData.append('image', this.selectedImageObject);
     }
-    this.store.dispatch(addPost({post:request}));
+    formData.forEach((value, key) => {
+      console.log(`${key}:`, value);
+    });
+    this.store.dispatch(addPost({post:formData}));
     //have to call the ngrx effects also call the api then only have to do following
     // this.store.dispatch(addPostSuccess({post:request}))
     this.router.navigate(['user_post'])

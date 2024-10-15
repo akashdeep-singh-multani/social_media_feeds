@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Post } from '../models/post.model';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from '../environment/environment';
+import { PostResponse } from '../models/post-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,11 @@ export class PostService {
 
   constructor(private httpClient:HttpClient) { }
 
-  getPosts():Observable<Post[]>{
-    return this.httpClient.get<Post[]>(BASE_URL+'posts/posts');
+  getPosts():Observable<PostResponse>{
+    return this.httpClient.get<PostResponse>(BASE_URL+'posts/posts');
   }
 
-  addPost(post:Post):Observable<Post>{
-    return this.httpClient.post<Post>(BASE_URL+`posts/create`,post);
+  addPost(post:FormData):Observable<any>{
+    return this.httpClient.post<any>(BASE_URL+`posts/create`,post);
   }
 }

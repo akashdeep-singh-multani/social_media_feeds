@@ -1,9 +1,10 @@
 import { createAction, props } from "@ngrx/store";
 import { Post } from "../../models/post.model";
+import { PostResponse } from "../../models/post-response.model";
 
 export const addPost=createAction(
     '[Post] Add Post',
-    props<{post:Post}>()
+    props<{post:FormData}>()
 );
 
 export const addPostSuccess=createAction(

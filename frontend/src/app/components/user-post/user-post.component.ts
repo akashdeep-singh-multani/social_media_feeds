@@ -20,17 +20,19 @@ import { Observable, of } from 'rxjs';
   styleUrl: './user-post.component.css'
 })
 export class UserPostComponent {
-  posts:Post[]=[];
-  posts$: Observable<Post[]>=of([{text:"",image:""}]);
-  private isLoaded=false;
+  // posts:Post[]=[];
+  posts$: Observable<Post[]>=of([{text:"",image:null}]);
 
   constructor(private router: Router, private store:Store<{posts:{posts:Post[]}}>){
     this.posts$=this.store.select(state=>state.posts?.posts);
   }
 
   ngOnInit(){
-      // this.store.dispatch(loadPosts());
-    
+      this.store.dispatch(loadPosts());
+      this.posts$.subscribe(posts=>{
+        console.log("post received: "+posts);
+      }
+      )
     // this.store.select(state=>state.posts?.posts).subscribe((result)=>{
     //   console.log("result from posts"+result)
     //   this.posts=result;
