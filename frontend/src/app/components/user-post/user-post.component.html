@@ -5,10 +5,12 @@
     <div class="card-container" >
         <mat-card appearance="outlined" class="responsive-card" *ngFor="let post of posts$ | async">
             <app-user-profile></app-user-profile>
-            <img mat-card-image [src]="post.image">
+            <div class="image_container">
+                <img mat-card-image [src]="post.image" class="post_image">
+            </div>
             <mat-card-actions>
                 <app-like-button></app-like-button>
-                <app-comment-button></app-comment-button>
+                <app-comment-button [postId]="post._id"></app-comment-button>
             </mat-card-actions>
             <mat-card-content>
                 {{post.text}}

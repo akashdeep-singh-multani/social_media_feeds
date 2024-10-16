@@ -14,11 +14,14 @@ export const initialState:CommentState={
 
 export const commentsReducer=createReducer(
     initialState,
-    on(loadCommentsSuccess, (state, {comments})=>({
-        ...state,
-        comments:[...comments],
-        error:null
-    })),
+    on(loadCommentsSuccess, (state, {comments})=>{
+        console.log("comments in reducer: "+JSON.stringify(comments))
+        return{
+            ...state,
+            comments:[...comments],
+            error:null
+        };
+    }),
     on(addCommentSuccess, (state, {comment})=>({
         ...state,
         comments:[...state.comments,comment],

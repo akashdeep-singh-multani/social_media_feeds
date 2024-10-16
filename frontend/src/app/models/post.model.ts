@@ -1,6 +1,7 @@
 export interface Post{
-    // id:number;
+    _id:number;
     text:string;
     image:File | null;
     // date:string;
+    createdAt:any;
 }

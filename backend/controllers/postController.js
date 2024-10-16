@@ -5,7 +5,7 @@ exports.getPosts=async(req,res, next)=>{
     try{
         // .sort({createdAt:-1})
         const posts=await Post.find().sort({createdAt:-1});
-        console.log("posts: "+posts)
+        // console.log("posts: "+posts)
         return res.status(200).json({
             success: true,
             data: posts

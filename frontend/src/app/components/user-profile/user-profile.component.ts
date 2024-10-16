@@ -12,7 +12,7 @@ import { Comment } from '../../models/comment.model';
 export class UserProfileComponent {
   title="Alice";
   subtitle="Sponsored";
-  @Input() commenter_info:Comment={id:-1,userId:-1,text:""};
+  @Input() commenter_info:Comment={_id:-1,commenter_id:-1, post_id:-1,text:"",createdAt:""};
 
   ngOnInit(){
     this.subtitle=this.commenter_info.text;

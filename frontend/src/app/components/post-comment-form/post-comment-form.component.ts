@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { Store } from '@ngrx/store';
@@ -15,6 +15,9 @@ import {Comment} from '../../models/comment.model'
 export class PostCommentFormComponent {
   commentsForm!:FormGroup;
   // @Output() addComment=new EventEmitter();
+  @Input() postId!:number;
+  // get userId by managed state details after login, will do after making all the needed components
+  userId=1;
 
   constructor(private fb:FormBuilder, private store: Store<{comments:{comments:Comment[]}}>){
     this.commentsForm=this.fb.group({
@@ -24,10 +27,10 @@ export class PostCommentFormComponent {
 
   onSubmit(){
     let value=this.commentsForm.get('comment')?.value;
-    let newComment:Comment={
-      id: Date.now(),
+    let newComment={
+      post_id:this.postId,
       text:value,
-      userId:1
+      commenter_id:this.userId
     }
     this.store.dispatch(addComment({comment:newComment}));
     //for testing without calling api

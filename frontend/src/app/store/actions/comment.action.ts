@@ -1,9 +1,10 @@
 import { createAction, props } from "@ngrx/store";
 import { Comment } from "../../models/comment.model";
+import { CommentRequest } from "../../models/comment-request.model";
 
 export const addComment=createAction(
     '[Comment] Add Comment',
-    props<{comment: Comment}>()
+    props<{comment: CommentRequest}>()
 );
 
 export const addCommentSuccess=createAction(
@@ -17,7 +18,8 @@ export const addCommentFailure=createAction(
 );
 
 export const loadComments=createAction(
-    '[Comment] Load Comments'
+    '[Comment] Load Comments',
+    props<{postId:number}>()
 );
 
 export const loadCommentsSuccess=createAction(

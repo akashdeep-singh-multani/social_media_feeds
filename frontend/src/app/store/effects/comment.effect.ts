@@ -3,6 +3,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import { addComment, addCommentFailure, addCommentSuccess, loadComments, loadCommentsFailure, loadCommentsSuccess } from "../actions/comment.action";
 import { catchError, map, mergeMap, of, tap } from "rxjs";
 import { CommentService } from "../../services/comment.service";
+import { CommentResponse } from "../../models/comment-response.model";
 
 @Injectable()
 export class CommentEffects{
@@ -12,9 +13,18 @@ export class CommentEffects{
         this.actions$.pipe(
             ofType(loadComments),
             tap(() => console.log('Loading comments...')),
-            mergeMap(()=>
-                this.commentService.getComments().pipe(
-                    map(comments=> loadCommentsSuccess({comments})),
+            mergeMap((action)=>
+                this.commentService.getComments(action.postId).pipe(
+                    map((response: CommentResponse)=> {
+                        if(response.status){
+                            console.log("dispath loadCommentSuccess: "+JSON.stringify(response.data));
+                            return loadCommentsSuccess({comments:response.data});
+                        }
+                        else{
+                            console.log("dispatching loadCommentsFailure: ");
+                            return loadCommentsFailure({error:'Failed to load comments'})
+                        }
+                    }),
                     catchError(error=>of(loadCommentsFailure({error:error.message})))
                 )
             )

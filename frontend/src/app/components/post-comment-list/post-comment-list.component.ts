@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {MatDialog, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
 import { UserProfileComponent } from '../user-profile/user-profile.component';
 import { LikeButtonComponent } from '../like-button/like-button.component';
 import { PostCommentFormComponent } from '../post-comment-form/post-comment-form.component';
@@ -17,23 +17,28 @@ import { loadComments } from '../../store/actions/comment.action';
   styleUrl: './post-comment-list.component.css'
 })
 export class PostCommentListComponent {
-  comments$: Observable<Comment[]>=of([{id:1,text:'test1',userId:1}]);
+  comments$: Observable<Comment[]>;
+  postId:number;
 
-  constructor(private store: Store<{comments:{comments:Comment[]}}>,public dialogRef: MatDialogRef<PostCommentListComponent>){
+  constructor(@Inject(MAT_DIALOG_DATA) public data:any,private store: Store<{comments:{comments:Comment[]}}>,public dialogRef: MatDialogRef<PostCommentListComponent>){
     this.comments$=this.store.select(state=>state.comments?.comments)
     // this.comments$=of([{id:1,text:'test1',userId:1}])
+    this.postId=data.postId;
   }
 
   ngOnInit(){
-    this.store.dispatch(loadComments());
+    this.store.dispatch(loadComments({postId: this.postId}));
+    // this.comments$.subscribe((response)=>{
+    //   console.log("comments received: "+JSON.stringify(response))
+    // })
   }
 
-  onCommentAddition(comment:string){
-    // console.log("comment fetched in parent: "+comment);
-    this.store.select(state=>state.comments).subscribe((result)=>{
-      console.log("store: "+result.comments)
-    })
-  }
+  // onCommentAddition(comment:string){
+  //   // console.log("comment fetched in parent: "+comment);
+  //   this.store.select(state=>state.comments).subscribe((result)=>{
+  //     console.log("store: "+result.comments)
+  //   })
+  // }
 
   closeDialog(){
     this.dialogRef.close();
