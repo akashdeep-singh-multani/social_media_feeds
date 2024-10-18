@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { loadPosts } from '../../store/actions/post.action';
 import { Post } from '../../models/post.model';
 import { Observable, of } from 'rxjs';
+import { BASE_URL } from '../../environment/environment';
 
 @Component({
   selector: 'app-user-post',
@@ -21,6 +22,7 @@ import { Observable, of } from 'rxjs';
 })
 export class UserPostComponent {
   // posts:Post[]=[];
+  BASE_URL=BASE_URL;
   posts$: Observable<Post[]>=of([{text:"",image:null, _id:-1, createdAt:""}]);
 
   constructor(private router: Router, private store:Store<{posts:{posts:Post[]}}>){
@@ -29,10 +31,10 @@ export class UserPostComponent {
 
   ngOnInit(){
       this.store.dispatch(loadPosts());
-      // this.posts$.subscribe(posts=>{
-      //   console.log("post received: "+JSON.stringify(posts));
-      // }
-      // )
+      this.posts$.subscribe(posts=>{
+        console.log("post received: "+JSON.stringify(posts));
+      }
+      )
     // this.store.select(state=>state.posts?.posts).subscribe((result)=>{
     //   console.log("result from posts"+result)
     //   this.posts=result;

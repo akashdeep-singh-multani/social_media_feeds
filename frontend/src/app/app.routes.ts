@@ -13,5 +13,9 @@ export const routes: Routes = [
     {
         path:'user_post',
         loadComponent: ()=>import('./components/user-post/user-post.component').then(m=>m.UserPostComponent)
+    },
+    {
+        path:'edit_user_profile',
+        loadComponent:()=>import('./components/edit-user-profile/edit-user-profile.component').then(m=>m.EditUserProfileComponent)
     }
 ];

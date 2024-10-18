@@ -28,9 +28,7 @@ export class PostCommentListComponent {
 
   ngOnInit(){
     this.store.dispatch(loadComments({postId: this.postId}));
-    // this.comments$.subscribe((response)=>{
-    //   console.log("comments received: "+JSON.stringify(response))
-    // })
+    
   }
 
   // onCommentAddition(comment:string){

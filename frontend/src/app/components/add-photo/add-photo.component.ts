@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Component, ElementRef, Output, ViewChild, EventEmitter, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -14,6 +14,10 @@ export class AddPhotoComponent {
   @ViewChild('fileInput') fileInput!: ElementRef;
   @Output() onPhotoSelection=new EventEmitter();
   imagePreviewUrl:string | null=null;
+  @Input() displayImagePreview=true;
+  @Input() actionName="Add";
+  // @Output() selectedImageInfoObj:EventEmitter<{selectedImageObj:string, selectedImagePreviewUrl:string}>=new EventEmitter<{selectedImageObj:string, selectedImagePreviewUrl:string}>(); 
+  // @Output() onPreviewImageUrl=new EventEmitter();
 
   constructor(){}
 
@@ -43,13 +47,15 @@ export class AddPhotoComponent {
     if(target.files && target.files.length>0){
       this.selectedImage=target.files[0];
       this.imagePreviewUrl=URL.createObjectURL(this.selectedImage)
-      this.onPhotoSelection.emit(this.selectedImage)
+      // this.onPhotoSelection.emit(this.selectedImage)
     }
     else{
       this.selectedImage=null;
       this.imagePreviewUrl=null;
-      this.onPhotoSelection.emit(this.selectedImage);
+      // this.onPhotoSelection.emit(this.selectedImage);
     }
+      this.onPhotoSelection.emit(this.selectedImage);
+      // this.onPreviewImageUrl.emit(this.imagePreviewUrl);
   }
 
 }

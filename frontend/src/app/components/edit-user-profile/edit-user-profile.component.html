@@ -1,1 +1,17 @@
-<p>edit-user-profile works!</p>
+<div class="container">
+    <div class="edit-profile-container">
+         <!-- <div class="image-container"> -->
+            <img [src]="avatarUrl" class="profile-avatar">
+            <!-- <mat-icon>edit</mat-icon> -->
+            <app-add-photo [displayImagePreview]="false" [actionName]="actionName" (onPhotoSelection)="onSelectedImageObj($event)"></app-add-photo>
+         <!-- </div> -->
+         <div class="input-container">
+            <input [value]="username" type="text" (input)="onProfileNameChange($event)" style="border:none;border-bottom:1px solid black;outline:none;text-align: center;">
+            <!-- <mat-icon>edit</mat-icon> -->
+            <button *ngIf="isInputChanged" class="feature_buttons" mat-raised-button color="primary">Save</button>
+         </div>
+    </div>
+    <div class="profile-posts-container">
+        <app-user-post></app-user-post>
+    </div>
+</div>

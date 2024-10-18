@@ -19,6 +19,8 @@ export class CreatePostComponent {
   selectedImageObject: File | null=null;
   // @ViewChild('postText') postText!:ElementRef;
   postText="";
+  //get the user_id from state, the following user_id is for testing only until i make user related functionalities.
+  user_id=1;
 
   constructor(private router: Router, private store:Store<{posts:{posts:Post[]}}>){}
 
@@ -33,7 +35,8 @@ export class CreatePostComponent {
     // }
     const formData=new FormData();
     formData.append('text', this.postText);
-    console.log("this.selectedImageObject: "+this.selectedImageObject)
+    formData.append('user_id', this.user_id.toString());
+    // console.log("this.selectedImageObject: "+this.selectedImageObject)
     if(this.selectedImageObject){
       formData.append('image', this.selectedImageObject);
     }
