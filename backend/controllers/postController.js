@@ -17,19 +17,19 @@ exports.getPosts=async(req,res, next)=>{
 };
 
 
-exports.createPost=async(req,res)=>{
+exports.createPost=async(req,res,next)=>{
     // const {title, content, image}=req.body;
     const text=req.body.text;
-    let imageUrl="";
-    if(req.file){
-        imageUrl=`${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-    }
-    const newPost=new Post({text, image:imageUrl});
+    // let imageUrl="";
+    // if(req.file){
+    //     imageUrl=`${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    // }
+    const newPost=new Post({text, image:req.file.filename, user_id:req.body.user_id});
     try{
         const savedPost=await newPost.save();
          return res.status(201).json({status:true, message:"Post uploaded successfully", post:savedPost});
     }
     catch(error){
-        return next(new AppError('Failed to create post', 400));
+        return next(new AppError(error, 400));
     }
 }

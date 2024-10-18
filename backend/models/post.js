@@ -4,7 +4,9 @@ const postSchema=new mongoose.Schema({
     // title: String,
     // content: String,
     user_id:{
-        type:mongoose.Schema.Types.ObjectId,
+        // type:mongoose.Schema.Types.ObjectId,
+        // for testing only doing the following until user id is sent through frontend
+        type:Number,
         required:true
     },
     text:{
