@@ -3,9 +3,9 @@ const mongoose=require('mongoose');
 const commentSchema=new mongoose.Schema({
     commenter_id:{
         required:true,
-        // type:mongoose.Schema.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         //for testing
-        type:Number,
+        // type:Number,
         ref:'User'
     },
     post_id:{

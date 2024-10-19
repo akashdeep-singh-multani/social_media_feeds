@@ -4,6 +4,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { Store } from '@ngrx/store';
 import { addComment, addCommentSuccess } from '../../store/actions/comment.action';
 import {Comment} from '../../models/comment.model'
+import { selectUser } from '../../store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-post-comment-form',
@@ -17,12 +18,16 @@ export class PostCommentFormComponent {
   // @Output() addComment=new EventEmitter();
   @Input() postId!:number;
   // get userId by managed state details after login, will do after making all the needed components
-  userId=1;
+  userId!:number;
 
-  constructor(private fb:FormBuilder, private store: Store<{comments:{comments:Comment[]}}>){
+  // <{comments:{comments:Comment[]}}>
+  constructor(private fb:FormBuilder, private store: Store){
     this.commentsForm=this.fb.group({
       comment: ['', [Validators.minLength(1)]]
     });
+    this.store.select(selectUser).subscribe((response:any)=>{
+      this.userId=response?.id;
+    })
   }
 
   onSubmit(){

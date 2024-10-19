@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { addPost, addPostSuccess } from '../../store/actions/post.action';
 import { Post } from '../../models/post.model';
+import { selectUser } from '../../store/selectors/auth.selectors';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-create-post',
@@ -20,9 +22,14 @@ export class CreatePostComponent {
   // @ViewChild('postText') postText!:ElementRef;
   postText="";
   //get the user_id from state, the following user_id is for testing only until i make user related functionalities.
-  user_id=1;
+  user_id!:number;
 
-  constructor(private router: Router, private store:Store<{posts:{posts:Post[]}}>){}
+  // <{posts:{posts:Post[]}}>
+  constructor(private router: Router, private store:Store){
+    this.store.select(selectUser).subscribe((response:any)=>{
+      this.user_id=response?.id;
+    })
+  }
 
   handlePhotoSelection(imageObj: File | null){
     this.selectedImageObject=imageObj;

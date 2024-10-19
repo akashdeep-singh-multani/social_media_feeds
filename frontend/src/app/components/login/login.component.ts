@@ -7,6 +7,10 @@ import {MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { ErrorHandlerService } from '../../services/error-handler.service';
+import { Store } from '@ngrx/store';
+import * as AuthActions from '../../store/actions/auth.action';
+import { selectIsLoggedIn } from '../../store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-login',
@@ -19,26 +23,39 @@ export class LoginComponent {
   loginForm:FormGroup;
   token=null;
 
-  constructor(private router:Router,private fb:FormBuilder, private authService:AuthService){
+  constructor(private store:Store,private errorHandlerService:ErrorHandlerService,private router:Router,private fb:FormBuilder, private authService:AuthService){
     this.loginForm=this.fb.group({
       username:['', Validators.required],
       password:['', Validators.required]
     });
   }
 
-  login(){
-    let request={
-      username:this.loginForm.value.username,
-      password:this.loginForm.value.password
-    }
-    if(this.loginForm.valid){
-      this.authService.login(request).subscribe((response)=>{
-        localStorage.setItem('token', response.token);
-        this.authService.isLoggedIn$.next(true);
+  ngOnInit(){
+    this.store.select(selectIsLoggedIn).subscribe((response)=>{
+      console.log("isLoggedin: "+response)
+      if(response==true){
         this.router.navigate(['user_post']);
-      },(error)=>{
+      }
+    })
+  }
 
-      })
+  login(){
+    // let request={
+    //   username:this.loginForm.value.username,
+    //   password:this.loginForm.value.password
+    // }
+    if(this.loginForm.valid){
+      // this.authService.login(request).subscribe((response)=>{
+      //   localStorage.setItem('token', response.token);
+      //   this.authService.isLoggedIn$.next(true);
+      //   this.router.navigate(['user_post']);
+      // },(error)=>{
+      //   this.errorHandlerService.handleError(error);
+      // })
+      this.store.dispatch(AuthActions.login({
+        username: this.loginForm.value.username, 
+        password: this.loginForm.value.password 
+      }))
     }
   }
 

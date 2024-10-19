@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 //Initialize passport
 app.use(passport.initialize());
 //Load Passport configuration
-require('./config')(passport);
+require('./config/config')(passport);
 
 
 app.use('/api/auth', authRoutes);

@@ -11,9 +11,13 @@ import { postsReducer } from './store/reducers/post.reducer';
 import { CommentEffects } from './store/effects/comment.effect';
 import { PostEffects } from './store/effects/post.effect';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { authReducer } from './store/reducers/auth.reducer';
+import { AuthEffects } from './store/effects/auth.effects';
+import { CookieService } from 'ngx-cookie-service';
+import { AuthGuard } from './guards/auth.guard';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideHttpClient(withFetch()),provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideStore({comments: commentsReducer, posts: postsReducer}), provideEffects([CommentEffects, PostEffects])],
+  providers: [AuthGuard,CookieService,provideHttpClient(withFetch()),provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideStore({comments: commentsReducer, posts: postsReducer, auth:authReducer}), provideEffects([CommentEffects, PostEffects, AuthEffects])],
   
 
 };

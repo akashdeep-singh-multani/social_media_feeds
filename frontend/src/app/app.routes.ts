@@ -1,22 +1,27 @@
 import { Routes } from '@angular/router';
 import { UserPostComponent } from './components/user-post/user-post.component';
+import { AuthGuard } from './guards/auth.guard';
+import { LoginComponent } from './components/login/login.component';
 
 export const routes: Routes = [
     {
         path: '',
-        component: UserPostComponent
+        component: LoginComponent
     },
     {
         path:'create_post',
-        loadComponent: ()=>import('./components/create-post/create-post.component').then(m=>m.CreatePostComponent) 
+        loadComponent: ()=>import('./components/create-post/create-post.component').then(m=>m.CreatePostComponent),
+        canActivate: [AuthGuard]
     },
     {
         path:'user_post',
-        loadComponent: ()=>import('./components/user-post/user-post.component').then(m=>m.UserPostComponent)
+        loadComponent: ()=>import('./components/user-post/user-post.component').then(m=>m.UserPostComponent),
+        canActivate: [AuthGuard]
     },
     {
         path:'edit_user_profile',
-        loadComponent:()=>import('./components/edit-user-profile/edit-user-profile.component').then(m=>m.EditUserProfileComponent)
+        loadComponent:()=>import('./components/edit-user-profile/edit-user-profile.component').then(m=>m.EditUserProfileComponent),
+        canActivate: [AuthGuard]
     },
     {
         path:'login',
