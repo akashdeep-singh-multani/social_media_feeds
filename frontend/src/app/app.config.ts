@@ -10,10 +10,10 @@ import { commentsReducer } from './store/reducers/comment.reducer';
 import { postsReducer } from './store/reducers/post.reducer';
 import { CommentEffects } from './store/effects/comment.effect';
 import { PostEffects } from './store/effects/post.effect';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideHttpClient(),provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideStore({comments: commentsReducer, posts: postsReducer}), provideEffects([CommentEffects, PostEffects])],
+  providers: [provideHttpClient(withFetch()),provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideStore({comments: commentsReducer, posts: postsReducer}), provideEffects([CommentEffects, PostEffects])],
   
 
 };

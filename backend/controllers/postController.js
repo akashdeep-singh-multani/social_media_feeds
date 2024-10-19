@@ -1,5 +1,6 @@
 const Post=require('../models/post');
 const AppError = require('../utils/AppError');
+const { emitNewPost } = require('../utils/socket.util');
 
 exports.getPosts=async(req,res, next)=>{
     try{
@@ -24,9 +25,10 @@ exports.createPost=async(req,res,next)=>{
     // if(req.file){
     //     imageUrl=`${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
     // }
-    const newPost=new Post({text, image:req.file.filename, user_id:req.body.user_id});
+    const newPost=new Post({text, image:req.file ? req.file.filename:null, user_id:req.body.user_id});
     try{
         const savedPost=await newPost.save();
+        emitNewPost(newPost);
          return res.status(201).json({status:true, message:"Post uploaded successfully", post:savedPost});
     }
     catch(error){

@@ -1,0 +1,36 @@
+<div class="auth-container">
+    <h2>Signup</h2>
+    <form [formGroup]="signupForm" (ngSubmit)="signup()">
+        <div class="form-field">
+            <mat-form-field appearance="fill">
+                <input matInput formControlName="username" placeholder="Username" required>
+                <mat-error *ngIf="signupForm.get('username')?.invalid && signupForm.get('username')?.touched">
+                    Username is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-field">
+            <mat-form-field appearance="fill">
+                <input matInput type="email" formControlName="email" placeholder="Email" required>
+                <mat-error *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
+                    Email is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+        
+        <div class="form-field">
+            <mat-form-field appearance="fill">
+                <input matInput type="password" formControlName="password" placeholder="Password" required>
+                <mat-error *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+                    Password is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="signupForm.invalid">Signup</button>
+    </form>
+   <div class="signup-link">
+    Do have an account already?<a href="/login"> Login</a>
+   </div>
+</div>
