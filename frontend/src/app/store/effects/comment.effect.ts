@@ -4,10 +4,11 @@ import { addComment, addCommentFailure, addCommentSuccess, loadComments, loadCom
 import { catchError, map, mergeMap, of, tap } from "rxjs";
 import { CommentService } from "../../services/comment.service";
 import { CommentResponse } from "../../models/comment-response.model";
+import { ErrorHandlerService } from "../../services/error-handler.service";
 
 @Injectable()
 export class CommentEffects{
-    constructor(private actions$: Actions, private commentService:CommentService){}
+    constructor(private errorHandlerService:ErrorHandlerService,private actions$: Actions, private commentService:CommentService){}
 
     loadComments$=createEffect(()=>
         this.actions$.pipe(
@@ -25,7 +26,10 @@ export class CommentEffects{
                             return loadCommentsFailure({error:'Failed to load comments'})
                         }
                     }),
-                    catchError(error=>of(loadCommentsFailure({error:error.message})))
+                    catchError(error=>{
+                        this.errorHandlerService.handleError(error);
+                        return of(loadCommentsFailure({error:error.message}))
+                    })
                 )
             )
         )
@@ -38,7 +42,10 @@ export class CommentEffects{
             mergeMap(action=>
                 this.commentService.addComment(action.comment).pipe(
                     map(comment=> addCommentSuccess({comment})),
-                    catchError(error=>of(addCommentFailure({error:error.message})))
+                    catchError(error=>{
+                        this.errorHandlerService.handleError(error);
+                        return of(addCommentFailure({error:error.message}))
+                    })
                 )
             )
         )

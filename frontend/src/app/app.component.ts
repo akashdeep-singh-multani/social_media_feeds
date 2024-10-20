@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { Store } from '@ngrx/store';
 import { CookieService } from 'ngx-cookie-service';
@@ -20,9 +20,11 @@ export class AppComponent {
   title = 'social_media_feed';
   userInfo!:User;
 
-  constructor(private store:Store, private cookieService:CookieService, private authService:AuthService){
+  constructor(private router:Router,private store:Store, private cookieService:CookieService, private authService:AuthService){
     const token=this.cookieService.get('jwt');
+    
     if(token){
+      console.log("app-component called")
       let userId=decodeJwtToken(token);
       // console.log("decoded token: "+JSON.stringify(userInfo))
       
@@ -31,6 +33,10 @@ export class AppComponent {
       })
       this.store.dispatch(AuthActions.loginSuccess({token, user:this.userInfo}))
       console.log("dispatched app")
+    }
+    else{
+      console.log('token not present')
+      this.router.navigate(['/login'])
     }
   }
 

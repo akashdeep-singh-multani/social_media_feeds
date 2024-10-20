@@ -14,7 +14,7 @@ exports.login=async(req,res,next)=>{
     if(!user || !(await user.comparePassword(password))){
         return next(new AppError("Invalid credentials",401));
     }
-    const token=jwt.sign({id:user._id}, process.env.JWT_SECRET, {expiresIn:'1h'});
+    const token=jwt.sign({id:user._id, lastActivity: Date.now()}, process.env.JWT_SECRET, {expiresIn:'1h'});
     res.json({token});
 
 }

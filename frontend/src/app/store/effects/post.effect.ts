@@ -4,10 +4,11 @@ import { PostService } from "../../services/post.service";
 import { addPost, addPostFailure, addPostSuccess, loadPosts, loadPostsFailure, loadPostsSuccess } from "../actions/post.action";
 import { catchError, map, mergeMap, of, take, tap } from "rxjs";
 import { PostResponse } from "../../models/post-response.model";
+import { ErrorHandlerService } from "../../services/error-handler.service";
 
 @Injectable()
 export class PostEffects{
-    constructor(private actions$: Actions, private postService: PostService){}
+    constructor(private errorHandlerService:ErrorHandlerService,private actions$: Actions, private postService: PostService){}
 
     loadPosts$=createEffect(()=>
         this.actions$.pipe(
@@ -28,7 +29,7 @@ export class PostEffects{
                         
                     }),
                     catchError(error=>{
-                        console.error("error fetching posts: ",error);
+                        this.errorHandlerService.handleError(error);
                         return of(loadPostsFailure({error:error.message}))
                     }
                     )
@@ -44,7 +45,10 @@ export class PostEffects{
             mergeMap(({post})=>
                 this.postService.addPost(post).pipe(
                     map(post=> addPostSuccess({post})),
-                    catchError(error=>of(addPostFailure({error:error.message})))
+                    catchError(error=>{
+                        this.errorHandlerService.handleError(error);
+                        return of(addPostFailure({error:error.message}))
+                    })
                 )
             )
         )

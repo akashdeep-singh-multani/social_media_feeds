@@ -4,10 +4,11 @@ import { AuthService } from "../../services/auth.service";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import * as AuthActions from '../actions/auth.action';
 import { catchError, map, mergeMap, of } from "rxjs";
+import { ErrorHandlerService } from "../../services/error-handler.service";
 
 @Injectable()
 export class AuthEffects{
-    constructor(private actions$:Actions, private authService:AuthService){}
+    constructor(private errorHandlerService:ErrorHandlerService,private actions$:Actions, private authService:AuthService){}
 
     login$=createEffect(()=>
         this.actions$.pipe(
@@ -18,7 +19,9 @@ export class AuthEffects{
                         this.authService.setToken(token);
                         return AuthActions.loginSuccess({token,user})
                     }),
-                    catchError(error=>of(AuthActions.loginFailure({error})))
+                    catchError(error=>{
+                        this.errorHandlerService.handleError(error);
+                        return of(AuthActions.loginFailure({error}))})
                 )
             )
         )
@@ -33,7 +36,10 @@ export class AuthEffects{
                         this.authService.setToken(token);
                         return AuthActions.signupSuccess({token,user})
                     }),
-                    catchError(error=>of(AuthActions.signupFailure({error})))
+                    catchError(error=>{
+                        this.errorHandlerService.handleError(error);
+                        return of(AuthActions.signupFailure({error}))
+                    })
                 )
             )
         )
