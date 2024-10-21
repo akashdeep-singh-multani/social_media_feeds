@@ -26,7 +26,8 @@ exports.createComment=async(req,res,next)=>{
         await newComment.save();
         res.status(201).json({
             status:true,
-            message:'Comment added successfully'
+            message:'Comment added successfully',
+            data: newComment
         });
     }
     catch(error){

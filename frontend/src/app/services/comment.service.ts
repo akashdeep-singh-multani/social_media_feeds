@@ -17,8 +17,8 @@ export class CommentService {
     return this.httpClient.get<CommentResponse>(BASE_URL+`comments/load/${postId}`);
   }
 
-  addComment(comment: CommentRequest): Observable<Comment>{
-    return this.httpClient.post<Comment>(BASE_URL+`comments/create`,comment);
+  addComment(comment: CommentRequest): Observable<any>{
+    return this.httpClient.post<any>(BASE_URL+`comments/create`,comment);
   }
 
 }

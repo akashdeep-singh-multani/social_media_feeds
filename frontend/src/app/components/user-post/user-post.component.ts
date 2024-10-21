@@ -1,5 +1,5 @@
 import { CommonModule, NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { LikeButtonComponent } from '../like-button/like-button.component';
@@ -13,6 +13,7 @@ import { Post } from '../../models/post.model';
 import { Observable, of } from 'rxjs';
 import { BASE_URL } from '../../environment/environment';
 import { SocketService } from '../../services/socket.service';
+import { selectAllPostsLoaded } from '../../store/selectors/post.selectors';
 
 @Component({
   selector: 'app-user-post',
@@ -25,13 +26,21 @@ export class UserPostComponent {
   // posts:Post[]=[];
   BASE_URL = BASE_URL;
   posts$: Observable<Post[]> = of([{ text: "", image: null, _id: -1, createdAt: "" }]);
+  offset:number=0;
+  limit:number=2;
+  private scrollTimeout:any;
+  loading:boolean=false;
+  // allPostsLoaded: boolean=false;
+  allPostsLoaded$: Observable<boolean>=this.store.select(selectAllPostsLoaded)
 
   constructor( private router: Router, private store: Store<{ posts: { posts: Post[] } }>) {
     this.posts$ = this.store.select(state => state.posts?.posts);
+    
   }
 
   ngOnInit() {
-    this.store.dispatch(loadPosts());
+    console.log("user-post ngOnInit called")
+    this.loadPosts();
     // this.posts$.subscribe(posts=>{
     //   console.log("post received: "+JSON.stringify(posts));
     // }
@@ -50,6 +59,34 @@ export class UserPostComponent {
     //   console.log("result from posts"+result)
     //   this.posts=result;
     // })
+  }
+
+  private loadPosts(){
+    if(this.loading) return;
+    this.loading=true;
+    this.store.dispatch(loadPosts({offset: this.offset, limit:this.limit}));
+    this.offset +=this.limit;
+    this.loading=false;
+  }
+
+  @HostListener('window:scroll', [])
+  onScroll(): void{
+    // if(this.scrollTimeout){
+    //   clearTimeout(this.scrollTimeout);
+    // }
+
+    // this.scrollTimeout=setTimeout(()=>{
+      if((window.innerHeight|window.scrollY) >= document.body.offsetHeight - 100){
+        // this.offset +=this.limit;
+        this.allPostsLoaded$.subscribe(loaded=>{
+          if(!loaded)
+            this.loadPosts();
+        })
+        
+      }
+    // },200);
+
+    
   }
   
 

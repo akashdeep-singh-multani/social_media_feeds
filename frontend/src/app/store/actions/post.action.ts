@@ -18,7 +18,8 @@ export const addPostFailure=createAction(
 );
 
 export const loadPosts=createAction(
-    '[Post] Load Posts'
+    '[Post] Load Posts',
+    props<{offset:number, limit:number}>()
 );
 
 export const loadPostsSuccess=createAction(
@@ -30,4 +31,9 @@ export const loadPostsFailure=createAction(
     '[Post] Load Post Failure',
     props<{error:string}>()
 );
+
+export const setAllPostsLoaded=createAction(
+    '[Post] Set All Posts Loaded',
+    props<{loaded:boolean}>()
+)
 

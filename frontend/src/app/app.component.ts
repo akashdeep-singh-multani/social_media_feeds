@@ -24,19 +24,11 @@ export class AppComponent {
     const token=this.cookieService.get('jwt');
     
     if(token){
-      console.log("app-component called")
       let userId=decodeJwtToken(token);
-      // console.log("decoded token: "+JSON.stringify(userInfo))
-      
       this.authService.getUserInfo(userId.id).subscribe((response:User)=>{
         this.userInfo=response;
       })
       this.store.dispatch(AuthActions.loginSuccess({token, user:this.userInfo}))
-      console.log("dispatched app")
-    }
-    else{
-      console.log('token not present')
-      this.router.navigate(['/login'])
     }
   }
 

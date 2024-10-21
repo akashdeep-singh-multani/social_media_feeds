@@ -7,8 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { addPost, addPostSuccess } from '../../store/actions/post.action';
 import { Post } from '../../models/post.model';
-import { selectUser } from '../../store/selectors/auth.selectors';
 import { User } from '../../models/user.model';
+import { CookieService } from 'ngx-cookie-service';
+import { decodeJwtToken } from '../../utils/decode-jwt-token';
 
 @Component({
   selector: 'app-create-post',
@@ -25,10 +26,13 @@ export class CreatePostComponent {
   user_id!:number;
 
   // <{posts:{posts:Post[]}}>
-  constructor(private router: Router, private store:Store){
-    this.store.select(selectUser).subscribe((response:any)=>{
-      this.user_id=response?.id;
-    })
+  constructor(private router: Router, private store:Store, private cookieService:CookieService){
+    // this.store.select(selectUser).subscribe((response:any)=>{
+    //   this.user_id=response?.id;
+    // })
+    const token=this.cookieService.get('jwt');;
+    const user=decodeJwtToken(token).user;
+    this.user_id=user._id;
   }
 
   handlePhotoSelection(imageObj: File | null){
@@ -47,9 +51,9 @@ export class CreatePostComponent {
     if(this.selectedImageObject){
       formData.append('image', this.selectedImageObject);
     }
-    formData.forEach((value, key) => {
-      console.log(`${key}:`, value);
-    });
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}:`, value);
+    // });
     this.store.dispatch(addPost({post:formData}));
     //have to call the ngrx effects also call the api then only have to do following
     // this.store.dispatch(addPostSuccess({post:request}))

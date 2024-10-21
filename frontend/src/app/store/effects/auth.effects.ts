@@ -5,6 +5,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import * as AuthActions from '../actions/auth.action';
 import { catchError, map, mergeMap, of } from "rxjs";
 import { ErrorHandlerService } from "../../services/error-handler.service";
+import { decodeJwtToken } from "../../utils/decode-jwt-token";
 
 @Injectable()
 export class AuthEffects{
@@ -15,8 +16,13 @@ export class AuthEffects{
             ofType(AuthActions.login),
             mergeMap(action=>
                 this.authService.login({username: action.username, password:action.password}).pipe(
-                    map(({token, user})=>{
+                    map(({token,user})=>{
                         this.authService.setToken(token);
+                        // const decodedData=decodeJwtToken(token);
+                        // const user=decodedData.user;
+                        // console.log("decodeData user: "+JSON.stringify(user));
+
+                        // user is not present in response, will rectify the following
                         return AuthActions.loginSuccess({token,user})
                     }),
                     catchError(error=>{

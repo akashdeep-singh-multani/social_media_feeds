@@ -8,13 +8,18 @@ export const selectIsLoggedIn=createSelector(
     (state:AuthState)=> !!state.token
 );
 
-export const selectUser=createSelector(
+export const selectToken=createSelector(
     selectAuthState,
-    (state:AuthState)=>{
-        console.log("state: "+JSON.stringify(state))
-        return state.user;
-    }
+    (state:AuthState)=> state.token
 );
+
+// export const selectUser=createSelector(
+//     selectAuthState,
+//     (state:AuthState)=>{
+//         console.log("user state: "+JSON.stringify(state))
+//         return state.user;
+//     }
+// );
 
 export const selectError=createSelector(
     selectAuthState,

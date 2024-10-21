@@ -20,6 +20,9 @@ export class ErrorHandlerService {
       message=error.error?.message || 'Client error: Please check your input.';
     }
     else if(error.status==401){
+      // console.log("error.message while inactive: "+error.message);
+      // console.log("error while inactive: "+JSON.stringify(error));
+      message="Session expired due to inactivity. Please log in again.";
       this.handleLogout();
     }
     else if(error.status>=500){

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Output, ViewChild, EventEmitter, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-add-photo',
@@ -19,7 +20,11 @@ export class AddPhotoComponent {
   // @Output() selectedImageInfoObj:EventEmitter<{selectedImageObj:string, selectedImagePreviewUrl:string}>=new EventEmitter<{selectedImageObj:string, selectedImagePreviewUrl:string}>(); 
   // @Output() onPreviewImageUrl=new EventEmitter();
 
-  constructor(){}
+  constructor(private store:Store){
+    // this.store.select(selectUser).subscribe((response)=>{
+    //   console.log("response in add-photo: "+JSON.stringify(response))
+    // });
+  }
 
   handleAddPhotoClick(){
     this.fileInput.nativeElement.click();

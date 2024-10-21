@@ -12,8 +12,8 @@ export class PostService {
 
   constructor(private httpClient:HttpClient) { }
 
-  getPosts():Observable<PostResponse>{
-    return this.httpClient.get<PostResponse>(BASE_URL+'posts/posts');
+  getPosts(offset:number, limit:number):Observable<PostResponse>{
+    return this.httpClient.get<PostResponse>(BASE_URL+`posts/posts?offset=${offset}&limit=${limit}`);
   }
 
   addPost(post:FormData):Observable<any>{

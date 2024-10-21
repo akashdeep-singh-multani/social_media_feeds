@@ -3,9 +3,10 @@ const AppError = require('../utils/AppError');
 const { emitNewPost } = require('../utils/socket.util');
 
 exports.getPosts=async(req,res, next)=>{
+    const {offset=0, limit=10}=req.query;
     try{
         // .sort({createdAt:-1})
-        const posts=await Post.find().sort({createdAt:-1});
+        const posts=await Post.find().sort({createdAt:-1}).skip(Number(offset)).limit(Number(limit));
         // console.log("posts: "+posts)
         return res.status(200).json({
             success: true,

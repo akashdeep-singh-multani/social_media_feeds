@@ -3,8 +3,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { Store } from '@ngrx/store';
 import { addComment, addCommentSuccess } from '../../store/actions/comment.action';
-import {Comment} from '../../models/comment.model'
-import { selectUser } from '../../store/selectors/auth.selectors';
+import { CookieService } from 'ngx-cookie-service';
+import { decodeJwtToken } from '../../utils/decode-jwt-token';
+
 
 @Component({
   selector: 'app-post-comment-form',
@@ -21,13 +22,16 @@ export class PostCommentFormComponent {
   userId!:number;
 
   // <{comments:{comments:Comment[]}}>
-  constructor(private fb:FormBuilder, private store: Store){
+  constructor(private fb:FormBuilder, private store: Store, private cookieService:CookieService){
     this.commentsForm=this.fb.group({
       comment: ['', [Validators.minLength(1)]]
     });
-    this.store.select(selectUser).subscribe((response:any)=>{
-      this.userId=response?.id;
-    })
+    // this.store.select(selectUser).subscribe((response:any)=>{
+    //   this.userId=response?.id;
+    // })
+    const token=this.cookieService.get('jwt');;
+    const user=decodeJwtToken(token).user;
+    this.userId=user._id;
   }
 
   onSubmit(){
