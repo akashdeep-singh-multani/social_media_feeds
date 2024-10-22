@@ -29,12 +29,20 @@ export const postsReducer=createReducer(
         posts:Array.isArray(posts) ? [...posts] : [],
         error:null
         }
+        // console.log("posts received in loadPostSuccess: "+JSON.stringify(posts))
+        // return{
+        //     ...state,
+        //     posts: [...state.posts, ...posts],
+        //     error:null
+        // }
     }),
-    on(addPostSuccess, (state, {post})=>({
+    on(addPostSuccess, (state, {post})=>{
+        return {
         ...state,
         posts: [...state.posts, post],
         error: null
-    })),
+        }
+    }),
     on(loadPostsFailure, (state,{error})=>({
         ...state,
         error:error

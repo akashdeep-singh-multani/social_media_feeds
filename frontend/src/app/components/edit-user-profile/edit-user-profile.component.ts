@@ -1,4 +1,4 @@
-import { Component, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { UserPostComponent } from '../user-post/user-post.component';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
@@ -8,98 +8,87 @@ import { CommonModule } from '@angular/common';
 import { AddPhotoComponent } from '../add-photo/add-photo.component';
 import { Store } from '@ngrx/store';
 import { CookieService } from 'ngx-cookie-service';
-import { decodeJwtToken } from '../../utils/decode-jwt-token';
 import { BASE_URL } from '../../environment/environment';
 import { UserService } from '../../services/user.service';
 import { ErrorHandlerService } from '../../services/error-handler.service';
-import * as AuthActions from '../../store/actions/auth.action';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-edit-user-profile',
   standalone: true,
-  imports: [AddPhotoComponent,CommonModule,MatButtonModule,MatIconModule,FormsModule,MatCardModule,UserPostComponent],
+  imports: [AddPhotoComponent, CommonModule, MatButtonModule, MatIconModule, FormsModule, MatCardModule, UserPostComponent],
   templateUrl: './edit-user-profile.component.html',
   styleUrl: './edit-user-profile.component.css'
 })
 export class EditUserProfileComponent {
-  avatarUrl="";
-  username="";
-  isInputChanged=false;
-  selectedImageObj:File | null=null;
-  actionName="Edit";
-  user_id!:number;
-  private userSubscription!:Subscription;
+  avatarUrl = "";
+  username = "";
+  isInputChanged = false;
+  selectedImageObj: File | null = null;
+  actionName = "Edit";
+  user_id!: number;
+  private userSubscription!: Subscription;
 
-  constructor(private store:Store, private cookieService:CookieService, private userService:UserService, private errorHandlerservice:ErrorHandlerService, private authService:AuthService){}
+  constructor(private store: Store, private cookieService: CookieService, private userService: UserService, private errorHandlerservice: ErrorHandlerService, private authService: AuthService) { }
 
-  ngOnInit(){
-    // const token=this.cookieService.get('jwt');;
-    // const user=decodeJwtToken(token).user;
-    // this.username=user.username;
-    // this.user_id=user._id;
-    // // console.log("this.user_id: "+this.user_id);
-    // this.avatarUrl=BASE_URL+'uploads/'+user.image;
-    this.userSubscription=this.authService.user$.subscribe(user=>{
-      if(user){
+  ngOnInit() {
+    this.userSubscription = this.authService.user$.subscribe(user => {
+      if (user) {
         this.updateUserDetails(user);
       }
     })
   }
 
-  ngOnDestroy(){
-    if(this.userSubscription){
+  ngOnDestroy() {
+    if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }
   }
 
-  private updateUserDetails(user:any){
-    this.username=user.username;
-    this.user_id=user._id;
-    this.avatarUrl=BASE_URL+'uploads/'+user.image;
+  private updateUserDetails(user: any) {
+    this.username = user.username;
+    this.user_id = user._id;
+    this.avatarUrl = BASE_URL + 'uploads/' + user.image;
   }
 
-  onSelectedImageObj(imageObj:any){
-    // this.avatarUrl=URL.createObjectURL(imageObj);
-    this.selectedImageObj=imageObj;
+  onSelectedImageObj(imageObj: any) {
+    this.selectedImageObj = imageObj;
     this.handleProfileEdit();
   }
 
-  onProfileNameChange(event:Event){
-    const input=event.target as HTMLInputElement;
-    if(this.username==input.value){
-      this.isInputChanged=false;
+  onProfileNameChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (this.username == input.value) {
+      this.isInputChanged = false;
       return;
     }
-    this.username=input.value;
-    this.isInputChanged=true;
+    this.username = input.value;
+    this.isInputChanged = true;
   }
 
-  handleProfileEdit(){
-    // this.store.dispatch()
+  handleProfileEdit() {
     //for-testing purpose doing the below without ngrx
-    const formData=new FormData();
-    if(this.isInputChanged){
-      formData.append('username',this.username);
+    const formData = new FormData();
+    if (this.isInputChanged) {
+      formData.append('username', this.username);
     }
-    if(this.selectedImageObj){
+    if (this.selectedImageObj) {
       formData.append('image', this.selectedImageObj)
     }
-    formData.append('user_id',this.user_id.toString());
-    this.userService.updateProfile(formData).subscribe((response)=>{
-        if(response.status){
-          this.avatarUrl=BASE_URL+'uploads/'+response.user.image;
-          const newToken=response.token;
-          // this.store.dispatch(AuthActions.updateUserToken({token: newToken}));
-          // this.cookieService.set('jwt', newToken);
-          this.authService.updateUser(newToken);
-          console.log("response after updating user profile: "+JSON.stringify(response))
-        }
-        else{
-          
-        }
-    },(error)=>{
+    formData.append('user_id', this.user_id.toString());
+    this.userService.updateProfile(formData).subscribe((response) => {
+      if (response.status) {
+        this.avatarUrl = BASE_URL + 'uploads/' + response.user.image;
+        const newToken = response.token;
+        // this.store.dispatch(AuthActions.updateUserToken({token: newToken}));
+        // this.cookieService.set('jwt', newToken);
+        this.authService.updateUser(newToken);
+      }
+      else {
+
+      }
+    }, (error) => {
       this.errorHandlerservice.handleError(error);
     })
   }

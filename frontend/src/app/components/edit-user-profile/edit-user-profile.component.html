@@ -1,11 +1,14 @@
 <div class="container">
     <div class="edit-profile-container">
-            <img [src]="avatarUrl" class="profile-avatar">
-            <app-add-photo [displayImagePreview]="false" [actionName]="actionName" (onPhotoSelection)="onSelectedImageObj($event)"></app-add-photo>
-         <div class="input-container">
-            <input [value]="username" type="text" (input)="onProfileNameChange($event)" style="border:none;border-bottom:1px solid black;outline:none;text-align: center;">
-            <button *ngIf="isInputChanged" class="feature_buttons" (click)="handleProfileEdit()" mat-raised-button color="primary">Save</button>
-         </div>
+        <img [src]="avatarUrl" class="profile-avatar">
+        <app-add-photo [displayImagePreview]="false" [actionName]="actionName"
+            (onPhotoSelection)="onSelectedImageObj($event)"></app-add-photo>
+        <div class="input-container">
+            <input [value]="username" type="text" (input)="onProfileNameChange($event)"
+                style="border:none;border-bottom:1px solid black;outline:none;text-align: center;">
+            <button *ngIf="isInputChanged" class="feature_buttons" (click)="handleProfileEdit()" mat-raised-button
+                color="primary">Save</button>
+        </div>
     </div>
     <div class="profile-posts-container">
         <app-user-post></app-user-post>

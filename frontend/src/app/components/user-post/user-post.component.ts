@@ -31,12 +31,11 @@ export class UserPostComponent {
   private scrollTimeout:any;
   loading:boolean=false;
   // allPostsLoaded: boolean=false;
-  allPostsLoaded$: Observable<boolean>;
+  allPostsLoaded$: Observable<boolean>=this.store.select(selectAllPostsLoaded);
   action="feed";
 
   constructor( private router: Router, private store: Store<{ posts: { posts: Post[] } }>) {
     this.posts$ = this.store.select(state => state.posts?.posts);
-    this.allPostsLoaded$=this.store.select(selectAllPostsLoaded);
   }
 
   ngOnInit() {
