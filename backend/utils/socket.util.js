@@ -1,29 +1,38 @@
-const {Server}=require('socket.io');
+const { Server } = require('socket.io');
 let io;
 
-const initSocket=(server)=>{
-    io=new Server(server, {
-        cors:{
-            origin: "http://localhost:4200",
+const initSocket = (server) => {
+    io = new Server(server, {
+        cors: {
+            origin: ["http://localhost:4200", "http://localhost:53281"],
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-            credentials:true
-        }
+            credentials: true,
+        },
     });
 
-    io.on('connection', (socket)=>{
-        console.log("New client connected");
-        socket.on('disconnect',()=>{
-            console.log("Client disconnected");
+    io.on('connection', (socket) => {
+        console.log("New client connected: ", socket.id);
+
+        // Handle disconnection
+        socket.on('disconnect', () => {
+            console.log("Client disconnected: ", socket.id);
         });
+
+        // Additional event listeners can be added here
     });
-}
+};
 
-
-const emitNewPost=(post)=>{
-    if(io){
-        io.emit('newPost',post);
+const emitNewPost = (post) => {
+    if (io) {
+        try {
+            io.emit('newPost', post);
+            console.log("Emitted new post: ", post);
+        } catch (error) {
+            console.error("Error emitting new post: ", error);
+        }
+    } else {
+        console.warn("Socket.io is not initialized");
     }
-}
+};
 
-module.exports={initSocket, emitNewPost};
-
+module.exports = { initSocket, emitNewPost };

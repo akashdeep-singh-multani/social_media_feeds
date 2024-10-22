@@ -30,7 +30,7 @@ exports.createPost=async(req,res,next)=>{
     const newPost=new Post({text, image:req.file ? req.file.filename:null, user_id:req.body.user_id});
     try{
         const savedPost=await newPost.save();
-        emitNewPost(newPost);
+        emitNewPost(savedPost);
          return res.status(201).json({status:true, message:"Post uploaded successfully", post:savedPost});
     }
     catch(error){

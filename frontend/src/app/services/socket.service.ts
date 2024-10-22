@@ -1,32 +1,39 @@
 import { Injectable } from '@angular/core';
 import { Socket, io } from 'socket.io-client';
 import { SERVER_URL } from '../environment/environment';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
   private socket: Socket;
+  private newPostSubject = new Subject<any>();
 
   constructor() { 
-    this.socket=io(SERVER_URL);
+    this.socket = io(SERVER_URL);
+    this.initializeListeners();
   }
 
-  listenToNewPosts(){
-    return new Observable((observer)=>{
-      this.socket.on('newPost', (post:any)=>{
-        observer.next(post);
-      })
-      this.socket.on('error',(error)=>{
-        observer.error(error);
-      })
+  private initializeListeners() {
+    this.socket.on('newPost', (post: any) => {
+      this.newPostSubject.next(post);
+    });
 
-      return ()=>{
-        this.socket.off('newPost');
-        this.socket.off('error');
-      }
-    })
+    this.socket.on('error', (error: any) => {
+      this.newPostSubject.error(error);
+    });
   }
 
+  listenToNewPosts(): Observable<any> {
+    return this.newPostSubject.asObservable();
+  }
+
+  disconnect() {
+    this.socket.disconnect();
+  }
+
+  reconnect() {
+    this.socket.connect();
+  }
 }
