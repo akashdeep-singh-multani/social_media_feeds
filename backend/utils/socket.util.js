@@ -26,7 +26,7 @@ const emitNewPost = (post) => {
     if (io) {
         try {
             io.emit('newPost', post);
-            console.log("Emitted new post: ", post);
+            io.emit('notification', {message: `New post added by ${post.username}`, post});
         } catch (error) {
             console.error("Error emitting new post: ", error);
         }

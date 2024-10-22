@@ -58,6 +58,12 @@ export class UserPostComponent implements OnInit, OnDestroy {
       .subscribe((newPost: any) => {
         this.handleNewPost(newPost);
       });
+
+      this.socketService.listenToNotifications()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((notification:any)=>{
+          this.handleNotification(notification);
+        })
   }
 
   private handleNewPost(newPost: any) {
@@ -78,6 +84,11 @@ export class UserPostComponent implements OnInit, OnDestroy {
         }, 1000);
       }
     });
+  }
+
+  private handleNotification(notification:any){
+    console.log("handle notification callled")
+    alert(notification.message);
   }
 
   private loadPosts() {

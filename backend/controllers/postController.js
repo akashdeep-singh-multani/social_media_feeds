@@ -1,6 +1,7 @@
 const Post=require('../models/post');
 const AppError = require('../utils/AppError');
 const { emitNewPost } = require('../utils/socket.util');
+const User=require('../models/user');
 
 exports.getPosts=async(req,res, next)=>{
     // const {offset=0, limit=10}=req.query;
@@ -30,7 +31,10 @@ exports.createPost=async(req,res,next)=>{
     const newPost=new Post({text, image:req.file ? req.file.filename:null, user_id:req.body.user_id});
     try{
         const savedPost=await newPost.save();
-        emitNewPost(savedPost);
+        const userInfo=await User.findById(req.body.user_id);
+        const modifiedPost=savedPost.toObject();
+        modifiedPost.username=userInfo.username;
+        emitNewPost(modifiedPost);
          return res.status(201).json({status:true, message:"Post uploaded successfully", post:savedPost});
     }
     catch(error){
