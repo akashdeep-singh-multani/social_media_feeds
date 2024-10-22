@@ -13,6 +13,8 @@ import { BASE_URL } from '../../environment/environment';
 import { UserService } from '../../services/user.service';
 import { ErrorHandlerService } from '../../services/error-handler.service';
 import * as AuthActions from '../../store/actions/auth.action';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-edit-user-profile',
@@ -28,15 +30,33 @@ export class EditUserProfileComponent {
   selectedImageObj:File | null=null;
   actionName="Edit";
   user_id!:number;
+  private userSubscription!:Subscription;
 
-  constructor(private store:Store, private cookieService:CookieService, private userService:UserService, private errorHandlerservice:ErrorHandlerService){}
+  constructor(private store:Store, private cookieService:CookieService, private userService:UserService, private errorHandlerservice:ErrorHandlerService, private authService:AuthService){}
 
   ngOnInit(){
-    const token=this.cookieService.get('jwt');;
-    const user=decodeJwtToken(token).user;
+    // const token=this.cookieService.get('jwt');;
+    // const user=decodeJwtToken(token).user;
+    // this.username=user.username;
+    // this.user_id=user._id;
+    // // console.log("this.user_id: "+this.user_id);
+    // this.avatarUrl=BASE_URL+'uploads/'+user.image;
+    this.userSubscription=this.authService.user$.subscribe(user=>{
+      if(user){
+        this.updateUserDetails(user);
+      }
+    })
+  }
+
+  ngOnDestroy(){
+    if(this.userSubscription){
+      this.userSubscription.unsubscribe();
+    }
+  }
+
+  private updateUserDetails(user:any){
     this.username=user.username;
     this.user_id=user._id;
-    // console.log("this.user_id: "+this.user_id);
     this.avatarUrl=BASE_URL+'uploads/'+user.image;
   }
 
@@ -71,8 +91,9 @@ export class EditUserProfileComponent {
         if(response.status){
           this.avatarUrl=BASE_URL+'uploads/'+response.user.image;
           const newToken=response.token;
-          this.store.dispatch(AuthActions.updateUserToken({token: newToken}));
-          this.cookieService.set('jwt', newToken);
+          // this.store.dispatch(AuthActions.updateUserToken({token: newToken}));
+          // this.cookieService.set('jwt', newToken);
+          this.authService.updateUser(newToken);
           console.log("response after updating user profile: "+JSON.stringify(response))
         }
         else{

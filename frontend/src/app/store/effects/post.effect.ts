@@ -14,14 +14,14 @@ export class PostEffects{
     loadPosts$ = createEffect(() =>
         this.actions$.pipe(
             ofType(loadPosts),
-            tap(() => console.log('Loading posts...')),
+            // tap(() => console.log('Loading posts...')),
             mergeMap(({ offset, limit }) =>
                 this.postService.getPosts(offset, limit).pipe(
                     mergeMap((response: PostResponse) => {
-                        console.log("loadPosts: ", JSON.stringify(response));
+                        // console.log("loadPosts: ", JSON.stringify(response));
                         if (response.success) {
                             const allPostsLoaded = response.data.length < limit;
-    
+                            console.log("allPostsLoaded: "+allPostsLoaded)
                             return [
                                 loadPostsSuccess({ posts: response.data }),
                                 setAllPostsLoaded({ loaded: allPostsLoaded })

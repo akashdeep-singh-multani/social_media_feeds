@@ -10,6 +10,7 @@ const passport=require('passport');
 const authRoutes=require('./routes/auth');
 const postRoutes=require('./routes/postRoutes');
 const commentRoutes=require('./routes/commentRoutes');
+const userRoutes=require('./routes/user');
 
 const app=express();
 
@@ -27,6 +28,7 @@ app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use(bodyParser.json());
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
+app.use('/api/user', userRoutes);
 
 app.use(errorHandler);
 module.exports=app;

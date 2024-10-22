@@ -18,21 +18,16 @@ export const initialState:PostState={
 export const postsReducer=createReducer(
     initialState,
     on(loadPostsSuccess, (state, {posts})=>{
-        // if(posts.length===0){
-        //     return {
-        //         ...state,
-        //         error:null
-        //     }
-        // }
-        // return{
-        //     ...state,
-        // posts:Array.isArray(posts) ? [...posts] : [],
-        // error:null
-        // }
+        if(posts.length===0){
+            return {
+                ...state,
+                error:null
+            }
+        }
         return{
             ...state,
-            posts: [...state.posts, ...posts],
-            error:null
+        posts:Array.isArray(posts) ? [...posts] : [],
+        error:null
         }
     }),
     on(addPostSuccess, (state, {post})=>({

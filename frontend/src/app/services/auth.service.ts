@@ -6,16 +6,24 @@ import { Router } from '@angular/router';
 import { GeneralResponse } from '../models/general-response';
 import { CookieService } from 'ngx-cookie-service';
 import { User } from '../models/user.model';
+import { decodeJwtToken } from '../utils/decode-jwt-token';
+import * as AuthActions from '../store/actions/auth.action';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private AUTH_API_URL=BASE_URL+"auth";
+  private userSubject=new BehaviorSubject<any>(null);
+  user$=this.userSubject.asObservable();
+
   // private token:string | null=null;
   // public isLoggedIn$=new BehaviorSubject<boolean>(this.isLoggedIn());
 
-  constructor(private httpClient: HttpClient, private cookieService:CookieService) { }
+  constructor(private store:Store,private httpClient: HttpClient, private cookieService:CookieService) { 
+    this.loadUserFromToken();
+  }
 
   signup(request:any):Observable<any>{
     return this.httpClient.post<any>( `${this.AUTH_API_URL}/signup`,request);
@@ -48,6 +56,21 @@ export class AuthService {
 
   removeToken(){
     this.cookieService.delete('jwt');
+  }
+
+  private loadUserFromToken(){
+    const token=this.cookieService.get('jwt');
+    if(token){
+      const user=decodeJwtToken(token).user;
+      this.userSubject.next(user);
+    }
+  }
+
+  updateUser(token:string){
+    const user=decodeJwtToken(token).user;
+    this.userSubject.next(user);
+    this.store.dispatch(AuthActions.loginSuccess({token, user}));
+    this.cookieService.set('jwt', token);
   }
 
 }

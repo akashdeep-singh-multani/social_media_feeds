@@ -10,7 +10,7 @@ const verifyToken=(req,res,next)=>{
             return res.status(401).json({message:'Token has expired or is invalid'});
         }
         const currentTime=Date.now();
-        if(currentTime-decoded.lastActivity > 15*60*1000){
+        if(currentTime-decoded.lastActivity > 150*60*1000){
             return res.status(401).json({message: 'Token expired due to inactivity'});
         }
         req.user=decoded;

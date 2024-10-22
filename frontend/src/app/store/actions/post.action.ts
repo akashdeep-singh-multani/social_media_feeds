@@ -17,6 +17,10 @@ export const addPostFailure=createAction(
     props<{error:string}>()
 );
 
+// export const loadPosts=createAction(
+//     '[Post] Load Posts',
+//     props<{offset:number, limit:number}>()
+// );
 export const loadPosts=createAction(
     '[Post] Load Posts',
     props<{offset:number, limit:number}>()
