@@ -6,6 +6,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { AddPhotoComponent } from '../add-photo/add-photo.component';
+import { Store } from '@ngrx/store';
+import { CookieService } from 'ngx-cookie-service';
+import { decodeJwtToken } from '../../utils/decode-jwt-token';
+import { BASE_URL } from '../../environment/environment';
+import { UserService } from '../../services/user.service';
+import { ErrorHandlerService } from '../../services/error-handler.service';
+import * as AuthActions from '../../store/actions/auth.action';
 
 @Component({
   selector: 'app-edit-user-profile',
@@ -15,22 +22,28 @@ import { AddPhotoComponent } from '../add-photo/add-photo.component';
   styleUrl: './edit-user-profile.component.css'
 })
 export class EditUserProfileComponent {
-  avatarUrl="https://html.com/wp-content/uploads/flamingo.jpg";
-  username="test";
+  avatarUrl="";
+  username="";
   isInputChanged=false;
   selectedImageObj:File | null=null;
-  // selectedImageUrl="";
-  actionName="Edit"
+  actionName="Edit";
+  user_id!:number;
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   // This will not catch emitted events directly, but can be used for input changes
-  //   console.log('Input properties changed:', changes);
-  // }
+  constructor(private store:Store, private cookieService:CookieService, private userService:UserService, private errorHandlerservice:ErrorHandlerService){}
+
+  ngOnInit(){
+    const token=this.cookieService.get('jwt');;
+    const user=decodeJwtToken(token).user;
+    this.username=user.username;
+    this.user_id=user._id;
+    // console.log("this.user_id: "+this.user_id);
+    this.avatarUrl=BASE_URL+'uploads/'+user.image;
+  }
 
   onSelectedImageObj(imageObj:any){
-    // this.selectedImageUrl=URL.createObjectURL(imageObj);
-    this.avatarUrl=URL.createObjectURL(imageObj);
+    // this.avatarUrl=URL.createObjectURL(imageObj);
     this.selectedImageObj=imageObj;
+    this.handleProfileEdit();
   }
 
   onProfileNameChange(event:Event){
@@ -39,7 +52,35 @@ export class EditUserProfileComponent {
       this.isInputChanged=false;
       return;
     }
+    this.username=input.value;
     this.isInputChanged=true;
+  }
+
+  handleProfileEdit(){
+    // this.store.dispatch()
+    //for-testing purpose doing the below without ngrx
+    const formData=new FormData();
+    if(this.isInputChanged){
+      formData.append('username',this.username);
+    }
+    if(this.selectedImageObj){
+      formData.append('image', this.selectedImageObj)
+    }
+    formData.append('user_id',this.user_id.toString());
+    this.userService.updateProfile(formData).subscribe((response)=>{
+        if(response.status){
+          this.avatarUrl=BASE_URL+'uploads/'+response.user.image;
+          const newToken=response.token;
+          this.store.dispatch(AuthActions.updateUserToken({token: newToken}));
+          this.cookieService.set('jwt', newToken);
+          console.log("response after updating user profile: "+JSON.stringify(response))
+        }
+        else{
+          
+        }
+    },(error)=>{
+      this.errorHandlerservice.handleError(error);
+    })
   }
 
 }

@@ -32,3 +32,8 @@ export const signupFailure=createAction(
 );
 
 export const logout=createAction('[Auth] Logout');
+
+export const updateUserToken=createAction(
+    '[Auth] Update User Token',
+    props<{token:string}>()
+);
