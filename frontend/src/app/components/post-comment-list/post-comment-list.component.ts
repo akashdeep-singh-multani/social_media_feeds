@@ -19,6 +19,7 @@ import { loadComments } from '../../store/actions/comment.action';
 export class PostCommentListComponent {
   comments$: Observable<Comment[]>;
   postId:number;
+  action="comment";
 
   constructor(@Inject(MAT_DIALOG_DATA) public data:any,private store: Store<{comments:{comments:Comment[]}}>,public dialogRef: MatDialogRef<PostCommentListComponent>){
     this.comments$=this.store.select(state=>state.comments?.comments)

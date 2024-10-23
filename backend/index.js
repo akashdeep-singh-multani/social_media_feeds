@@ -11,6 +11,7 @@ const authRoutes=require('./routes/auth');
 const postRoutes=require('./routes/postRoutes');
 const commentRoutes=require('./routes/commentRoutes');
 const userRoutes=require('./routes/user');
+const likeRoutes=require('./routes/likeRoutes');
 
 const app=express();
 
@@ -29,6 +30,7 @@ app.use(bodyParser.json());
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/like', likeRoutes);
 
 app.use(errorHandler);
 module.exports=app;

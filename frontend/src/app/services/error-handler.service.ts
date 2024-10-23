@@ -40,9 +40,9 @@ export class ErrorHandlerService {
   }
 
   private handleLogout(){
-    console.log("this.cookieService.get('token') before: "+this.cookieService.get('token'))
+    // console.log("this.cookieService.get('token') before: "+this.cookieService.get('token'))
     this.cookieService.delete('jwt');
-    console.log("this.cookieService.get('token') after: "+this.cookieService.get('token'))
+    // console.log("this.cookieService.get('token') after: "+this.cookieService.get('token'))
     this.store.dispatch(AuthActions.logout())
   }
 

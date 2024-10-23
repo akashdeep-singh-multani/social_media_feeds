@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req:HttpRequest<any>, next:HttpHandler): Observable<HttpEvent<any>>{
     const token=this.cookieService.get('jwt');
     if(token){
-      console.log("intercept token present")
+      // console.log("intercept token present")
       const clonedRequest=req.clone({
         setHeaders:{
           Authorization: `Bearer ${token}`
@@ -21,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
       });
       return next.handle(clonedRequest);
     }
-    console.log("intercept token not present")
+    // console.log("intercept token not present")
     return next.handle(req);
   }
 

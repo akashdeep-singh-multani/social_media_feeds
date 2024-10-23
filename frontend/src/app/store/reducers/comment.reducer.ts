@@ -15,7 +15,6 @@ export const initialState:CommentState={
 export const commentsReducer=createReducer(
     initialState,
     on(loadCommentsSuccess, (state, {comments})=>{
-        console.log("comments in reducer: "+JSON.stringify(comments))
         return{
             ...state,
             comments:[...comments],

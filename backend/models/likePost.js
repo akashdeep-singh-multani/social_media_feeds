@@ -1,7 +1,6 @@
 const mongoose=require('mongoose');
-const { post } = require('..');
 
-const likeSchema=new mongoose.Schema({
+const likePostSchema=new mongoose.Schema({
     liker_id:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
@@ -18,4 +17,4 @@ const likeSchema=new mongoose.Schema({
     }
 });
 
-module.exports=mongoose.model('Like',likeSchema);
+module.exports=mongoose.model('LikePost',likePostSchema);
