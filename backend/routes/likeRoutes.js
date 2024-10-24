@@ -2,12 +2,12 @@ const express=require('express');
 const router=express.Router();
 const likeController=require('../controllers/likeController');
 
-router.post('/:postId/likes', likeController.createPostLike);
-router.get('/:postId/likes', likeController.getPostLikes);
-router.delete('/:postId/likes/:likeId', likeController.deletePostLikes);
+router.post('/posts/:postId/likes', likeController.createPostLike);
+router.get('/posts/:postId/likes', likeController.getPostLikes);
+router.delete('/posts/:postId/likes/:likeId', likeController.deletePostLikes);
 
-router.post('/:commentId/likes', likeController.createCommentLike);
-router.get('/:commentId/likes', likeController.getCommentLikes);
-router.delete('/:commentId/likes/:likeId', likeController.deleteCommentLikes);
+router.post('/comments/:commentId/likes', likeController.createCommentLike);
+router.get('/comments/:commentId/likes', likeController.getCommentLikes);
+router.delete('/comments/:commentId/likes/:likeId', likeController.deleteCommentLikes);
 
 module.exports=router;

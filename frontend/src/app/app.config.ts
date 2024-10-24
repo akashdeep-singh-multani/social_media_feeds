@@ -16,9 +16,11 @@ import { AuthEffects } from './store/effects/auth.effects';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { likesReducer } from './store/reducers/likes.reducer';
+import { LikeEffects } from './store/effects/like.effects';
 
 export const appConfig: ApplicationConfig = {
-  providers: [importProvidersFrom(HttpClientModule), { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },AuthGuard,CookieService,provideHttpClient(withFetch()),provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideStore({comments: commentsReducer, posts: postsReducer, auth:authReducer}), provideEffects([CommentEffects, PostEffects, AuthEffects])],
+  providers: [importProvidersFrom(HttpClientModule), { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },AuthGuard,CookieService,provideHttpClient(withFetch()),provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideStore({comments: commentsReducer, posts: postsReducer, auth:authReducer, likes: likesReducer}), provideEffects([CommentEffects, PostEffects, AuthEffects, LikeEffects])],
   
 
 };

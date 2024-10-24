@@ -34,6 +34,7 @@ export class UserPostComponent implements OnInit, OnDestroy {
   action = "feed";
   private newPostReceived = false; // Prevent duplicate dispatching
   private isSocketInitialized = false; // Prevent multiple socket listeners
+  likeAction="post";
 
   constructor(
     private router: Router,

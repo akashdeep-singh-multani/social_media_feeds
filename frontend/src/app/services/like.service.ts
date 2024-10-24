@@ -14,27 +14,29 @@ export class LikeService {
 
   // Likes for Posts
   createPostLike(postId: string, userId: string): Observable<Like> {
-    return this.httpClient.post<Like>(`${this.apiUrl}/posts/${postId}/likes`, { user_id: userId });
+    console.log("createPostApi called")
+    console.log("postId: "+postId)
+    return this.httpClient.post<Like>(`${this.apiUrl}like/posts/${postId}/likes`, { user_id: userId });
   }
 
   getPostLikes(postId: string): Observable<Like[]> {
-    return this.httpClient.get<Like[]>(`${this.apiUrl}/posts/${postId}/likes`);
+    return this.httpClient.get<Like[]>(`${this.apiUrl}like/posts/${postId}/likes`);
   }
 
   deletePostLike(postId: string, likeId: string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiUrl}/posts/${postId}/likes/${likeId}`);
+    return this.httpClient.delete<void>(`${this.apiUrl}like/posts/${postId}/likes/${likeId}`);
   }
 
   // Likes for Comments
   createCommentLike(commentId: string, userId: string): Observable<Like> {
-    return this.httpClient.post<Like>(`${this.apiUrl}/comments/${commentId}/likes`, { user_id: userId });
+    return this.httpClient.post<Like>(`${this.apiUrl}like/comments/${commentId}/likes`, { user_id: userId });
   }
 
   getCommentLikes(commentId: string): Observable<Like[]> {
-    return this.httpClient.get<Like[]>(`${this.apiUrl}/comments/${commentId}/likes`);
+    return this.httpClient.get<Like[]>(`${this.apiUrl}like/comments/${commentId}/likes`);
   }
 
   deleteCommentLike(commentId: string, likeId: string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiUrl}/comments/${commentId}/likes/${likeId}`);
+    return this.httpClient.delete<void>(`${this.apiUrl}like/comments/${commentId}/likes/${likeId}`);
   }
 }

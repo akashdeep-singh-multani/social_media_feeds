@@ -15,6 +15,7 @@ exports.createPostLike=async(req,res,next)=>{
             like
         })
     } catch(error){
+        console.log(error)
         return next(new AppError(error.message,500));
     }
 }

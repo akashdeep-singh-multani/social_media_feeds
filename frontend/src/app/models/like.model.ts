@@ -3,5 +3,6 @@ export interface Like{
     postId?: string;
     commentId?: string;
     user_id: string;
+    // entityType:string;
     createdAt?: Date;
 }

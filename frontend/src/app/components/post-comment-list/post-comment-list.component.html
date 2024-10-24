@@ -6,7 +6,7 @@
     <div class="comments-list">
         <div class="flex-row" *ngFor="let comment of comments$ | async">
             <app-user-profile [action]="action" [commenter_info]="comment"></app-user-profile>
-             <app-like-button></app-like-button>
+             <app-like-button [likeAction]="action" [commentId]="comment._id"></app-like-button>
         </div>
     </div>
     <div class="flex-end-column">

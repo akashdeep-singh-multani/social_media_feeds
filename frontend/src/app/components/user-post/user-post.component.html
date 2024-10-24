@@ -9,7 +9,7 @@
                 <img mat-card-image [src]="BASE_URL+'uploads/'+post.image" class="post_image">
             </div>
             <mat-card-actions>
-                <app-like-button></app-like-button>
+                <app-like-button [likeAction]="likeAction" [postId]="post._id"></app-like-button>
                 <app-comment-button [postId]="post._id"></app-comment-button>
             </mat-card-actions>
             <mat-card-content>

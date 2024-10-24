@@ -8,7 +8,7 @@ export const createCommentLike=createAction(
 
 export const createCommentLikeSuccess=createAction(
     '[Like] Create Comment Like Success',
-    props<{like:Like}>()
+    props<{like:any}>()
 );
 
 export const createCommentLikeFailure=createAction(
@@ -23,7 +23,7 @@ export const getCommentLikes=createAction(
 
 export const getCommentLikesSuccess=createAction(
     '[Like] Create Comment Likes Success',
-    props<{likes:Like[]}>()  
+    props<{commentLikes:any}>()  
 );
 
 export const getCommentLikesFailure=createAction(
@@ -54,7 +54,7 @@ export const deleteCommentLike = createAction(
 
   export const createPostLikeSuccess=createAction(
     '[Like] Create Post Like Success',
-    props<{like:Like}>()
+    props<{like:any}>()
   );
 
   export const createPostLikeFailure=createAction(
@@ -69,7 +69,7 @@ export const deleteCommentLike = createAction(
 
   export const getPostLikesSuccess=createAction(
     '[Like] Get Post Like Success',
-    props<{likes:Like[]}>()
+    props<{postLikes:any}>()
   );
 
   export const getPostLikeFailure=createAction(
