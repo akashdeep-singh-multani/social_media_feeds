@@ -62,7 +62,7 @@ export class LikeEffects{
                 this.likeService.createPostLike(action.postId, action.user_id)
                 // this.httpClient.post<Like>(BASE_URL+`posts/${action.postId}/likes`, { user_id: action.user_id })
                 .pipe(
-                    tap(response => console.log("like from API: ", response)), // Log the response
+                    tap(response => console.log("like from createPostLike$ API: ", response)), // Log the response
                     map(response => createPostLikeSuccess({postLike:response.data[0]})),
                     catchError(error => of(createPostLikeFailure({ error })))
                 )

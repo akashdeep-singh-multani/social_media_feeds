@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 import { loadPosts } from '../../store/actions/post.action';
 import { Post } from '../../models/post.model';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { BASE_URL } from '../../environment/environment';
 import { SocketService } from '../../services/socket.service';
 import { selectAllPostsLoaded } from '../../store/selectors/post.selectors';
@@ -56,20 +56,25 @@ export class UserPostComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.postLikes$.pipe(distinctUntilChanged(),takeUntil(this.destroy$)).subscribe((response)=>{
+      console.log("postLikes subscribe ngOnInit: "+JSON.stringify(response))
+    })
     this.userSubscription = this.authService.user$.subscribe(user => {
       if (user) {
         this.user_id = user._id;
-        this.loadPosts();
-    this.loadPostlikes();
+        
       }
     });
     
+    this.loadPosts();
+    this.loadPostlikes();
 
     if (!this.isSocketInitialized) {
       this.initializeSocket();
       this.isSocketInitialized = true;
     }
   }
+  
 
   loadPostlikes(){
     this.posts$.subscribe(posts=>{
@@ -150,6 +155,7 @@ export class UserPostComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+    this.userSubscription.unsubscribe();
   }
 
   toggleLike(event: { postId: string; isLiked: boolean }) {
@@ -161,7 +167,8 @@ export class UserPostComponent implements OnInit, OnDestroy {
     console.log("isLiked in: "+isLiked);
     if(!isLiked){
       let likeInfo:any;
-      this.postLikes$.subscribe((response)=>{
+      this.userSubscription=this.postLikes$.subscribe((response)=>{
+        // console.log("postLikes subscribe: "+JSON.stringify(response))
         likeInfo=response.find(like=>like.post_id === postId)
       })
       console.log("likeInfo while delete: "+JSON.stringify(likeInfo))
@@ -171,7 +178,8 @@ export class UserPostComponent implements OnInit, OnDestroy {
       
     }
     else{
-      this.store.dispatch(createPostLike({postId, user_id:this.user_id}))
+      console.log("user_id"+this.user_id)
+      this.store.dispatch(createPostLike({postId, user_id:this.user_id}));
     }
   }
 }

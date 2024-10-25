@@ -8,12 +8,19 @@ exports.createPostLike=async(req,res,next)=>{
             liker_id: req.body.user_id,
             post_id: req.params.postId
         });
-        const savedData=await like.save();
-        
+        await like.save();
+
         return res.status(201).json({
             status:true,
             message:"post liked successfully",
-            like
+            data:[
+                {
+                    liker_id:like.liker_id,
+                    post_id:like.post_id,
+                    _id:like._id,
+                    createdAt:like.createdAt
+                }
+            ]
         })
     } catch(error){
         console.log(error)
@@ -27,7 +34,15 @@ exports.getPostLikes=async(req,res,next)=>{
         const likes=await LikePost.find({post_id:req.params.postId});
         return res.json({
             status:true,
-            data:likes
+            message:"",
+            data:likes.map(like=>{
+                    return {
+                        liker_id:like.liker_id,
+                        post_id:like.post_id,
+                        _id:like._id,
+                        createdAt:like.createdAt
+                    }
+            })
         })
     } catch(error){
         return next(new AppError(error.message,500));

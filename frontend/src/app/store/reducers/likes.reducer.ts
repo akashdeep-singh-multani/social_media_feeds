@@ -26,7 +26,7 @@ export const likesReducer=createReducer(
         error:null
     })),
     on(createPostLikeSuccess, (state, {postLike})=>{
-        console.log("createPostLikeSuccess saved data: "+JSON.stringify(state.postLikes))
+        console.log("createPostLikeSuccess saved data: "+JSON.stringify([...state.postLikes]))
         return{
             ...state, 
             postLikes: [...state.postLikes, postLike],
