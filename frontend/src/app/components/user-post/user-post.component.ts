@@ -8,13 +8,17 @@ import { CommentButtonComponent } from '../comment-button/comment-button.compone
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { addPost, loadPosts } from '../../store/actions/post.action';
+import { loadPosts } from '../../store/actions/post.action';
 import { Post } from '../../models/post.model';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { BASE_URL } from '../../environment/environment';
 import { SocketService } from '../../services/socket.service';
 import { selectAllPostsLoaded } from '../../store/selectors/post.selectors';
+import { createPostLike, deletePostLike, getPostLikes } from '../../store/actions/like.action';
+import { LikeInfo } from '../../models/like-info.model';
+import { AuthService } from '../../services/auth.service';
+import { selectPostLikes } from '../../store/selectors/like.selector';
 
 @Component({
   selector: 'app-user-post',
@@ -34,23 +38,51 @@ export class UserPostComponent implements OnInit, OnDestroy {
   action = "feed";
   private newPostReceived = false; // Prevent duplicate dispatching
   private isSocketInitialized = false; // Prevent multiple socket listeners
-  likeAction="post";
+  likeAction = "post";
+  // postLikes: { [key: string]: any} = {}; // Dictionary for tracking likes
+  // postLikes:LikeInfo[]=[];
+  private userSubscription!: Subscription;
+  user_id!:string;
+  postLikes$:Observable<LikeInfo[]>;
 
   constructor(
+    private authService:AuthService,
     private router: Router,
     private store: Store<{ posts: { posts: Post[] } }>,
     private socketService: SocketService // Add SocketService here
   ) {
     this.posts$ = this.store.select(state => state.posts?.posts);
+    this.postLikes$=this.store.select(selectPostLikes);
   }
 
   ngOnInit() {
-    this.loadPosts();
+    this.userSubscription = this.authService.user$.subscribe(user => {
+      if (user) {
+        this.user_id = user._id;
+        this.loadPosts();
+    this.loadPostlikes();
+      }
+    });
+    
 
     if (!this.isSocketInitialized) {
       this.initializeSocket();
       this.isSocketInitialized = true;
     }
+  }
+
+  loadPostlikes(){
+    this.posts$.subscribe(posts=>{
+      posts.forEach(post=>{
+        this.store.dispatch(getPostLikes({postId:post._id.toString()}));
+      });
+    })
+  }
+
+  isPostLiked(post_id:number){
+    return !!this.postLikes$.subscribe((response)=>{
+      return response.find(like => like.post_id === post_id.toString());
+    })
   }
 
   private initializeSocket() {
@@ -60,11 +92,11 @@ export class UserPostComponent implements OnInit, OnDestroy {
         this.handleNewPost(newPost);
       });
 
-      this.socketService.listenToNotifications()
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((notification:any)=>{
-          this.handleNotification(notification);
-        })
+    this.socketService.listenToNotifications()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((notification: any) => {
+        this.handleNotification(notification);
+      });
   }
 
   private handleNewPost(newPost: any) {
@@ -72,13 +104,7 @@ export class UserPostComponent implements OnInit, OnDestroy {
       const postExists = posts.some(post => post._id === newPost._id);
       if (!postExists && !this.newPostReceived) {
         this.newPostReceived = true;
-
-        const formData = new FormData();
-        formData.append('text', newPost.text);
-        formData.append('user_id', newPost.user_id);
-        formData.append('image', newPost.image);
-
-        this.store.dispatch(loadPosts({ offset: 0, limit: 10 }))
+        this.store.dispatch(loadPosts({ offset: 0, limit: 10 }));
 
         setTimeout(() => {
           this.newPostReceived = false;
@@ -87,8 +113,8 @@ export class UserPostComponent implements OnInit, OnDestroy {
     });
   }
 
-  private handleNotification(notification:any){
-    console.log("handle notification callled")
+  private handleNotification(notification: any) {
+    console.log("handle notification called");
     alert(notification.message);
   }
 
@@ -125,4 +151,31 @@ export class UserPostComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  toggleLike(event: { postId: string; isLiked: boolean }) {
+    const { postId, isLiked } = event;
+    // this.postLikes[postId] = isLiked; // Update the dictionary with the like status
+    // console.log("this.postLikes[postId]: "+postId+" "+this.postLikes[postId])
+    // console.log(`Post ID: ${postId}, Liked: ${isLiked}`);
+    // this.store.dispatch(getPostLikes({ postId })); // Optionally dispatch post likes
+    console.log("isLiked in: "+isLiked);
+    if(!isLiked){
+      let likeInfo:any;
+      this.postLikes$.subscribe((response)=>{
+        likeInfo=response.find(like=>like.post_id === postId)
+      })
+      console.log("likeInfo while delete: "+JSON.stringify(likeInfo))
+      if(likeInfo){
+        this.store.dispatch(deletePostLike({postId, likeId:likeInfo._id}))
+      }
+      
+    }
+    else{
+      this.store.dispatch(createPostLike({postId, user_id:this.user_id}))
+    }
+  }
 }
+
+
+
+

@@ -1,21 +1,45 @@
-.sidenav-container{
-    /* width:20vw;
-    height:100vh;
-    margin:10px;
-    border:1px solid #555;
-    background:#eee; */
-    width: 500px;
-  height: 300px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+.sidenav-container {
+    height: 100vh; /* Full height for the drawer container */
+    display: flex; /* Flexbox for layout */
 }
 
-/* .sidenav{
-    width:250px;
-    background-color:#f8f9fa;
-    padding:16px;
+mat-drawer-content {
+    flex: 1; /* Take up remaining space */
+    padding: 20px; /* Inner padding */
+    background-color: #f4f4f4; /* Light grey background for content area */
 }
 
-.content{
-    flex:1;
-    padding:16px;
-} */
+ul {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
+
+li {
+    margin: 15px 0; /* Space between list items */
+}
+
+li a {
+    text-decoration: none; /* Remove underline */
+    color: #007bff; /* Primary color for links */
+    font-size: 16px; /* Font size for links */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+li a:hover {
+    color: #0056b3; /* Darker shade on hover */
+}
+
+/* Optional: Style for the drawer if you decide to use it */
+mat-drawer {
+    width: 250px; /* Width of the drawer */
+    background-color: white; /* White background for the drawer */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Shadow for the drawer */
+    padding: 20px; /* Inner padding */
+}
+
+h2 {
+    font-size: 20px; /* Font size for heading */
+    margin-bottom: 20px; /* Space below heading */
+    color: #333; /* Dark grey color for text */
+}

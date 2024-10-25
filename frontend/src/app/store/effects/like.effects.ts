@@ -61,13 +61,11 @@ export class LikeEffects{
             mergeMap(action =>
                 this.likeService.createPostLike(action.postId, action.user_id)
                 // this.httpClient.post<Like>(BASE_URL+`posts/${action.postId}/likes`, { user_id: action.user_id })
-                    .pipe(
-                        map(like => {
-                            console.log("like from api: "+JSON.stringify(like))
-                            return createPostLikeSuccess({ like })
-                        }),
-                        catchError(error => of(createPostLikeFailure({ error })))
-                    )
+                .pipe(
+                    tap(response => console.log("like from API: ", response)), // Log the response
+                    map(response => createPostLikeSuccess({postLike:response.data[0]})),
+                    catchError(error => of(createPostLikeFailure({ error })))
+                )
             )
         )
     );
@@ -82,7 +80,7 @@ export class LikeEffects{
                     .pipe(
                         map(postLikes => {
                             console.log("Fetched postLikes: ", JSON.stringify(postLikes))
-                            return getPostLikesSuccess({ postLikes })
+                            return getPostLikesSuccess( {postLikes:postLikes.data} )
                         }),
                         catchError(error => of(getPostLikeFailure({ error })))
                     )

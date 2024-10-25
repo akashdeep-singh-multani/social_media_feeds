@@ -1,0 +1,60 @@
+.page_style {
+    max-width: 1200px;  /* Maximum width of the feed */
+    margin: 0 auto;     /* Center the feed */
+    padding: 20px;      /* Padding around the feed */
+}
+
+.feed_buttons {
+    display: flex;
+    justify-content: flex-start; /* Align buttons to the left */
+    margin-bottom: 20px; /* Space below buttons */
+}
+
+.feature_buttons {
+    margin-right: 10px; /* Space between buttons */
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Space between cards */
+}
+
+.responsive-card {
+    width: 300px; /* Fixed width for cards */
+    height: 400px; /* Fixed height for cards */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    border-radius: 8px;     /* Rounded corners for the cards */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+.image_container {
+    flex-grow: 1; /* Make the image container take available space */
+    display: flex; /* Enable flexbox for alignment */
+    align-items: center; /* Center image vertically */
+    justify-content: center; /* Center image horizontally */
+    height: 200px; /* Fixed height for image container */
+    overflow: hidden; /* Hide overflow */
+}
+
+.image_container img {
+    width: 100%; /* Make image responsive */
+    height: 100%; /* Set fixed height for uniformity */
+    object-fit: cover; /* Maintain aspect ratio while covering the area */
+}
+
+mat-card-content {
+    padding: 10px 15px; /* Padding for content */
+    font-size: 1em;     /* Font size for text */
+    color: #333;        /* Text color */
+    flex-shrink: 0;     /* Prevent content from shrinking */
+}
+
+mat-card-actions {
+    justify-content: space-between; /* Space actions evenly */
+    padding: 10px 15px; /* Padding for actions */
+}
+
+

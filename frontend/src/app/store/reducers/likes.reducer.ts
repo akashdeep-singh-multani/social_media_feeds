@@ -1,9 +1,11 @@
 import { createReducer, on } from "@ngrx/store";
 import { Like } from "../../models/like.model";
 import { createCommentLikeFailure, createCommentLikeSuccess, createPostLikeFailure, createPostLikeSuccess, deleteCommentLikeFailure, deleteCommentLikeSuccess, deletePostLikeFailure, deletePostLikeSuccess, getCommentLikesSuccess, getPostLikesSuccess } from "../actions/like.action";
+import { LikeResponse } from "../../models/like-response.model";
+import { LikeInfo } from "../../models/like-info.model";
 
 export interface LikesState{
-    postLikes: any[];
+    postLikes: LikeInfo[];
     commentLikes:any[],
     error:string | null;
 }
@@ -23,20 +25,22 @@ export const likesReducer=createReducer(
         commentLikes: state.commentLikes.filter(like=>like.id!==likeId),
         error:null
     })),
-    on(createPostLikeSuccess, (state, {like})=>{
-        console.log("createPostLikeSuccess saved data: "+JSON.stringify([...state.postLikes, like]))
+    on(createPostLikeSuccess, (state, {postLike})=>{
+        console.log("createPostLikeSuccess saved data: "+JSON.stringify(state.postLikes))
         return{
-            ...state, postLikes: [...state.postLikes, like], error:null
+            ...state, 
+            postLikes: [...state.postLikes, postLike],
+            error:null
         }
         
     }),
     on(getPostLikesSuccess, (state, {postLikes})=>{
-        console.log("getPostLikesSuccess: "+JSON.stringify(postLikes.likes))
-        return {...state,postLikes:postLikes.likes}
+        console.log("getPostLikesSuccess: "+JSON.stringify(postLikes))
+        return {...state,postLikes}
     }),
     on(deletePostLikeSuccess, (state, {likeId})=>({
         ...state,
-        postLikes: state.postLikes.filter(like=>like.id!==likeId),
+        postLikes: state.postLikes.filter(like=>like._id!==likeId),
         error:null
     })),
 

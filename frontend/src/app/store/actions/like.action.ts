@@ -1,5 +1,7 @@
 import { createAction, props } from "@ngrx/store";
 import {Like} from '../../models/like.model';
+import { LikeResponse } from "../../models/like-response.model";
+import { LikeInfo } from "../../models/like-info.model";
 
 export const createCommentLike=createAction(
     '[Like] Create Comment Like',
@@ -54,7 +56,7 @@ export const deleteCommentLike = createAction(
 
   export const createPostLikeSuccess=createAction(
     '[Like] Create Post Like Success',
-    props<{like:any}>()
+    props<{postLike:LikeInfo}>()
   );
 
   export const createPostLikeFailure=createAction(
@@ -69,7 +71,7 @@ export const deleteCommentLike = createAction(
 
   export const getPostLikesSuccess=createAction(
     '[Like] Get Post Like Success',
-    props<{postLikes:any}>()
+    props<{postLikes:LikeInfo[]}>()
   );
 
   export const getPostLikeFailure=createAction(

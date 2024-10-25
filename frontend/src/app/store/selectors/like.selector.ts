@@ -8,6 +8,11 @@ export const selectPostLikes = createSelector(
   (state: LikesState) => state.postLikes
 );
 
+export const selectPostLikeById=(postId:string)=>createSelector(
+    selectPostLikes,
+    (postLikes)=>postLikes.find(like=>like.post_id===postId)
+);
+
 export const selectCommentLikes = createSelector(
   selectLikesState,
   (state: LikesState) => state.commentLikes

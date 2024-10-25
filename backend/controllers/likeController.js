@@ -8,7 +8,8 @@ exports.createPostLike=async(req,res,next)=>{
             liker_id: req.body.user_id,
             post_id: req.params.postId
         });
-        await like.save();
+        const savedData=await like.save();
+        
         return res.status(201).json({
             status:true,
             message:"post liked successfully",
@@ -26,7 +27,7 @@ exports.getPostLikes=async(req,res,next)=>{
         const likes=await LikePost.find({post_id:req.params.postId});
         return res.json({
             status:true,
-            likes
+            data:likes
         })
     } catch(error){
         return next(new AppError(error.message,500));

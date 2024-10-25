@@ -1,0 +1,43 @@
+form {
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Center items vertically */
+    margin-top: 12px; /* Space above the form */
+    background-color: #f9f9f9; /* Light gray background */
+    border-radius: 8px; /* Rounded corners */
+    padding: 12px; /* Padding inside the form */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+input {
+    flex: 1; /* Allow input to take up available space */
+    padding: 8px; /* Padding inside the input */
+    border: 1px solid #ccc; /* Border for the input */
+    border-radius: 4px; /* Rounded corners */
+    margin-right: 8px; /* Space between input and button */
+    font-size: 14px; /* Font size for the input */
+    transition: border-color 0.2s; /* Smooth transition for border color */
+}
+
+input:focus {
+    outline: none; /* Remove default outline */
+    border-color: #1877f2; /* Change border color on focus */
+}
+
+button {
+    background-color: #1877f2; /* Facebook blue */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 8px 16px; /* Padding inside the button */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.2s; /* Smooth transition for background color */
+}
+
+button:hover {
+    background-color: #165eab; /* Darker blue on hover */
+}
+
+button:disabled {
+    background-color: #cccccc; /* Gray color for disabled button */
+    cursor: not-allowed; /* Change cursor for disabled state */
+}

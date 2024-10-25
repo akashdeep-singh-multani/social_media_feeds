@@ -1,0 +1,43 @@
+.sidenav-container {
+    height: 100vh; /* Full height for the drawer container */
+    display: flex; /* Flexbox for layout */
+}
+
+mat-drawer {
+    width: 250px; /* Fixed width for the sidenav */
+    background-color: #ffffff; /* White background for the sidenav */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+mat-drawer-content {
+    flex: 1; /* Take up remaining space */
+    padding: 20px; /* Inner padding */
+    background-color: #f4f4f4; /* Light grey background for content area */
+}
+
+ul {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
+
+li {
+    margin: 15px 0; /* Space between list items */
+}
+
+li a {
+    text-decoration: none; /* Remove underline */
+    color: #007bff; /* Primary color for links */
+    font-size: 16px; /* Font size for links */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+li a:hover {
+    color: #0056b3; /* Darker shade on hover */
+}
+
+h2 {
+    font-size: 20px; /* Font size for heading */
+    margin-bottom: 20px; /* Space below heading */
+    color: #333; /* Dark grey color for text */
+}

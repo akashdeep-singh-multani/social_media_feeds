@@ -1,0 +1,11 @@
+.comment-button {
+    background: none; /* Remove background */
+    border: none; /* Remove border */
+    padding: 0; /* Remove padding */
+    color: inherit; /* Inherit text color from parent */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.comment-button:hover {
+    color: #007bff; /* Optional: change color on hover for feedback */
+}

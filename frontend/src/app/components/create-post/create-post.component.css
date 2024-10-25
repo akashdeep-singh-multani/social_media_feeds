@@ -1,0 +1,42 @@
+.page_style {
+    background-color: #ffffff; /* White background for the post area */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Padding around the content */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    margin-bottom: 20px; /* Space below the post area */
+}
+
+.post_textarea {
+    width: 100%; /* Full width */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px; /* Padding inside the textarea */
+    font-size: 14px; /* Font size for the text */
+    resize: none; /* Prevent resizing */
+    transition: border-color 0.3s; /* Smooth border color transition */
+}
+
+.post_textarea:focus {
+    /* border-color: #007bff; */
+    outline: none; /* Remove outline */
+}
+
+.feature_buttons {
+    margin-top: 10px; /* Space above the button */
+    /* background-color: #007bff;  */
+    color: #ffffff; /* White text for the button */
+}
+
+.feature_buttons:hover {
+    /* background-color: #0056b3;  */
+}
+
+.app-add-photo {
+    margin-top: 15px; /* Space above the photo upload component */
+}
+
+.button-container {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    gap: 15px; /* Space between buttons/components */
+}

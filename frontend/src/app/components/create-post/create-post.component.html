@@ -1,10 +1,16 @@
 <div class="page_style">
     <textarea [(ngModel)]="postText" placeholder="What's in your mind?" class="post_textarea" rows="6"
         cols="50"></textarea>
-    <button mat-raised-button color="primary" class="feature_buttons submit_button"
+    <!-- <button mat-raised-button color="primary" class="feature_buttons submit_button"
         (click)="handleCreatePostSubmission()">
         Submit
     </button>
-    <app-add-photo (onPhotoSelection)="handlePhotoSelection($event)"></app-add-photo>
-
+    <app-add-photo (onPhotoSelection)="handlePhotoSelection($event)"></app-add-photo> -->
+    <div class="button-container">
+        <button mat-raised-button color="primary" class="feature_buttons submit_button" (click)="handleCreatePostSubmission()">
+            Submit
+        </button>
+        <app-add-photo (onPhotoSelection)="handlePhotoSelection($event)"></app-add-photo>
+    </div>
+    
 </div>
