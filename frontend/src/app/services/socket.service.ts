@@ -21,6 +21,7 @@ export class SocketService {
       this.newPostSubject.next(post);
     });
     this.socket.on('notification', (notification:any)=>{
+      console.log("not: "+JSON.stringify(notification))
       this.notificationSubject.next(notification);
     })
 

@@ -4,7 +4,7 @@ let io;
 const initSocket = (server) => {
     io = new Server(server, {
         cors: {
-            origin: ["http://localhost:4200", "http://localhost:53281"],
+            origin: ["http://localhost:4200", "http://localhost:51289"],
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
             credentials: true,
         },
@@ -35,4 +35,19 @@ const emitNewPost = (post) => {
     }
 };
 
-module.exports = { initSocket, emitNewPost };
+const emitNewPostLike=(likeInfo)=>{
+    if(io){
+        try{
+            io.emit('newPostLike', likeInfo);
+            io.emit('notification', {message:`${likeInfo.userpostedname} Post liked by ${likeInfo.likername}`});
+        }
+        catch (error) {
+            console.error("Error emitting new post: ", error);
+        }
+    } 
+    else {
+        console.warn("Socket.io is not initialized");
+    }
+}
+
+module.exports = { initSocket, emitNewPost, emitNewPostLike };

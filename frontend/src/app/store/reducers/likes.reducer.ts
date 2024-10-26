@@ -3,6 +3,7 @@ import { Like } from "../../models/like.model";
 import { createCommentLikeFailure, createCommentLikeSuccess, createPostLikeFailure, createPostLikeSuccess, deleteCommentLikeFailure, deleteCommentLikeSuccess, deletePostLikeFailure, deletePostLikeSuccess, getCommentLikesSuccess, getPostLikesSuccess } from "../actions/like.action";
 import { LikeResponse } from "../../models/like-response.model";
 import { LikeInfo } from "../../models/like-info.model";
+import { selectPostLikeById } from "../selectors/like.selector";
 
 export interface LikesState{
     postLikes: LikeInfo[];
@@ -34,10 +35,24 @@ export const likesReducer=createReducer(
         }
         
     }),
-    on(getPostLikesSuccess, (state, {postLikes})=>{
-        console.log("getPostLikesSuccess: "+JSON.stringify(postLikes))
-        return {...state,postLikes}
+    on(getPostLikesSuccess, (state, { postLikes }) => {
+        const updatedPosts = state.postLikes.map(post => {
+            // Check if the post has been liked
+            const isLiked = postLikes.some(like => like.post_id === post._id);
+            return {
+                ...post,
+                isLiked: isLiked // Set isLiked based on the presence of a like
+            };
+        });
+
+        console.log("updatedPosts: "+JSON.stringify(updatedPosts))
+        
+        return {
+            ...state,
+            posts: updatedPosts
+        };
     }),
+    
     on(deletePostLikeSuccess, (state, {likeId})=>({
         ...state,
         postLikes: state.postLikes.filter(like=>like._id!==likeId),

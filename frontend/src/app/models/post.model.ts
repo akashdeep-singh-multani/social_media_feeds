@@ -7,4 +7,5 @@ export interface Post{
     // date:string;
     user_id: PosterInfo;
     createdAt:any;
+    isLiked?:boolean;
 }

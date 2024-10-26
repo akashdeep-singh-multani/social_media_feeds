@@ -7,10 +7,19 @@ export const selectPostLikes = createSelector(
   selectLikesState,
   (state: LikesState) => state.postLikes
 );
+// Selector to get posts with their liked status
 
 export const selectPostLikeById=(postId:string)=>createSelector(
     selectPostLikes,
-    (postLikes)=>postLikes.find(like=>like.post_id===postId)
+    (likes)=>likes.find(like=>like.post_id===postId)
+);
+
+export const selectLikeIdByPostId = (postId: string) => createSelector(
+    selectPostLikes,
+    (postLikes) => {
+        const like = postLikes.find(like => like.post_id === postId);
+        return like ? like._id : null; // Return the like ID if found
+    }
 );
 
 export const selectCommentLikes = createSelector(

@@ -1,6 +1,9 @@
 const LikePost = require("../models/likePost");
 const LikeComment=require("../models/likeComment");
-const AppError = require("../utils/AppError")
+const AppError = require("../utils/AppError");
+const User=require('../models/user');
+const Post=require('../models/post');
+const {emitNewPostLike}=require('../utils/socket.util')
 
 exports.createPostLike=async(req,res,next)=>{
     try{
@@ -8,18 +11,33 @@ exports.createPostLike=async(req,res,next)=>{
             liker_id: req.body.user_id,
             post_id: req.params.postId
         });
-        await like.save();
-
+        const likedPost=await like.save();
+        const userInfo=await User.findById(req.body.user_id);
+        const postInfo=await Post.findById(req.params.postId);
+        // console.log("postInfo: "+JSON.stringify(postInfo))
+        const postUserInfo=await User.findById(postInfo.user_id);
+        // console.log("userInfo: "+JSON.stringify(userInfo))
+        if(String(postInfo.user_id) !== String(req.body.user_id)){
+            console.log("postInfo.user_id: "+postInfo.user_id);
+            console.log("req.body.user_id: "+req.body.user_id);
+            const modifiedPostLike=likedPost.toObject();
+        modifiedPostLike.likername=userInfo.username;
+        modifiedPostLike.userpostedname=postUserInfo.username;
+        emitNewPostLike(modifiedPostLike);
+        }
+        
+        let response={
+            liker_id:like.liker_id,
+            post_id:like.post_id,
+            _id:like._id,
+            createdAt:like.createdAt
+        }
+        
         return res.status(201).json({
             status:true,
             message:"post liked successfully",
             data:[
-                {
-                    liker_id:like.liker_id,
-                    post_id:like.post_id,
-                    _id:like._id,
-                    createdAt:like.createdAt
-                }
+                response
             ]
         })
     } catch(error){

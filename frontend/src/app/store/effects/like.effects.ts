@@ -6,10 +6,11 @@ import { catchError, map, mergeMap, of, tap } from "rxjs";
 import { Like } from "../../models/like.model";
 import { BASE_URL } from "../../environment/environment";
 import { LikeService } from "../../services/like.service";
+import { Store } from "@ngrx/store";
 
 @Injectable()
 export class LikeEffects{
-    constructor(private action$:Actions, private httpClient:HttpClient, private likeService:LikeService){}
+    constructor(private store:Store,private action$:Actions, private httpClient:HttpClient, private likeService:LikeService){}
 
     createCommentLike$=createEffect(()=>
         this.action$.pipe(
@@ -63,7 +64,10 @@ export class LikeEffects{
                 // this.httpClient.post<Like>(BASE_URL+`posts/${action.postId}/likes`, { user_id: action.user_id })
                 .pipe(
                     tap(response => console.log("like from createPostLike$ API: ", response)), // Log the response
-                    map(response => createPostLikeSuccess({postLike:response.data[0]})),
+                    map(response => {
+                        this.store.dispatch(getPostLikes({postId:action.postId}));
+                        return createPostLikeSuccess({postLike:response.data[0]})
+                    }),
                     catchError(error => of(createPostLikeFailure({ error })))
                 )
             )
