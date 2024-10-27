@@ -14,16 +14,16 @@ import { Post } from '../../models/post.model';
   standalone: true,
   imports: [MatIconModule, NgClass],
   templateUrl: './like-button.component.html',
-  styleUrls: ['./like-button.component.css'] // Corrected 'styleUrl' to 'styleUrls'
+  styleUrls: ['./like-button.component.css']
 })
-export class LikeButtonComponent  {
+export class LikeButtonComponent {
   @Input() isLiked!: any;
-    @Input() postId!: any;
-    @Output() likeToggled = new EventEmitter<{ postId: string, isLiked: boolean }>();
+  @Input() postId!: any;
+  @Output() likeToggled = new EventEmitter<{ postId: string, isLiked: boolean }>();
 
-    onLike() {
-      if(this.isLiked===undefined) return;
-        this.isLiked = !this.isLiked; // Toggle the like state
-        this.likeToggled.emit({ postId: this.postId, isLiked: this.isLiked });
-    }
+  onLike() {
+    if (this.isLiked === undefined) return;
+    this.isLiked = !this.isLiked;
+    this.likeToggled.emit({ postId: this.postId, isLiked: this.isLiked });
+  }
 }

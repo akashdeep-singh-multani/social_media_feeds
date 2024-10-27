@@ -17,14 +17,14 @@ exports.createPostLike=async(req,res,next)=>{
         // console.log("postInfo: "+JSON.stringify(postInfo))
         const postUserInfo=await User.findById(postInfo.user_id);
         // console.log("userInfo: "+JSON.stringify(userInfo))
-        if(String(postInfo.user_id) !== String(req.body.user_id)){
-            console.log("postInfo.user_id: "+postInfo.user_id);
-            console.log("req.body.user_id: "+req.body.user_id);
-            const modifiedPostLike=likedPost.toObject();
+        // if(String(postInfo.user_id) !== String(req.body.user_id)){
+            // console.log("postInfo.user_id: "+postInfo.user_id);
+            // console.log("req.body.user_id: "+req.body.user_id);
+        const modifiedPostLike=likedPost.toObject();
         modifiedPostLike.likername=userInfo.username;
         modifiedPostLike.userpostedname=postUserInfo.username;
         emitNewPostLike(modifiedPostLike);
-        }
+        // }
         
         let response={
             liker_id:like.liker_id,

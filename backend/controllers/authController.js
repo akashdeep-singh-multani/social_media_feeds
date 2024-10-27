@@ -26,9 +26,6 @@ exports.signup=async(req,res,next)=>{
     }
 
     const {username, password, email}=req.body;
-    // console.log("username: "+username);
-    // console.log("password: "+password);
-    // console.log("email: "+email);
     try{
         const newUser=new User({username,password,email});
         await newUser.save();

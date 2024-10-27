@@ -18,9 +18,7 @@ const app=express();
 app.use(cors());
 app.use(bodyParser.json());
 
-//Initialize passport
 app.use(passport.initialize());
-//Load Passport configuration
 require('./config/config')(passport);
 
 

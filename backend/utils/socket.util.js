@@ -18,7 +18,6 @@ const initSocket = (server) => {
             console.log("Client disconnected: ", socket.id);
         });
 
-        // Additional event listeners can be added here
     });
 };
 
@@ -39,10 +38,10 @@ const emitNewPostLike=(likeInfo)=>{
     if(io){
         try{
             io.emit('newPostLike', likeInfo);
-            io.emit('notification', {message:`${likeInfo.userpostedname} Post liked by ${likeInfo.likername}`});
+            io.emit('notification', {message:`${likeInfo.likername} liked the post of ${likeInfo.userpostedname}`});
         }
         catch (error) {
-            console.error("Error emitting new post: ", error);
+            console.error("Error emitting new post like: ", error);
         }
     } 
     else {
@@ -50,4 +49,21 @@ const emitNewPostLike=(likeInfo)=>{
     }
 }
 
-module.exports = { initSocket, emitNewPost, emitNewPostLike };
+
+const emitNewPostComment=(commentInfo)=>{
+    if(io){
+        try{
+            io.emit('newPostcomment', commentInfo);
+            io.emit('notification', {message:`${commentInfo.commentername} commented on the post of ${commentInfo.userpostedname}`});
+        }
+        catch(error){
+            console.error("Error emitting new post comment: ", error);
+        }
+    }
+    else{
+        console.warn('Socket.io is not initialized');
+    }
+}
+
+
+module.exports = { initSocket, emitNewPost, emitNewPostLike, emitNewPostComment };

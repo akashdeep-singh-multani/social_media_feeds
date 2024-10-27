@@ -1,9 +1,5 @@
-<form  [formGroup]="commentsForm" (ngSubmit)="onSubmit()">
-    <!-- <mat-form-field appearance="fill" class="comment_input"> -->
-        <!-- <mat-label>Write a comment...</mat-label> -->
-        <input matInput formControlName="comment" placeholder="Add a comment"/>
-    <!-- </mat-form-field> -->
-
+<form [formGroup]="commentsForm" (ngSubmit)="onSubmit()">
+    <input matInput formControlName="comment" placeholder="Add a comment" />
     <button mat-raised-button type="submit" [disabled]="!commentsForm.valid">
         Post a comment
     </button>

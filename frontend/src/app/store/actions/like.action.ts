@@ -1,95 +1,93 @@
 import { createAction, props } from "@ngrx/store";
-import {Like} from '../../models/like.model';
-import { LikeResponse } from "../../models/like-response.model";
 import { LikeInfo } from "../../models/like-info.model";
 
-export const createCommentLike=createAction(
+export const createCommentLike = createAction(
     '[Like] Create Comment Like',
-    props<{postId?: string; commentId: string; user_id: string}>()
+    props<{ postId?: string; commentId: string; user_id: string }>()
 );
 
-export const createCommentLikeSuccess=createAction(
+export const createCommentLikeSuccess = createAction(
     '[Like] Create Comment Like Success',
-    props<{like:any}>()
+    props<{ like: any }>()
 );
 
-export const createCommentLikeFailure=createAction(
+export const createCommentLikeFailure = createAction(
     '[Like] Create Comment Like Failure',
-    props<{error:any}>()
+    props<{ error: any }>()
 );
 
-export const getCommentLikes=createAction(
+export const getCommentLikes = createAction(
     '[Like] Get Comment Likes',
-    props<{postId?:string, commentId?: string}>()
+    props<{ postId?: string, commentId?: string }>()
 );
 
-export const getCommentLikesSuccess=createAction(
+export const getCommentLikesSuccess = createAction(
     '[Like] Create Comment Likes Success',
-    props<{commentLikes:any}>()  
+    props<{ commentLikes: any }>()
 );
 
-export const getCommentLikesFailure=createAction(
+export const getCommentLikesFailure = createAction(
     '[Like] Get Comment Likes Failure',
-    props<{error:any}>()
+    props<{ error: any }>()
 );
 
 
 export const deleteCommentLike = createAction(
     '[Like] Delete Comment Like',
     props<{ postId?: string; commentId?: string; likeId: string }>()
-  );
-  
-  export const deleteCommentLikeSuccess = createAction(
+);
+
+export const deleteCommentLikeSuccess = createAction(
     '[Like] Delete Comment Like Success',
     props<{ likeId: string }>()
-  );
-  
-  export const deleteCommentLikeFailure = createAction(
+);
+
+export const deleteCommentLikeFailure = createAction(
     '[Like] Delete Comment Like Failure',
     props<{ error: any }>()
-  );
+);
 
-  export const createPostLike=createAction(
+export const createPostLike = createAction(
     '[Like] Create Post Like',
-    props<{postId:string, user_id:string}>()
-  );
+    props<{ postId: string, user_id: string }>()
+);
 
-  export const createPostLikeSuccess=createAction(
+export const createPostLikeSuccess = createAction(
     '[Like] Create Post Like Success',
-    props<{postLike:LikeInfo}>()
-  );
+    props<{ postLike: LikeInfo }>()
+);
 
-  export const createPostLikeFailure=createAction(
+export const createPostLikeFailure = createAction(
     '[Like] Create Post Like Failure',
-    props<{error:string}>()
-  );
+    props<{ error: string }>()
+);
 
-  export const getPostLikes=createAction(
+export const getPostLikes = createAction(
     '[Like] Get Post Likes',
-    props<{postId:string}>()
-  );
+    props<{ postId: string }>()
+);
 
-  export const getPostLikesSuccess=createAction(
+export const getPostLikesSuccess = createAction(
     '[Like] Get Post Like Success',
-    props<{postLikes:LikeInfo[]}>()
-  );
+    props<{ postLikes: LikeInfo[] }>()
+);
 
-  export const getPostLikeFailure=createAction(
+export const getPostLikeFailure = createAction(
     '[Like] Get Post Like Failure',
-    props<{error:string}>()
-  );
+    props<{ error: string }>()
+);
 
-  export const deletePostLike=createAction(
+export const deletePostLike = createAction(
     '[Like] Delete Post Like',
-    props<{postId:string; likeId:string}>()
-  );
+    props<{ postId: string; likeId: string }>()
+);
 
-  export const deletePostLikeSuccess=createAction(
+export const deletePostLikeSuccess = createAction(
     '[Like] Delete Post Like Success',
-    props<{likeId:string}>()
-  );
+    props<{ likeId: string }>()
+);
 
-  export const deletePostLikeFailure=createAction(
+export const deletePostLikeFailure = createAction(
     '[Like] Delete Post Like Failure',
-    props<{error:string}>()
-  );
+    props<{ error: string }>()
+);

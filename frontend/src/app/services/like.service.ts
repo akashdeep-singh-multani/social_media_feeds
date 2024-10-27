@@ -15,8 +15,6 @@ export class LikeService {
 
   // Likes for Posts
   createPostLike(postId: string, userId: string): Observable<LikeResponse> {
-    console.log("createPostApi called")
-    console.log("postId: "+postId)
     return this.httpClient.post<LikeResponse>(`${this.apiUrl}like/posts/${postId}/likes`, { user_id: userId });
   }
 
@@ -28,7 +26,6 @@ export class LikeService {
     return this.httpClient.delete<void>(`${this.apiUrl}like/posts/${postId}/likes/${likeId}`);
   }
 
-  // Likes for Comments
   createCommentLike(commentId: string, userId: string): Observable<Like> {
     return this.httpClient.post<Like>(`${this.apiUrl}like/comments/${commentId}/likes`, { user_id: userId });
   }

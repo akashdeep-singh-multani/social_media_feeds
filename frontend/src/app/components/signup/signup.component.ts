@@ -40,17 +40,7 @@ export class SignupComponent {
   }
 
   signup(){
-    // let request={
-    //   username:this.signupForm.value.username,
-    //   password:this.signupForm.value.password,
-    //   email:this.signupForm.value.email
-    // }
     if(this.signupForm.valid){
-      // this.authService.signup(request).subscribe((response)=>{
-        
-      // },(error)=>{
-      //   this.errorHandlerService.handleError(error);
-      // })
       this.store.dispatch(AuthActions.signup({
         username: this.signupForm.value.username,
         email: this.signupForm.value.email,

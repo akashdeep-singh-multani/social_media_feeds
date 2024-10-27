@@ -8,20 +8,17 @@ import { ErrorHandlerService } from "../../services/error-handler.service";
 import { Store } from "@ngrx/store";
 
 @Injectable()
-export class PostEffects{
-    constructor(private store:Store,private errorHandlerService:ErrorHandlerService,private actions$: Actions, private postService: PostService){}
+export class PostEffects {
+    constructor(private store: Store, private errorHandlerService: ErrorHandlerService, private actions$: Actions, private postService: PostService) { }
 
     loadPosts$ = createEffect(() =>
         this.actions$.pipe(
             ofType(loadPosts),
-            // tap(() => console.log('Loading posts...')),
             mergeMap(({ offset, limit }) =>
                 this.postService.getPosts(offset, limit).pipe(
                     mergeMap((response: PostResponse) => {
-                        // console.log("loadPosts: ", JSON.stringify(response));
                         if (response.success) {
                             const allPostsLoaded = response.data.length < limit;
-                            // console.log("posts fetched in loadPosts: "+JSON.stringify(response.data))
                             return [
                                 loadPostsSuccess({ posts: response.data }),
                                 setAllPostsLoaded({ loaded: allPostsLoaded })
@@ -38,25 +35,20 @@ export class PostEffects{
             )
         )
     );
-    
 
-    addPost$=createEffect(()=>
+
+    addPost$ = createEffect(() =>
         this.actions$.pipe(
             ofType(addPost),
-            // tap(() => {
-            //     console.log('Adding posts...');
-            //     // this.store.dispatch(loadPosts());
-            // }),
-            mergeMap(({post})=>
+            mergeMap(({ post }) =>
                 this.postService.addPost(post).pipe(
-                    map(post=> {
-                        this.store.dispatch(loadPosts({offset:0, limit:10}))
-                        // console.log("addPostSuccess: "+JSON.stringify(post))
-                        return addPostSuccess({post})
+                    map(post => {
+                        this.store.dispatch(loadPosts({ offset: 0, limit: 10 }))
+                        return addPostSuccess({ post })
                     }),
-                    catchError(error=>{
+                    catchError(error => {
                         this.errorHandlerService.handleError(error);
-                        return of(addPostFailure({error:error.message}))
+                        return of(addPostFailure({ error: error.message }))
                     })
                 )
             )

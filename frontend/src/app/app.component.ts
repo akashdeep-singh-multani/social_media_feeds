@@ -18,19 +18,19 @@ import { User } from './models/user.model';
 })
 export class AppComponent {
   title = 'social_media_feed';
-  userInfo!:User;
+  userInfo!: User;
 
-  constructor(private router:Router,private store:Store, private cookieService:CookieService, private authService:AuthService){
-    const token=this.cookieService.get('jwt');
-    
-    if(token){
-      let userId=decodeJwtToken(token);
-      this.authService.getUserInfo(userId.id).subscribe((response:User)=>{
-        this.userInfo=response;
+  constructor(private store: Store, private cookieService: CookieService, private authService: AuthService) {
+    const token = this.cookieService.get('jwt');
+
+    if (token) {
+      let userId = decodeJwtToken(token);
+      this.authService.getUserInfo(userId.id).subscribe((response: User) => {
+        this.userInfo = response;
       })
-      this.store.dispatch(AuthActions.loginSuccess({token, user:this.userInfo}))
+      this.store.dispatch(AuthActions.loginSuccess({ token, user: this.userInfo }))
     }
   }
 
-  
+
 }

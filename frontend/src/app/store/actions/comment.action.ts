@@ -2,32 +2,32 @@ import { createAction, props } from "@ngrx/store";
 import { Comment } from "../../models/comment.model";
 import { CommentRequest } from "../../models/comment-request.model";
 
-export const addComment=createAction(
+export const addComment = createAction(
     '[Comment] Add Comment',
-    props<{comment: CommentRequest}>()
+    props<{ comment: CommentRequest }>()
 );
 
-export const addCommentSuccess=createAction(
+export const addCommentSuccess = createAction(
     '[Comment] Add Comment Success',
-    props<{comment:Comment}>()
+    props<{ comment: Comment }>()
 );
 
-export const addCommentFailure=createAction(
+export const addCommentFailure = createAction(
     '[Comment] Add Comment Failure',
-    props<{error:string}>()
+    props<{ error: string }>()
 );
 
-export const loadComments=createAction(
+export const loadComments = createAction(
     '[Comment] Load Comments',
-    props<{postId:number}>()
+    props<{ postId: number }>()
 );
 
-export const loadCommentsSuccess=createAction(
+export const loadCommentsSuccess = createAction(
     '[Comment] Load Comments Success',
-    props<{comments: Comment[]}>()
+    props<{ comments: Comment[] }>()
 );
 
-export const loadCommentsFailure=createAction(
+export const loadCommentsFailure = createAction(
     '[Comment] Load Comments Failure',
-    props<{error:string}>()
+    props<{ error: string }>()
 );

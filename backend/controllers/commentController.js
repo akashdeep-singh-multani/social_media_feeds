@@ -2,6 +2,8 @@ const mongoose=require('mongoose');
 const Comment = require('../models/comments');
 const AppError = require('../utils/AppError');
 const User=require('../models/user');
+const {emitNewPostComment}=require('../utils/socket.util');
+const Post=require('../models/post');
 
 exports.getCommentsByPostId=async(req,res,next)=>{
     try{
@@ -27,9 +29,14 @@ exports.createComment=async(req,res,next)=>{
     try{
         const newComment=new Comment({commenter_id, post_id, text})
         await newComment.save();
-        const userInfo=await User.findById(commenter_id)
+        const userInfo=await User.findById(commenter_id);
+        const postInfo=await Post.findById(post_id);
+        const postUserInfo=await User.findById(postInfo.user_id);
         const modifiedComment=newComment.toObject();
         modifiedComment.commenterInfo=userInfo;
+        modifiedComment.commentername=userInfo.username;
+        modifiedComment.userpostedname=postUserInfo.username;
+        emitNewPostComment(modifiedComment);
         res.status(201).json({
             status:true,
             message:'Comment added successfully',

@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BASE_URL } from '../environment/environment';
-import { Comment } from '../models/comment.model';
 import { CommentRequest } from '../models/comment-request.model';
 import { CommentResponse } from '../models/comment-response.model';
 

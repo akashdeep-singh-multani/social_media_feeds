@@ -1,57 +1,50 @@
 import { createReducer, on } from "@ngrx/store";
 import { Post } from "../../models/post.model";
 import { addPostFailure, addPostSuccess, loadPostsFailure, loadPostsSuccess, setAllPostsLoaded } from "../actions/post.action";
-import { addCommentSuccess, loadCommentsFailure } from "../actions/comment.action";
 
-export interface PostState{
+export interface PostState {
     posts: Post[];
-    error:string | null;
-    allPostsLoaded:boolean;
+    error: string | null;
+    allPostsLoaded: boolean;
 }
 
-export const initialState:PostState={
-    posts:[],
-    error:null,
-    allPostsLoaded:false
+export const initialState: PostState = {
+    posts: [],
+    error: null,
+    allPostsLoaded: false
 }
 
-export const postsReducer=createReducer(
+export const postsReducer = createReducer(
     initialState,
-    on(loadPostsSuccess, (state, {posts})=>{
-        if(posts.length===0){
+    on(loadPostsSuccess, (state, { posts }) => {
+        if (posts.length === 0) {
             return {
                 ...state,
-                error:null
+                error: null
             }
         }
-        return{
-            ...state,
-        posts:Array.isArray(posts) ? [...posts] : [],
-        error:null
-        }
-        // console.log("posts received in loadPostSuccess: "+JSON.stringify(posts))
-        // return{
-        //     ...state,
-        //     posts: [...state.posts, ...posts],
-        //     error:null
-        // }
-    }),
-    on(addPostSuccess, (state, {post})=>{
         return {
-        ...state,
-        posts: [...state.posts, post],
-        error: null
+            ...state,
+            posts: Array.isArray(posts) ? [...posts] : [],
+            error: null
         }
     }),
-    on(loadPostsFailure, (state,{error})=>({
+    on(addPostSuccess, (state, { post }) => {
+        return {
+            ...state,
+            posts: [...state.posts, post],
+            error: null
+        }
+    }),
+    on(loadPostsFailure, (state, { error }) => ({
         ...state,
-        error:error
+        error: error
     })),
-    on(addPostFailure, (state,{error})=>({
+    on(addPostFailure, (state, { error }) => ({
         ...state,
-        error:error
+        error: error
     })),
-    on(setAllPostsLoaded, (state, {loaded})=>({
+    on(setAllPostsLoaded, (state, { loaded }) => ({
         ...state,
         allPostsLoaded: loaded
     }))

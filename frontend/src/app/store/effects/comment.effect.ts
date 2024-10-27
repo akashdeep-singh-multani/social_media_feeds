@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import {Actions, createEffect, ofType} from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { addComment, addCommentFailure, addCommentSuccess, loadComments, loadCommentsFailure, loadCommentsSuccess } from "../actions/comment.action";
 import { catchError, map, mergeMap, of, tap } from "rxjs";
 import { CommentService } from "../../services/comment.service";
@@ -8,48 +8,42 @@ import { ErrorHandlerService } from "../../services/error-handler.service";
 import { Store } from "@ngrx/store";
 
 @Injectable()
-export class CommentEffects{
-    constructor(private store:Store,private errorHandlerService:ErrorHandlerService,private actions$: Actions, private commentService:CommentService){}
+export class CommentEffects {
+    constructor(private store: Store, private errorHandlerService: ErrorHandlerService, private actions$: Actions, private commentService: CommentService) { }
 
-    loadComments$=createEffect(()=>
+    loadComments$ = createEffect(() =>
         this.actions$.pipe(
             ofType(loadComments),
-            // tap(() => console.log('Loading comments...')),
-            mergeMap((action)=>
+            mergeMap((action) =>
                 this.commentService.getComments(action.postId).pipe(
-                    map((response: CommentResponse)=> {
-                        if(response.status){
-                            // console.log("dispath loadCommentSuccess: "+JSON.stringify(response.data));
-                            return loadCommentsSuccess({comments:response.data});
+                    map((response: CommentResponse) => {
+                        if (response.status) {
+                            return loadCommentsSuccess({ comments: response.data });
                         }
-                        else{
-                            // console.log("dispatching loadCommentsFailure: ");
-                            return loadCommentsFailure({error:'Failed to load comments'})
+                        else {
+                            return loadCommentsFailure({ error: 'Failed to load comments' })
                         }
                     }),
-                    catchError(error=>{
+                    catchError(error => {
                         this.errorHandlerService.handleError(error);
-                        return of(loadCommentsFailure({error:error.message}))
+                        return of(loadCommentsFailure({ error: error.message }))
                     })
                 )
             )
         )
     );
 
-    addComment$=createEffect(()=>
+    addComment$ = createEffect(() =>
         this.actions$.pipe(
             ofType(addComment),
-            // tap(() => console.log('Adding comments...')),
-            mergeMap(action=>
+            mergeMap(action =>
                 this.commentService.addComment(action.comment).pipe(
-                    map((comment)=> {
-                        // console.log("mapped added comment: "+JSON.stringify(comment))
-                        // this.store.dispatch(loadComments({comment.comment.post_id}));
-                        return addCommentSuccess({comment:comment.data})
+                    map((comment) => {
+                        return addCommentSuccess({ comment: comment.data })
                     }),
-                    catchError(error=>{
+                    catchError(error => {
                         this.errorHandlerService.handleError(error);
-                        return of(addCommentFailure({error:error.message}))
+                        return of(addCommentFailure({ error: error.message }))
                     })
                 )
             )

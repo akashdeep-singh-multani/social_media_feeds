@@ -6,8 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { AddPhotoComponent } from '../add-photo/add-photo.component';
-import { Store } from '@ngrx/store';
-import { CookieService } from 'ngx-cookie-service';
 import { BASE_URL } from '../../environment/environment';
 import { UserService } from '../../services/user.service';
 import { ErrorHandlerService } from '../../services/error-handler.service';
@@ -30,7 +28,7 @@ export class EditUserProfileComponent {
   user_id!: number;
   private userSubscription!: Subscription;
 
-  constructor(private store: Store, private cookieService: CookieService, private userService: UserService, private errorHandlerservice: ErrorHandlerService, private authService: AuthService) { }
+  constructor(private userService: UserService, private errorHandlerservice: ErrorHandlerService, private authService: AuthService) { }
 
   ngOnInit() {
     this.userSubscription = this.authService.user$.subscribe(user => {
@@ -86,7 +84,7 @@ export class EditUserProfileComponent {
         this.authService.updateUser(newToken);
       }
       else {
-
+        this.errorHandlerservice.handleError("Something went wrong! Please try again later");
       }
     }, (error) => {
       this.errorHandlerservice.handleError(error);

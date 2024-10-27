@@ -3,7 +3,6 @@ const User=require('../models/user');
 const jwt = require('jsonwebtoken');
 
 exports.edit=async(req,res,next)=>{
-    // const {user_id,username, image}=req.body;
         const updateData={};
         const user_id=req.body.user_id;
         if(!user_id)

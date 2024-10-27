@@ -1,16 +1,11 @@
 <div class="centralizedHeading">Comments</div>
-<!-- <div *ngFor="let comment of comments$ | async">
-    <p>{{comment.text}}</p>
-</div> -->
 <div class="comments-container">
     <div class="comments-list">
         <div class="flex-row" *ngFor="let comment of comments$ | async">
             <app-user-profile [action]="action" [commenter_info]="comment"></app-user-profile>
-             <!-- <app-like-button [likeAction]="action" [commentId]="comment._id"></app-like-button> -->
         </div>
     </div>
     <div class="flex-end-column">
-        <!--(addComment)="onCommentAddition($event)"  -->
         <app-post-comment-form [postId]="postId"></app-post-comment-form>
     </div>
 </div>

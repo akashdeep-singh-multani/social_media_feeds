@@ -7,19 +7,19 @@ import { UserProfileComponent } from '../user-profile/user-profile.component';
 import { CommentButtonComponent } from '../comment-button/comment-button.component';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { loadPosts } from '../../store/actions/post.action';
 import { Post } from '../../models/post.model';
-import { Observable, Subject, Subscription, forkJoin, of } from 'rxjs';
-import { distinctUntilChanged, map, take, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject, Subscription, combineLatest } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { BASE_URL } from '../../environment/environment';
 import { SocketService } from '../../services/socket.service';
-import { selectAllPostsLoaded, selectPosts, selectPostsState, selectPostsWithLikes } from '../../store/selectors/post.selectors';
+import { selectAllPostsLoaded, selectPosts } from '../../store/selectors/post.selectors';
 import { createPostLike, deletePostLike, getPostLikes } from '../../store/actions/like.action';
 import { LikeInfo } from '../../models/like-info.model';
 import { AuthService } from '../../services/auth.service';
-import { selectLikeIdByPostId, selectPostLikeById, selectPostLikes } from '../../store/selectors/like.selector';
-import { LikesState } from '../../store/reducers/likes.reducer';
+import { selectPostLikes } from '../../store/selectors/like.selector';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-user-post',
@@ -28,60 +28,156 @@ import { LikesState } from '../../store/reducers/likes.reducer';
   templateUrl: './user-post.component.html',
   styleUrls: ['./user-post.component.css']
 })
-export class UserPostComponent implements OnInit {
-  BASE_URL=BASE_URL;
+export class UserPostComponent implements OnInit, OnDestroy {
+  BASE_URL = BASE_URL;
   posts$: Observable<Post[]>;
-  userId!: number; // Replace with actual user ID logic
-  isButtonDisabled = false;
+  offset: number = 0;
+  limit: number = 2;
+  private loading: boolean = false;
+  private destroy$ = new Subject<void>();
+  allPostsLoaded$: Observable<boolean> = this.store.select(selectAllPostsLoaded);
+  action = "feed";
+  private newPostReceived = false;
+  private isSocketInitialized = false;
+  likeAction = "post";
+  private userSubscription!: Subscription;
+  user_id!: string;
+  postLikes$: Observable<LikeInfo[]>;
+  postWithLikes$: Observable<Post[]>;
 
-  constructor(private store: Store<{ posts: Post[] }>, private authService:AuthService) {
-    
-      // this.posts$ = this.store.pipe(select(selectPosts));
-      this.posts$ = this.store.pipe(select(selectPostsWithLikes));
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private store: Store<{ posts: { posts: Post[] } }>,
+    private socketService: SocketService,
+    private snackbarService:SnackbarService
+  ) {
+    this.posts$ = this.store.select(selectPosts);
+    this.postLikes$ = this.store.select(selectPostLikes);
+
+    this.postWithLikes$ = combineLatest([this.posts$, this.postLikes$]).pipe(
+      map(([posts, likes]) => {
+        return posts.map(post => ({
+          ...post,
+          isLiked: likes.some(like => String(like.post_id) === String(post._id))
+        }));
+      })
+    );
   }
 
   ngOnInit() {
-    this.authService.user$.subscribe(user => {
+    this.userSubscription = this.authService.user$.subscribe(user => {
       if (user) {
-        this.userId=user._id;
+        this.user_id = user._id;
+        this.loadPosts();
+        this.loadPostlikes();
       }
-    })
-      this.loadPosts();
+    });
+
+    
+
+    if (!this.isSocketInitialized) {
+      this.initializeSocket();
+      this.isSocketInitialized = true;
+    }
   }
 
-  loadPosts() {
-      // Dispatch an action to load posts
-      this.store.dispatch(loadPosts({ offset: 0, limit: 10 }));
 
-      // After loading posts, fetch the likes for each post
-      this.store.pipe(select(selectPosts)).subscribe(posts => {
-          posts.forEach(post => {
-              // Dispatch action to get likes for each post
-              this.store.dispatch(getPostLikes({ postId: post._id.toString() }));
-          });
+  loadPostlikes() {
+    this.posts$.subscribe(posts => {
+      posts.forEach(post => {
+        this.store.dispatch(getPostLikes({ postId: String(post._id) }));
+      });
+    })
+  }
+
+  isPostLiked(post_id: number) {
+    return !!this.postLikes$.subscribe((response) => {
+      return response.find(like => like.post_id === post_id.toString());
+    })
+  }
+
+  private initializeSocket() {
+    this.socketService.listenToNewPosts()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((newPost: any) => {
+        this.handleNewPost(newPost);
+      });
+
+    this.socketService.listenToNotifications()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((notification: any) => {
+        this.handleNotification(notification);
       });
   }
 
-  isLiked(postId: number): Observable<boolean> {
-    // console.log("postId checked: "+postId);
-    return this.store.pipe(
-      select(selectPostLikeById(postId?.toString())),
-      map(likeInfo => !!likeInfo) // Convert LikeInfo or undefined to boolean
-  );
+  private handleNewPost(newPost: any) {
+    this.posts$.subscribe(posts => {
+      const postExists = posts.some(post => post._id === newPost._id);
+      if (!postExists && !this.newPostReceived) {
+        this.newPostReceived = true;
+        this.store.dispatch(loadPosts({ offset: 0, limit: 10 }));
+        setTimeout(() => {
+          this.newPostReceived = false;
+        }, 1000);
+      }
+    });
   }
 
-  toggleLike(postId: number) {
-    // if(this.isButtonDisabled) return;
-    // this.isButtonDisabled=true;
-    // Select the likeId for the post
-    this.store.select(selectLikeIdByPostId(postId.toString())).pipe(take(1)).subscribe(likeId => {
-        if (likeId) {
-            // Dispatch delete like action if already liked
-            this.store.dispatch(deletePostLike({ postId:postId.toString(), likeId }));
-        } else {
-            // Dispatch create like action
-            this.store.dispatch(createPostLike({ postId:postId.toString(), user_id: this.userId.toString() }));
-        }
+  private handleNotification(notification: any) {
+    // alert(notification.message);
+    this.snackbarService.openSuccess(notification.message);
+  }
+
+  private loadPosts() {
+    if (this.loading) return;
+    this.loading = true;
+    this.store.dispatch(loadPosts({ offset: this.offset, limit: this.limit }));
+
+    this.allPostsLoaded$.pipe(takeUntil(this.destroy$)).subscribe(loaded => {
+      if (!loaded) {
+        this.offset += this.limit;
+      } else {
+        this.loading = false;
+      }
     });
-}
+  }
+
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+      this.allPostsLoaded$.pipe(takeUntil(this.destroy$)).subscribe(loaded => {
+        if (!loaded && !this.loading) {
+          this.loadPosts();
+        }
+      });
+    }
+  }
+
+  handleCreatePostClick() {
+    this.router.navigate(['create_post']);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.userSubscription.unsubscribe();
+  }
+
+  toggleLike(event: { postId: string; isLiked: boolean }) {
+    const { postId, isLiked } = event;
+    if (!isLiked) {
+      let likeInfo: any;
+      this.userSubscription = this.postLikes$.subscribe((response) => {
+        likeInfo = response.find(like => like.post_id === postId)
+      })
+      if (likeInfo) {
+        this.store.dispatch(deletePostLike({ postId, likeId: likeInfo._id }))
+      }
+
+    }
+    else {
+      this.store.dispatch(createPostLike({ postId, user_id: this.user_id }));
+    }
+  }
 }

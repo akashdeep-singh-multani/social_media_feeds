@@ -1,22 +1,11 @@
 const mongoose=require('mongoose');
 
 const postSchema=new mongoose.Schema({
-    // title: String,
-    // content: String,
     user_id:{
         type:mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        // for testing only doing the following until user id is sent through frontend
-        // type:Number,
         required:true
     },
-    // user_info:{
-    //     type:mongoose.Schema.Types.ObjectId,
-    //     ref: 'User',
-    //     // for testing only doing the following until user id is sent through frontend
-    //     // type:Number,
-    //     // required:true
-    // },
     text:{
         type: String,
         required: true  

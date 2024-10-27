@@ -1,23 +1,27 @@
 <div class="page_style">
+    <div class="feed_buttons">
+        <button class="feature_buttons" mat-raised-button color="primary" (click)="handleCreatePostClick()">Create
+            Post</button>
+    </div>
     <div class="card-container">
-        <mat-card *ngFor="let post of posts$ | async">
-            <app-user-profile [posterInfo]="post.user_id"></app-user-profile>
+        <mat-card appearance="outlined" class="responsive-card" *ngFor="let post of postWithLikes$ | async">
+            <app-user-profile [posterInfo]="post.user_id" [action]="action"></app-user-profile>
             <div class="image_container">
-                <img mat-card-image [src]="BASE_URL + 'uploads/' + post.image" class="post_image">
+                <img mat-card-image [src]="BASE_URL+'uploads/'+post.image" class="post_image">
             </div>
             <mat-card-actions>
-                <app-like-button 
-                    [isLiked]="isLiked(post._id) | async" 
-                    [postId]="post._id.toString()" 
-                    (likeToggled)="toggleLike(post._id)"></app-like-button>
+                <!-- <app-like-button [likeAction]="postLikes[post._id]" [postId]="post._id" (likeToggled)="toggleLike(post._id)"></app-like-button> -->
+                <app-like-button [isLiked]="post.isLiked" [postId]="post._id"
+                    (likeToggled)="toggleLike($event)"></app-like-button>
                 <app-comment-button [postId]="post._id"></app-comment-button>
             </mat-card-actions>
             <mat-card-content>
-                {{ post.text }}
+                {{post.text}}
             </mat-card-content>
+
         </mat-card>
     </div>
-    <div *ngIf="(posts$ | async)?.length == 0">
+    <div *ngIf="(posts$ | async)?.length==0">
         <p>No Posts yet</p>
     </div>
 </div>

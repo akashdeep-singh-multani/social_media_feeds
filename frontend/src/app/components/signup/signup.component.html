@@ -18,7 +18,7 @@
                 </mat-error>
             </mat-form-field>
         </div>
-        
+
         <div class="form-field">
             <mat-form-field appearance="fill">
                 <input matInput type="password" formControlName="password" placeholder="Password" required>
@@ -28,9 +28,10 @@
             </mat-form-field>
         </div>
 
-        <button class="auth-button" mat-raised-button color="primary" type="submit" [disabled]="signupForm.invalid">Signup</button>
+        <button class="auth-button" mat-raised-button color="primary" type="submit"
+            [disabled]="signupForm.invalid">Signup</button>
     </form>
-   <div class="signup-link">
-    Do have an account already?<a href="/login"> Login</a>
-   </div>
+    <div class="signup-link">
+        Do have an account already?<a href="/login"> Login</a>
+    </div>
 </div>

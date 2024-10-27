@@ -1,13 +1,11 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { AddPhotoComponent } from '../add-photo/add-photo.component';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { addPost, addPostSuccess } from '../../store/actions/post.action';
-import { Post } from '../../models/post.model';
-import { User } from '../../models/user.model';
+import { addPost } from '../../store/actions/post.action';
 import { CookieService } from 'ngx-cookie-service';
 import { decodeJwtToken } from '../../utils/decode-jwt-token';
 

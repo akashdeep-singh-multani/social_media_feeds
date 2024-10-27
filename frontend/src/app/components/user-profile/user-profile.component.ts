@@ -6,7 +6,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { decodeJwtToken } from '../../utils/decode-jwt-token';
 import { Subscription } from 'rxjs';
 import { PosterInfo } from '../../models/poster-info.model';
-import { CommenterInfo } from '../../models/commenter-info.model';
 
 @Component({
   selector: 'app-user-profile',
@@ -28,7 +27,6 @@ export class UserProfileComponent {
   constructor(private cookieService: CookieService) { }
 
   ngOnInit() {
-    // this.subtitle = this.commenter_info.text;
     if (this.action == 'feed') {
       this.getPostUserInfo();
     }
