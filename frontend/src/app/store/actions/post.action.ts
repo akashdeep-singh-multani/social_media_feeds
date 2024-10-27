@@ -18,7 +18,7 @@ export const addPostFailure=createAction(
 
 export const loadPosts=createAction(
     '[Post] Load Posts',
-    props<{offset:number, limit:number}>()
+    props<{offset:number, limit:number, user_id:number}>()
 );
 
 export const loadPostsSuccess=createAction(

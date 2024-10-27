@@ -1,5 +1,5 @@
 import { CommonModule, NgClass } from '@angular/common';
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { LikeButtonComponent } from '../like-button/like-button.component';
@@ -13,8 +13,7 @@ import { Post } from '../../models/post.model';
 import { Observable, Subject, Subscription, combineLatest } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { BASE_URL } from '../../environment/environment';
-import { SocketService } from '../../services/socket.service';
-import { selectAllPostsLoaded, selectPosts } from '../../store/selectors/post.selectors';
+import { selectAllPostsLoaded, selectPosts, selectPostsByUserId } from '../../store/selectors/post.selectors';
 import { createPostLike, deletePostLike, getPostLikes } from '../../store/actions/like.action';
 import { LikeInfo } from '../../models/like-info.model';
 import { AuthService } from '../../services/auth.service';
@@ -39,32 +38,24 @@ export class UserPostComponent implements OnInit, OnDestroy {
   allPostsLoaded$: Observable<boolean> = this.store.select(selectAllPostsLoaded);
   action = "feed";
   private newPostReceived = false;
-  private isSocketInitialized = false;
   likeAction = "post";
   private userSubscription!: Subscription;
   user_id!: string;
   postLikes$: Observable<LikeInfo[]>;
-  postWithLikes$: Observable<Post[]>;
+  postWithLikes$!: Observable<Post[]>;
+  @Input() myProfileObj:{user_id:number}={user_id:-1};
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private store: Store<{ posts: { posts: Post[] } }>,
-    private socketService: SocketService,
-    private snackbarService:SnackbarService,
-    private socketManagerService:SocketManagerService
+    private snackbarService: SnackbarService,
+    private socketManagerService: SocketManagerService
   ) {
     this.posts$ = this.store.select(selectPosts);
     this.postLikes$ = this.store.select(selectPostLikes);
 
-    this.postWithLikes$ = combineLatest([this.posts$, this.postLikes$]).pipe(
-      map(([posts, likes]) => {
-        return posts.map(post => ({
-          ...post,
-          isLiked: likes.some(like => String(like.post_id) === String(post._id))
-        }));
-      })
-    );
+    this.syncPostsWithLikes();
   }
 
   ngOnInit() {
@@ -76,13 +67,24 @@ export class UserPostComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.socketManagerService.newPostReceived$.pipe(takeUntil(this.destroy$)).subscribe(newPost=>{
+    this.socketManagerService.newPostReceived$.pipe(takeUntil(this.destroy$)).subscribe(newPost => {
       this.handleNewPost(newPost);
     });
-    this.socketManagerService.notificationReceived$.pipe(takeUntil(this.destroy$)).subscribe(notification=>{
+    this.socketManagerService.notificationReceived$.pipe(takeUntil(this.destroy$)).subscribe(notification => {
       this.handleNotification(notification);
     });
 
+  }
+
+  syncPostsWithLikes() {
+    this.postWithLikes$ = combineLatest([this.posts$, this.postLikes$]).pipe(
+      map(([posts, likes]) => {
+        return posts.map(post => ({
+          ...post,
+          isLiked: likes.some(like => String(like.post_id) === String(post._id))
+        }));
+      })
+    );
   }
 
 
@@ -119,7 +121,7 @@ export class UserPostComponent implements OnInit, OnDestroy {
       const postExists = posts.some(post => post._id === newPost._id);
       if (!postExists && !this.newPostReceived) {
         this.newPostReceived = true;
-        this.store.dispatch(loadPosts({ offset: 0, limit: 10 }));
+        this.store.dispatch(loadPosts({ offset: 0, limit: 10, user_id: this.myProfileObj.user_id }));
         setTimeout(() => {
           this.newPostReceived = false;
         }, 1000);
@@ -135,7 +137,8 @@ export class UserPostComponent implements OnInit, OnDestroy {
   private loadPosts() {
     if (this.loading) return;
     this.loading = true;
-    this.store.dispatch(loadPosts({ offset: this.offset, limit: this.limit }));
+    let myProfileUserId=this.myProfileObj.user_id;
+      this.store.dispatch(loadPosts({ offset: this.offset, limit: this.limit, user_id:myProfileUserId }));
 
     this.allPostsLoaded$.pipe(takeUntil(this.destroy$)).subscribe(loaded => {
       if (!loaded) {

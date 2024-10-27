@@ -15,6 +15,14 @@ export const selectPosts = createSelector(
     (state: PostState) => state.posts
 );
 
+export const selectPostsByUserId = (userId: string) => createSelector(
+    selectPosts,
+    (posts) => {
+        const post = posts.filter(post => String(post.user_id) === userId);
+        return post;
+    }
+);
+
 export const selectPostsWithLikes = createSelector(
     selectPostsState,
     selectLikesState,

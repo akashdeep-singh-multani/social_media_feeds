@@ -14,13 +14,20 @@ export class PostEffects {
     loadPosts$ = createEffect(() =>
         this.actions$.pipe(
             ofType(loadPosts),
-            mergeMap(({ offset, limit }) =>
+            mergeMap(({ offset, limit, user_id }) =>
                 this.postService.getPosts(offset, limit).pipe(
                     mergeMap((response: PostResponse) => {
+                        let responseData;
+                        if(user_id!==-1){
+                            responseData=response.data.filter(resp=>resp.user_id._id==user_id)
+                        }
+                        else{
+                            responseData=response.data;
+                        }
                         if (response.success) {
                             const allPostsLoaded = response.data.length < limit;
                             return [
-                                loadPostsSuccess({ posts: response.data }),
+                                loadPostsSuccess({ posts: responseData }),
                                 setAllPostsLoaded({ loaded: allPostsLoaded })
                             ];
                         } else {
@@ -43,7 +50,7 @@ export class PostEffects {
             mergeMap(({ post }) =>
                 this.postService.addPost(post).pipe(
                     map(post => {
-                        this.store.dispatch(loadPosts({ offset: 0, limit: 10 }))
+                        this.store.dispatch(loadPosts({ offset: 0, limit: 10, user_id:-1 }))
                         return addPostSuccess({ post })
                     }),
                     catchError(error => {

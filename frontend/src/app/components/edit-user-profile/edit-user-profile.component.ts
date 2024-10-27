@@ -27,6 +27,7 @@ export class EditUserProfileComponent {
   actionName = "Edit";
   user_id!: number;
   private userSubscription!: Subscription;
+  myProfileObj={user_id:-1};
 
   constructor(private userService: UserService, private errorHandlerservice: ErrorHandlerService, private authService: AuthService) { }
 
@@ -47,6 +48,7 @@ export class EditUserProfileComponent {
   private updateUserDetails(user: any) {
     this.username = user.username;
     this.user_id = user._id;
+    this.myProfileObj.user_id=user._id;
     this.avatarUrl = BASE_URL + 'uploads/' + user.image;
   }
 
