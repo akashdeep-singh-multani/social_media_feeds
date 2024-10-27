@@ -20,6 +20,7 @@ import { LikeInfo } from '../../models/like-info.model';
 import { AuthService } from '../../services/auth.service';
 import { selectPostLikes } from '../../store/selectors/like.selector';
 import { SnackbarService } from '../../services/snackbar.service';
+import { SocketManagerService } from '../../services/socket-manager.service';
 
 @Component({
   selector: 'app-user-post',
@@ -50,7 +51,8 @@ export class UserPostComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<{ posts: { posts: Post[] } }>,
     private socketService: SocketService,
-    private snackbarService:SnackbarService
+    private snackbarService:SnackbarService,
+    private socketManagerService:SocketManagerService
   ) {
     this.posts$ = this.store.select(selectPosts);
     this.postLikes$ = this.store.select(selectPostLikes);
@@ -74,12 +76,13 @@ export class UserPostComponent implements OnInit, OnDestroy {
       }
     });
 
-    
+    this.socketManagerService.newPostReceived$.pipe(takeUntil(this.destroy$)).subscribe(newPost=>{
+      this.handleNewPost(newPost);
+    });
+    this.socketManagerService.notificationReceived$.pipe(takeUntil(this.destroy$)).subscribe(notification=>{
+      this.handleNotification(notification);
+    });
 
-    if (!this.isSocketInitialized) {
-      this.initializeSocket();
-      this.isSocketInitialized = true;
-    }
   }
 
 
@@ -97,19 +100,19 @@ export class UserPostComponent implements OnInit, OnDestroy {
     })
   }
 
-  private initializeSocket() {
-    this.socketService.listenToNewPosts()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((newPost: any) => {
-        this.handleNewPost(newPost);
-      });
+  // private initializeSocket() {
+  //   this.socketService.listenToNewPosts()
+  //     .pipe(takeUntil(this.destroy$))
+  //     .subscribe((newPost: any) => {
+  //       this.handleNewPost(newPost);
+  //     });
 
-    this.socketService.listenToNotifications()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((notification: any) => {
-        this.handleNotification(notification);
-      });
-  }
+  //   this.socketService.listenToNotifications()
+  //     .pipe(takeUntil(this.destroy$))
+  //     .subscribe((notification: any) => {
+  //       this.handleNotification(notification);
+  //     });
+  // }
 
   private handleNewPost(newPost: any) {
     this.posts$.subscribe(posts => {

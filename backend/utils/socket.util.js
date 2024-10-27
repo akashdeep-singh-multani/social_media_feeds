@@ -53,7 +53,7 @@ const emitNewPostLike=(likeInfo)=>{
 const emitNewPostComment=(commentInfo)=>{
     if(io){
         try{
-            io.emit('newPostcomment', commentInfo);
+            io.emit('newPostComment', commentInfo);
             io.emit('notification', {message:`${commentInfo.commentername} commented on the post of ${commentInfo.userpostedname}`});
         }
         catch(error){
