@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { loadPosts } from '../../store/actions/post.action';
 import { Store } from '@ngrx/store';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-edit-user-profile',
@@ -30,8 +31,9 @@ export class EditUserProfileComponent {
   user_id!: number;
   private userSubscription!: Subscription;
   myProfileObj={user_id:-1};
+  cachedUsername="";
 
-  constructor(private store:Store,private userService: UserService, private errorHandlerservice: ErrorHandlerService, private authService: AuthService) { }
+  constructor(private store:Store,private userService: UserService, private snackbarService:SnackbarService, private errorHandlerservice: ErrorHandlerService, private authService: AuthService) { }
 
   ngOnInit() {
     this.userSubscription = this.authService.user$.subscribe(user => {
@@ -49,6 +51,7 @@ export class EditUserProfileComponent {
 
   private updateUserDetails(user: any) {
     this.username = user.username;
+    this.cachedUsername=user.username;
     this.user_id = user._id;
     this.myProfileObj.user_id=user._id;
     this.avatarUrl = BASE_URL + 'uploads/' + user.image;
@@ -61,16 +64,16 @@ export class EditUserProfileComponent {
 
   onProfileNameChange(event: Event) {
     const input = event.target as HTMLInputElement;
-    if (this.username == input.value) {
+    if (this.cachedUsername == input.value) {
       this.isInputChanged = false;
+      this.cachedUsername=input.value;
       return;
     }
-    this.username = input.value;
-    this.isInputChanged = true;
+      this.username = input.value;
+      this.isInputChanged = true;
   }
 
   handleProfileEdit() {
-    //for-testing purpose doing the below without ngrx
     const formData = new FormData();
     if (this.isInputChanged) {
       formData.append('username', this.username);
@@ -87,6 +90,7 @@ export class EditUserProfileComponent {
         // this.store.dispatch(AuthActions.updateUserToken({token: newToken}));
         // this.cookieService.set('jwt', newToken);
         this.authService.updateUser(newToken);
+        this.snackbarService.openSuccess("Updation successful");
       }
       else {
         this.errorHandlerservice.handleError("Something went wrong! Please try again later");

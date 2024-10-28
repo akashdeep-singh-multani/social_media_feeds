@@ -28,7 +28,7 @@ import { SocketManagerService } from '../../services/socket-manager.service';
   templateUrl: './user-post.component.html',
   styleUrls: ['./user-post.component.css']
 })
-export class UserPostComponent implements OnInit, OnDestroy {
+export class UserPostComponent implements OnInit {
   BASE_URL = BASE_URL;
   posts$: Observable<Post[]>;
   offset: number = POST_OFFSET;
@@ -39,7 +39,7 @@ export class UserPostComponent implements OnInit, OnDestroy {
   action = "feed";
   private newPostReceived = false;
   likeAction = "post";
-  private userSubscription!: Subscription;
+  // private userSubscription!: Subscription;
   user_id!: string;
   postLikes$: Observable<LikeInfo[]>;
   postWithLikes$!: Observable<Post[]>;
@@ -59,13 +59,9 @@ export class UserPostComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userSubscription = this.authService.user$.subscribe(user => {
-      if (user) {
-        this.user_id = user._id;
-        this.loadPosts();
-        this.loadPostlikes();
-      }
-    });
+    this.user_id = this.authService.getLoggedInUser()._id;
+    this.loadPosts();
+    this.loadPostlikes();
 
     this.socketManagerService.newPostReceived$.pipe(takeUntil(this.destroy$)).subscribe(newPost => {
       this.handleNewPost(newPost);
@@ -164,17 +160,18 @@ export class UserPostComponent implements OnInit, OnDestroy {
     this.router.navigate(['create_post']);
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-    this.userSubscription.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.destroy$.next();
+  //   this.destroy$.complete();
+  //   this.userSubscription.unsubscribe();
+  // }
 
   toggleLike(event: { postId: string; isLiked: boolean }) {
     const { postId, isLiked } = event;
     if (!isLiked) {
       let likeInfo: any;
-      this.userSubscription = this.postLikes$.subscribe((response) => {
+      // this.userSubscription = this.postLikes$.subscribe((response) => {
+      this.postLikes$.subscribe((response) => {
         likeInfo = response.find(like => like.post_id === postId)
       })
       if (likeInfo) {

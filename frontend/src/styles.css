@@ -194,53 +194,102 @@ mat-form-field{
 
 
 .auth-container {
-  max-width: 400px; /* Centering the form */
-  margin: 50px auto; /* Centering the container */
+  max-width: 400px; 
+  margin: 50px auto; 
   padding: 20px;
-  background-color: white; /* White background for form */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  text-align: center; /* Center text */
+  background-color: white; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+  text-align: center; 
 }
 
 .auth-container h2 {
-  margin-bottom: 20px; /* Spacing below the title */
-  color: var(--primary-color); /* Use your primary color */
+  margin-bottom: 20px; 
+  color: var(--primary-color); 
 }
 
 .form-field {
-  margin-bottom: 16px; /* Spacing between form fields */
+  margin-bottom: 16px; 
 }
 
 .mat-form-field {
-  width: 100%; /* Full width for input fields */
+  width: 100%; 
 }
 
 input {
-  font-size: 14px; /* Font size for input */
+  font-size: 14px; 
 }
 
 .mat-error {
-  font-size: 12px; /* Smaller error text */
-  color: #f44336; /* Red color for error messages */
+  font-size: 12px; 
+  color: #f44336; 
 }
 
 .auth-button {
-  width: 100%; /* Full width button */
-  padding: 10px; /* Padding for button */
-  font-size: 16px; /* Font size for button */
+  width: 100%; 
+  padding: 10px; 
+  font-size: 16px; 
 }
 
 .signup-link {
-  margin-top: 20px; /* Space above the signup link */
-  font-size: 14px; /* Font size for signup link */
+  margin-top: 20px; 
+  font-size: 14px; 
 }
 
 .signup-link a {
-  color: var(--primary-color); /* Use primary color for link */
-  text-decoration: none; /* Remove underline */
+  color: var(--primary-color); 
+  text-decoration: none; 
 }
 
 .signup-link a:hover {
-  text-decoration: underline; /* Underline on hover */
+  text-decoration: underline; 
+}
+
+.centralizedHeading {
+  text-align: center; 
+  font-size: 1em; 
+  margin: 16px 0; 
+  font-weight: bold; 
+  color: #333; 
+}
+.feature_buttons {
+  background-color: #3F51B5; 
+  color: white; 
+  border: none; 
+  border-radius: 4px; 
+  padding: 8px 16px; 
+  cursor: pointer; 
+  transition: background-color 0.2s; 
+}
+
+.feature_buttons:hover {
+  background-color: #3F51B5; 
+}
+
+.feature_buttons:disabled {
+  cursor: not-allowed; 
+}
+
+.without-background-button {
+  background: none; 
+  border: none; 
+  padding: 0; 
+  color: #3F51B5; 
+  cursor: pointer; 
+}
+
+li {
+  margin: 15px 0; 
+}
+
+li a {
+  text-decoration: none; 
+  color: #3F51B5;
+  font-size: 16px; 
+  transition: color 0.3s ease; 
+  font-weight: bold;
+}
+
+li a:hover {
+  color: #3F51B5; 
 }

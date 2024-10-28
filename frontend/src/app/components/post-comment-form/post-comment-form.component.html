@@ -1,6 +1,6 @@
 <form [formGroup]="commentsForm" (ngSubmit)="onSubmit()">
     <input matInput formControlName="comment" placeholder="Add a comment" />
-    <button mat-raised-button type="submit" [disabled]="!commentsForm.valid">
+    <button class="feature_buttons" mat-raised-button color="primary" type="submit" [disabled]="!commentsForm.valid">
         Post a comment
     </button>
 </form>

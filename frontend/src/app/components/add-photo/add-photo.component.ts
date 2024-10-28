@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Output, ViewChild, EventEmitter, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-add-photo',

@@ -4,8 +4,7 @@
         <app-add-photo [displayImagePreview]="false" [actionName]="actionName"
             (onPhotoSelection)="onSelectedImageObj($event)"></app-add-photo>
         <div class="input-container">
-            <input [value]="username" type="text" (input)="onProfileNameChange($event)"
-                style="border:none;border-bottom:1px solid black;outline:none;text-align: center;">
+            <input [value]="username" type="text" class="edit-input" (input)="onProfileNameChange($event)">
             <button *ngIf="isInputChanged" class="feature_buttons" (click)="handleProfileEdit()" mat-raised-button
                 color="primary">Save</button>
         </div>

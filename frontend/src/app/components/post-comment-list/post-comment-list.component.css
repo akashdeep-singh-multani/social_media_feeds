@@ -1,64 +1,46 @@
-.centralizedHeading {
-    text-align: center; /* Center align the heading */
-    font-size: 24px; /* Larger font size for emphasis */
-    margin: 16px 0; /* Spacing above and below the heading */
-    font-weight: bold; /* Make it bold */
-    color: #333; /* Darker color for contrast */
-}
+
 
 .comments-container {
-    background-color: #f9f9f9; /* Light gray background */
-    border-radius: 8px; /* Rounded corners */
-    padding: 16px; /* Padding around the container */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    margin-bottom: 16px; /* Space below the comments section */
+    background-color: #f9f9f9; 
+    border-radius: 8px; 
+    padding: 16px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 16px; 
 }
 
 .comments-list {
-    margin-bottom: 16px; /* Space between comments and input form */
+    margin-bottom: 16px; 
 }
 
 .flex-row {
-    display: flex; /* Flex layout for horizontal alignment */
-    align-items: center; /* Center items vertically */
-    margin-bottom: 12px; /* Space between individual comments */
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 12px; 
 }
 
 app-user-profile {
-    flex: 1; /* Allow user profile to take up available space */
+    flex: 1; 
 }
 
 .flex-end-column {
     display: flex;
-    justify-content: flex-end; /* Align comment form to the right */
+    justify-content: flex-end; 
 }
 
 app-post-comment-form {
-    width: 100%; /* Full width for the comment form */
+    width: 100%; 
 }
 
 form {
-    display: flex; /* Flex layout for the form */
-    align-items: center; /* Center items vertically */
+    display: flex; 
+    align-items: center; 
 }
 
 input {
-    flex: 1; /* Allow input to take up available space */
-    padding: 8px; /* Padding inside the input */
-    border: 1px solid #ccc; /* Border for the input */
-    border-radius: 4px; /* Rounded corners */
-    margin-right: 8px; /* Space between input and button */
+    flex: 1; 
+    padding: 8px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    margin-right: 8px; 
 }
 
-button {
-    background-color: #1877f2; /* Facebook blue */
-    color: white; /* White text color */
-    border: none; /* Remove border */
-    border-radius: 4px; /* Rounded corners */
-    padding: 8px 16px; /* Padding inside the button */
-    cursor: pointer; /* Pointer cursor on hover */
-}
-
-button:hover {
-    background-color: #165eab; /* Darker blue on hover */
-}

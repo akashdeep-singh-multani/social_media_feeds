@@ -59,4 +59,10 @@ export class AuthService {
     this.cookieService.set('jwt', token);
   }
 
+  getLoggedInUser(){
+    const token = this.cookieService.get('jwt');
+    const user = decodeJwtToken(token).user;
+    return user;
+  }
+
 }

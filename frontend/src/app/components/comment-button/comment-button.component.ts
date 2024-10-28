@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
 import { PostCommentListComponent } from '../post-comment-list/post-comment-list.component';
 
 @Component({
