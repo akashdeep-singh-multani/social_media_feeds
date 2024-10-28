@@ -44,6 +44,7 @@ export class AppComponent {
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.currentRouteName = this.router.url;
+      console.log("this.currentRouteName: "+this.currentRouteName)
     });
   
   }
