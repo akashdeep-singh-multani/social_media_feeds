@@ -11,7 +11,7 @@ export class SnackbarService {
   open(message: string, action: string = 'Close', duration: number = 3000): MatSnackBarRef<any> {
     return this.snackBar.open(message, action, {
       duration: duration,
-      horizontalPosition: 'right',
+      horizontalPosition: 'center',
       verticalPosition: 'top'
     });
   }

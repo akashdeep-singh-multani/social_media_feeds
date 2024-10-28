@@ -1,60 +1,75 @@
 .page_style {
-    max-width: 1200px;  /* Maximum width of the feed */
-    margin: 0 auto;     /* Center the feed */
-    padding: 20px;      /* Padding around the feed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f7f7f7; /* Light background for the entire page */
 }
 
 .feed_buttons {
+    width: 100%;
     display: flex;
-    justify-content: flex-start; /* Align buttons to the left */
-    margin-bottom: 20px; /* Space below buttons */
+    justify-content: center; /* Center button horizontally */
+    margin-bottom: 20px;
 }
 
 .feature_buttons {
-    margin-right: 10px; /* Space between buttons */
+    padding: 10px 20px; /* Comfortable padding for the button */
+    font-size: 16px; /* Increase font size for better readability */
 }
 
 .card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+    display: flex;
+    flex-wrap: wrap; /* Allows cards to wrap to the next line */
+    justify-content: center; /* Center the cards */
     gap: 20px; /* Space between cards */
+    width: 100%;
 }
 
 .responsive-card {
     width: 300px; /* Fixed width for cards */
-    height: 400px; /* Fixed height for cards */
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    border-radius: 8px;     /* Rounded corners for the cards */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-    overflow: hidden; /* Ensure content doesn't overflow */
+    max-width: 100%; /* Ensure cards do not overflow */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .image_container {
-    flex-grow: 1; /* Make the image container take available space */
-    display: flex; /* Enable flexbox for alignment */
-    align-items: center; /* Center image vertically */
-    justify-content: center; /* Center image horizontally */
-    height: 200px; /* Fixed height for image container */
     overflow: hidden; /* Hide overflow */
+    border-radius: 10px 10px 0 0; /* Rounded corners for the image */
 }
 
-.image_container img {
-    width: 100%; /* Make image responsive */
-    height: 100%; /* Set fixed height for uniformity */
-    object-fit: cover; /* Maintain aspect ratio while covering the area */
+.post_image {
+    width: 100%; /* Responsive image width */
+    height: auto; /* Maintain aspect ratio */
 }
 
 mat-card-content {
-    padding: 10px 15px; /* Padding for content */
-    font-size: 1em;     /* Font size for text */
-    color: #333;        /* Text color */
-    flex-shrink: 0;     /* Prevent content from shrinking */
+    padding: 15px; /* Padding for card content */
 }
 
-mat-card-actions {
-    justify-content: space-between; /* Space actions evenly */
-    padding: 10px 15px; /* Padding for actions */
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+    .feature_buttons {
+        font-size: 14px; /* Smaller font size for smaller screens */
+    }
+
+    .responsive-card {
+        width: 90%; /* Wider cards for mobile screens */
+    }
 }
 
+@media (max-width: 480px) {
+    .feature_buttons {
+        padding: 8px 16px; /* Smaller padding on mobile */
+        font-size: 12px; /* Even smaller font size */
+    }
 
+    .responsive-card {
+        width: 100%; /* Full width cards for very small screens */
+    }
+}
+
+mat-card-actions{
+    display:flex;
+    justify-content:space-between;
+}

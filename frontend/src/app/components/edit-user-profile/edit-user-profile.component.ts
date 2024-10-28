@@ -6,11 +6,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { AddPhotoComponent } from '../add-photo/add-photo.component';
-import { BASE_URL } from '../../environment/environment';
+import { BASE_URL, POST_LIMIT, POST_OFFSET } from '../../environment/environment';
 import { UserService } from '../../services/user.service';
 import { ErrorHandlerService } from '../../services/error-handler.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { loadPosts } from '../../store/actions/post.action';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-edit-user-profile',
@@ -29,7 +31,7 @@ export class EditUserProfileComponent {
   private userSubscription!: Subscription;
   myProfileObj={user_id:-1};
 
-  constructor(private userService: UserService, private errorHandlerservice: ErrorHandlerService, private authService: AuthService) { }
+  constructor(private store:Store,private userService: UserService, private errorHandlerservice: ErrorHandlerService, private authService: AuthService) { }
 
   ngOnInit() {
     this.userSubscription = this.authService.user$.subscribe(user => {
@@ -81,6 +83,7 @@ export class EditUserProfileComponent {
       if (response.status) {
         this.avatarUrl = BASE_URL + 'uploads/' + response.user.image;
         const newToken = response.token;
+        this.store.dispatch(loadPosts({ offset: POST_OFFSET, limit: POST_LIMIT, user_id: this.user_id }));
         // this.store.dispatch(AuthActions.updateUserToken({token: newToken}));
         // this.cookieService.set('jwt', newToken);
         this.authService.updateUser(newToken);

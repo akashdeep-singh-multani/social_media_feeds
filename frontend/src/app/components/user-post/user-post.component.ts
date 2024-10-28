@@ -12,7 +12,7 @@ import { loadPosts } from '../../store/actions/post.action';
 import { Post } from '../../models/post.model';
 import { Observable, Subject, Subscription, combineLatest } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { BASE_URL } from '../../environment/environment';
+import { BASE_URL, POST_LIMIT, POST_OFFSET } from '../../environment/environment';
 import { selectAllPostsLoaded, selectPosts, selectPostsByUserId } from '../../store/selectors/post.selectors';
 import { createPostLike, deletePostLike, getPostLikes } from '../../store/actions/like.action';
 import { LikeInfo } from '../../models/like-info.model';
@@ -31,8 +31,8 @@ import { SocketManagerService } from '../../services/socket-manager.service';
 export class UserPostComponent implements OnInit, OnDestroy {
   BASE_URL = BASE_URL;
   posts$: Observable<Post[]>;
-  offset: number = 0;
-  limit: number = 2;
+  offset: number = POST_OFFSET;
+  limit: number = POST_LIMIT;
   private loading: boolean = false;
   private destroy$ = new Subject<void>();
   allPostsLoaded$: Observable<boolean> = this.store.select(selectAllPostsLoaded);
@@ -43,7 +43,7 @@ export class UserPostComponent implements OnInit, OnDestroy {
   user_id!: string;
   postLikes$: Observable<LikeInfo[]>;
   postWithLikes$!: Observable<Post[]>;
-  @Input() myProfileObj:{user_id:number}={user_id:-1};
+  @Input() myProfileObj: { user_id: number } = { user_id: -1 };
 
   constructor(
     private authService: AuthService,
@@ -96,11 +96,11 @@ export class UserPostComponent implements OnInit, OnDestroy {
     })
   }
 
-  isPostLiked(post_id: number) {
-    return !!this.postLikes$.subscribe((response) => {
-      return response.find(like => like.post_id === post_id.toString());
-    })
-  }
+  // isPostLiked(post_id: number) {
+  //   return !!this.postLikes$.subscribe((response) => {
+  //     return response.find(like => like.post_id === post_id.toString());
+  //   })
+  // }
 
   // private initializeSocket() {
   //   this.socketService.listenToNewPosts()
@@ -137,8 +137,8 @@ export class UserPostComponent implements OnInit, OnDestroy {
   private loadPosts() {
     if (this.loading) return;
     this.loading = true;
-    let myProfileUserId=this.myProfileObj.user_id;
-      this.store.dispatch(loadPosts({ offset: this.offset, limit: this.limit, user_id:myProfileUserId }));
+    let myProfileUserId = this.myProfileObj.user_id;
+    this.store.dispatch(loadPosts({ offset: this.offset, limit: this.limit, user_id: myProfileUserId }));
 
     this.allPostsLoaded$.pipe(takeUntil(this.destroy$)).subscribe(loaded => {
       if (!loaded) {
