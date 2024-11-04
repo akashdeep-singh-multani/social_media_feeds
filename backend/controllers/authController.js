@@ -1,54 +1,57 @@
-const { validationResult } = require('express-validator');
-const User = require('../models/user');
-const AppError = require('../utils/AppError');
-const jwt = require('jsonwebtoken');
+const { validationResult } = require('express-validator')
+const AppError = require('../utils/AppError')
+const AuthService = require('../services/authService')
+const {
+  sendValidationErrors,
+  sendSuccessResponse,
+} = require('../utils/response.util')
+const { SUCCESS_MESSAGES, HTTP_STATUS_CODES } = require('../constants')
+const UserService = require('../services/userService')
 
-exports.login=async(req,res,next)=>{
-    const errors=validationResult(req);
-    if(!errors.isEmpty()){
-        return next(new AppError(errors.array(),400));
-    }
-
-    const {username,password}=req.body;
-    const user=await User.findOne({username});
-    if(!user || !(await user.comparePassword(password))){
-        return next(new AppError("Invalid credentials",401));
-    }
-    const token=jwt.sign({id:user._id, user, lastActivity: Date.now()}, process.env.JWT_SECRET, {expiresIn:'1h'});
-    res.json({token, user});
-
+exports.login = async (req, res, next) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return next(new AppError(errors.array(), HTTP_STATUS_CODES.BAD_REQUEST))
+  }
+  const { username, password } = req.body
+  try {
+    const user = await AuthService.login(username, password)
+    const token = UserService.generateToken(user)
+    res.json({ token, user })
+  } catch (error) {
+    next(error)
+  }
 }
 
-exports.signup=async(req,res,next)=>{
-    const errors=validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).json({errors:errors.array()});
-    }
-
-    const {username, password, email}=req.body;
-    try{
-        const newUser=new User({username,password,email});
-        await newUser.save();
-        return res.status(201).json({status:true, message:'User created'});
-    } catch(error){
-        return next(new AppError(error,400));
-    }
+exports.signup = async (req, res, next) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return sendValidationErrors(res, errors.array())
+  }
+  const { username, password, email } = req.body
+  try {
+    await AuthService.signup(username, password, email)
+    return sendSuccessResponse(
+      res,
+      HTTP_STATUS_CODES.CREATED,
+      {},
+      SUCCESS_MESSAGES.USER_CREATION_SUCCESSFUL
+    )
+  } catch (error) {
+    return next(new AppError(error, HTTP_STATUS_CODES.BAD_REQUEST))
+  }
 }
 
-exports.protectedRoute=(req,res)=>{
-    return res.json({ message: 'Protected route', user: req.user });
+exports.protectedRoute = (req, res) => {
+  return res.json({ message: SUCCESS_MESSAGES.PROTECTED_ROUTE, user: req.user })
 }
 
-exports.userInfo=async(req,res, next)=>{
-    let user_id=req.body.user_id;
-    try{
-        let response=await User.find({_id:user_id});
-        return res.status(200).json({
-            status:true,
-            data:response
-        });
-    }
-    catch(error){
-        return next(new AppError(error,400));
-    }
+exports.userInfo = async (req, res, next) => {
+  let userId = req.body.userId
+  try {
+    const user = await AuthService.getUserById(userId)
+    return sendSuccessResponse(res, HTTP_STATUS_CODES.OK, user)
+  } catch (error) {
+    return next(new AppError(error, HTTP_STATUS_CODES.BAD_REQUEST))
+  }
 }

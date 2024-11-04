@@ -1,0 +1,13 @@
+# .husky/pre-push
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Get the current branch name
+branch_name=$(git rev-parse --abbrev-ref HEAD)
+
+# Check if the branch name follows the convention
+if ! [[ $branch_name =~ ^(feature|bugfix|hotfix|release|chore)/[a-z0-9-]+$ ]]; then
+  echo "Error: Branch name '$branch_name' does not follow the convention."
+  echo "Please use 'feature/', 'bugfix/', 'hotfix/', 'release/', or 'chore/' followed by a descriptive name."
+  exit 1
+fi

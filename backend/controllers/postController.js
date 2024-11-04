@@ -1,33 +1,31 @@
-const Post=require('../models/post');
-const AppError = require('../utils/AppError');
-const { emitNewPost } = require('../utils/socket.util');
-const User=require('../models/user');
+const PostService = require('../services/postService')
+const AppError = require('../utils/AppError')
+const { sendSuccessResponse } = require('../utils/response.util')
+const { successMessages, HTTP_STATUS_CODES } = require('../constants')
 
-exports.getPosts=async(req,res, next)=>{
-    try{
-        const posts=await Post.find().sort({createdAt:-1}).populate('user_id', '_id username image');
-        return res.status(200).json({
-            success: true,
-            data: posts
-        });
-    } catch(error){
-        return next(new AppError('Failed to retrieve posts', 500))
-    }
-};
+exports.getPosts = async (req, res, next) => {
+  try {
+    const posts = await PostService.getPosts()
+    return sendSuccessResponse(res, HTTP_STATUS_CODES.OK, posts)
+  } catch (error) {
+    return next(new AppError(error, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR))
+  }
+}
 
-
-exports.createPost=async(req,res,next)=>{
-    const text=req.body.text;
-    const newPost=new Post({text, image:req.file ? req.file.filename:null, user_id:req.body.user_id});
-    try{
-        const savedPost=await newPost.save();
-        const userInfo=await User.findById(req.body.user_id);
-        const modifiedPost=savedPost.toObject();
-        modifiedPost.username=userInfo.username;
-        emitNewPost(modifiedPost);
-         return res.status(201).json({status:true, message:"Post uploaded successfully", post:savedPost});
-    }
-    catch(error){
-        return next(new AppError(error, 400));
-    }
+exports.createPost = async (req, res, next) => {
+  try {
+    const savedPost = await PostService.createPost(
+      req.body.text,
+      req.file ? req.file.filename : null,
+      req.body.userId
+    )
+    return sendSuccessResponse(
+      res,
+      HTTP_STATUS_CODES.CREATED,
+      savedPost,
+      successMessages.POST_UPLOAD_SUCCESSFUL
+    )
+  } catch (error) {
+    return next(new AppError(error, HTTP_STATUS_CODES.BAD_REQUEST))
+  }
 }

@@ -3,6 +3,7 @@ const path=require('path');
 const uploadsDir=path.join(__dirname, '..', 'uploads');
 
 const storage=multer.diskStorage({
+    //remove unsused params, use ESLint
     destination: (req, file, cb)=>{
         cb(null, uploadsDir);
     },

@@ -1,11 +1,14 @@
-const errorHandler=(err,req,res,next)=>{
-    console.error(err.stack);
-    const statusCode=err.statusCode || 500;
-    const message=err.isOperational ? err.message : 'Internal Server Error';
-    res.status(statusCode).json({
-        success:false,
-        message
-    });
-};
+const { HTTP_STATUS_CODES, ERROR_MESSAGES } = require('../constants')
 
-module.exports=errorHandler;
+const errorHandler = (err, req, res) => {
+  const statusCode = err.statusCode || HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR
+  const message = err.isOperational
+    ? err.message
+    : ERROR_MESSAGES.INTERNAL_SERVER_ERROR
+  res.status(statusCode).json({
+    success: false,
+    message,
+  })
+}
+
+module.exports = errorHandler

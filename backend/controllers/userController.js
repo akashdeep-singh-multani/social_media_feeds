@@ -1,31 +1,36 @@
-const AppError = require("../utils/AppError")
-const User=require('../models/user');
-const jwt = require('jsonwebtoken');
+const AppError = require('../utils/AppError')
+const { sendSuccessResponse } = require('../utils/responseUtils')
 
-exports.edit=async(req,res,next)=>{
-        const updateData={};
-        const user_id=req.body.user_id;
-        if(!user_id)
-            return next(new AppError("UserId is required", 400));
-        console.log("req.body.username: "+req.body.username)
-        if(req.body.username) updateData.username=req.body.username;
-        if(req.file) 
-            updateData.image=req.file.filename;
-    try{
-        const updatedUser=await User.findByIdAndUpdate(user_id, updateData, {new:true});
-        if(!updatedUser){
-            return next(new AppError("User not found",404));
-        }
-        const token=jwt.sign({id: updatedUser._id, user:updatedUser, lastActivity: Date.now()}, process.env.JWT_SECRET, {expiresIn:'1h'});
+const {
+  VALIDATION_MESSAGES,
+  HTTP_STATUS_CODES,
+  SUCCESS_MESSAGES,
+} = require('../constants')
+const UserService = require('../services/userService')
 
-        return res.status(200).json({
-            status:true,
-            message:"User updated successfully",
-            user: updatedUser,
-            token
-        })
+exports.edit = async (req, res, next) => {
+  const updateData = {}
+  const userId = req.body.userId
+  if (!userId)
+    return next(
+      new AppError(
+        VALIDATION_MESSAGES.USERID_REQUIRED,
+        HTTP_STATUS_CODES.BAD_REQUEST
+      )
+    )
+  if (req.body.username) updateData.username = req.body.username
+  if (req.file) updateData.image = req.file.filename
+  try {
+    const updatedUser = UserService.updatedUser(userId, updateData)
+    const token = UserService.generateToken(updatedUser)
 
-    } catch(error){
-        return next(new AppError(error,500));
-    }
+    return sendSuccessResponse(
+      res,
+      200,
+      { user: updatedUser, token },
+      SUCCESS_MESSAGES.USER_UPDATION_SUCCESSFUL
+    )
+  } catch (error) {
+    return next(error)
+  }
 }

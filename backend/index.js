@@ -1,34 +1,43 @@
-const express=require('express');
-const bodyParser=require('body-parser');
-const cors=require('cors');
-const path=require('path');
-require('dotenv').config();
-const errorHandler=require('./middleware/errorMiddleware');
-const mongoose=require('./config/db');
-const passport=require('passport');
+const express = require('express')
+const logger = require('./config/logger')
+const requestLogger = require('./middleware/requestLogger')
+const errorLogger = require('./middleware/errorLogger')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const path = require('path')
+require('dotenv').config()
+const errorHandler = require('./middleware/errorMiddleware')
+const passport = require('passport')
 
-const authRoutes=require('./routes/auth');
-const postRoutes=require('./routes/postRoutes');
-const commentRoutes=require('./routes/commentRoutes');
-const userRoutes=require('./routes/user');
-const likeRoutes=require('./routes/likeRoutes');
+const authRoutes = require('./routes/auth')
+const postRoutes = require('./routes/postRoutes')
+const commentRoutes = require('./routes/commentRoutes')
+const userRoutes = require('./routes/user')
+const likeRoutes = require('./routes/likeRoutes')
+const { ERROR_MESSAGES } = require('./constants')
+const { sendValidationErrors } = require('./utils/response.util')
 
-const app=express();
+const app = express()
 
-app.use(cors());
-app.use(bodyParser.json());
+app.use(cors())
+app.use(bodyParser.json())
+app.use(requestLogger)
 
-app.use(passport.initialize());
-require('./config/config')(passport);
+app.use(passport.initialize())
+require('./config/config')(passport)
 
-
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes)
 app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')))
-app.use(bodyParser.json());
-app.use('/api/posts', postRoutes);
-app.use('/api/comments', commentRoutes);
-app.use('/api/user', userRoutes);
-app.use('/api/like', likeRoutes);
+app.use(bodyParser.json())
+app.use('/api/posts', postRoutes)
+app.use('/api/comments', commentRoutes)
+app.use('/api/user', userRoutes)
+app.use('/api/like', likeRoutes)
 
-app.use(errorHandler);
-module.exports=app;
+app.use(errorHandler)
+app.use(errorLogger)
+app.use((err, req, res) => {
+  logger.error(err.mesage || ERROR_MESSAGES.INTERNAL_SERVER_ERROR)
+  sendValidationErrors(res, 500, ERROR_MESSAGES.INTERNAL_SERVER_ERROR)
+})
+module.exports = app

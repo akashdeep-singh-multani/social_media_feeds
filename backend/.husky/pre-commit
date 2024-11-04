@@ -1,0 +1,24 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Run linters
+echo "Running linters..."
+npx eslint .
+
+# Format code
+echo "Formatting code..."
+npx prettier --write .
+
+# Run tests
+echo "Running tests..."
+npm test
+
+# Security audit
+echo "Checking for vulnerabilities..."
+npm audit --production
+
+# Validate commit message format
+echo "Validating commit message format..."
+npx commitlint --from=HEAD~1 --to=HEAD
+
+echo "All checks passed! Proceeding with commit."
