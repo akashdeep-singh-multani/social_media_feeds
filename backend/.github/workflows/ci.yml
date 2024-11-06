@@ -1,0 +1,65 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+        options: --health-cmd="mongo --eval 'db.adminCommand(\"ping\")'" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      # Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      # Install dependencies for the backend
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: |
+          npm install
+
+      # Run Jest tests for the backend
+      - name: Run backend tests
+        working-directory: ./backend
+        run: |
+          npm test
+
+      # Install dependencies for the frontend (optional if frontend is also in the repo)
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: |
+          npm install
+
+      # Run Jest tests for the frontend (optional if frontend is also in the repo)
+      - name: Run frontend tests
+        working-directory: ./frontend
+        run: |
+          npm test
+
+      # Deploy to production if tests pass
+      - name: Deploy to production
+        if: success()
+        run: |
+          echo "Deploying to production..."
+          # Add deployment scripts here (e.g., to AWS, Heroku, etc.)
+          # Example for Heroku:
+          # git remote add heroku https://git.heroku.com/your-app.git
+          # git push heroku main

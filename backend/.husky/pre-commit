@@ -1,9 +1,13 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+if [ $? -ne 0 ]; then
+  echo "Pre-commit checks failed."
+  exit 1
+fi
 # Run linters
 echo "Running linters..."
-npx eslint .
+npx eslint . --fix
 
 # Format code
 echo "Formatting code..."
