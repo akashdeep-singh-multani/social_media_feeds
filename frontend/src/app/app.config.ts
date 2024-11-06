@@ -10,7 +10,7 @@ import { commentsReducer } from './store/reducers/comment.reducer';
 import { postsReducer } from './store/reducers/post.reducer';
 import { CommentEffects } from './store/effects/comment.effect';
 import { PostEffects } from './store/effects/post.effect';
-import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withFetch } from '@angular/common/http';
 import { authReducer } from './store/reducers/auth.reducer';
 import { AuthEffects } from './store/effects/auth.effects';
 import { CookieService } from 'ngx-cookie-service';
