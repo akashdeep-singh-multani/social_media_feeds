@@ -12,11 +12,16 @@ const SUCCESS_MESSAGES = {
 
 const VALIDATION_MESSAGES = {
   USERID_REQUIRED: 'UserId is required',
+  USERNAME_AND_PASSWORD_REQUIRED: 'Username and password are required',
+  USER_NOT_FOUND: 'User not found',
   INVALID_CREDENTIALS: 'Invalid credentials',
   TOKEN_NOT_AVAILABLE: 'A token is required for authentication',
   TOKEN_EXPIRED: 'Token has expired or is invalid',
   TOKEN_INACTIVE: 'Token expired due to inactivity',
   SESSION_TIME_LIMIT: 150 * 60 * 1000,
+  MONGODB_CONNECTION_ERROR: 'MongoDB connection error',
+  MONGODB_CONNECTION_SUCCESS: 'Connected to MongoDB Atlas',
+  EMAIL_ALREADY_IN_USE: 'Email is already in use',
 }
 
 const ERROR_MESSAGES = {

@@ -1,5 +1,5 @@
 const AppError = require('../utils/AppError')
-const { sendSuccessResponse } = require('../utils/responseUtils')
+const { sendSuccessResponse } = require('../utils/response.util')
 
 const {
   VALIDATION_MESSAGES,

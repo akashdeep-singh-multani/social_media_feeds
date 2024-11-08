@@ -5,21 +5,39 @@ const {
   sendValidationErrors,
   sendSuccessResponse,
 } = require('../utils/response.util')
-const { SUCCESS_MESSAGES, HTTP_STATUS_CODES } = require('../constants')
+const {
+  SUCCESS_MESSAGES,
+  HTTP_STATUS_CODES,
+  VALIDATION_MESSAGES,
+} = require('../constants')
 const UserService = require('../services/userService')
+const userService = new UserService()
 
 exports.login = async (req, res, next) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    return next(new AppError(errors.array(), HTTP_STATUS_CODES.BAD_REQUEST))
+    return next(
+      new AppError(
+        VALIDATION_MESSAGES.USERNAME_AND_PASSWORD_REQUIRED,
+        HTTP_STATUS_CODES.BAD_REQUEST
+      )
+    )
   }
   const { username, password } = req.body
   try {
     const user = await AuthService.login(username, password)
-    const token = UserService.generateToken(user)
-    res.json({ token, user })
+    if (!user)
+      return next(
+        new AppError(
+          VALIDATION_MESSAGES.USERID_REQUIRED,
+          HTTP_STATUS_CODES.BAD_REQUEST
+        )
+      )
+    const token = userService.generateToken(user)
+    return sendSuccessResponse(res, HTTP_STATUS_CODES.OK, { token, user })
   } catch (error) {
-    next(error)
+    // console.error('Login Error:', error)
+    return next(error)
   }
 }
 
