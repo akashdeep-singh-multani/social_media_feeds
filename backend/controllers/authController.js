@@ -36,7 +36,6 @@ exports.login = async (req, res, next) => {
     const token = userService.generateToken(user)
     return sendSuccessResponse(res, HTTP_STATUS_CODES.OK, { token, user })
   } catch (error) {
-    // console.error('Login Error:', error)
     return next(error)
   }
 }

@@ -1,34 +1,50 @@
 const User = require('../models/user')
 const Post = require('../models/post')
 const { emitNewPostComment } = require('../utils/socket.util')
+const { VALIDATION_MESSAGES } = require('../constants')
 
 class CommentService {
   async getCommentsByPostId(postId) {
-    const comments = await Comment.find({ postId }).sort({ createdAt: -1 })
-    const modifiedComments = await Promise.all(
-      comments.map(async (comment) => {
-        const commentObj = comment.toObject()
-        const userInfo = await User.findById(commentObj.commenterId)
-        commentObj.commenterInfo = userInfo
-        return commentObj
-      })
-    )
-    return modifiedComments
+    try {
+      const comments = await Comment.find({ postId }).sort({ createdAt: -1 })
+      if (!comments) {
+        throw new Error(VALIDATION_MESSAGES.NO_COMMENTS_FOUND)
+      }
+      const modifiedComments = await Promise.all(
+        comments.map(async (comment) => {
+          const commentObj = comment.toObject()
+          const userInfo = await User.findById(commentObj.commenterId)
+          commentObj.commenterInfo = userInfo
+          return commentObj
+        })
+      )
+      return modifiedComments
+    } catch (error) {
+      throw new Error(
+        VALIDATION_MESSAGES.COMMENTS_RETRIEVAL_FAILURE + ` ${error.message}`
+      )
+    }
   }
 
   async createComment(commenterId, postId, text) {
-    const newComment = new Comment({ commenterId, postId, text })
-    await newComment.save()
-    const userInfo = await User.findById(commenterId)
-    const postInfo = await Post.findById(postId)
-    const postUserInfo = await User.findById(postInfo.userId)
-    const modifiedComment = newComment.toObject()
+    try {
+      const newComment = new Comment({ commenterId, postId, text })
+      await newComment.save()
+      const userInfo = await User.findById(commenterId)
+      const postInfo = await Post.findById(postId)
+      const postUserInfo = await User.findById(postInfo.userId)
+      const modifiedComment = newComment.toObject()
 
-    modifiedComment.commenterInfo = userInfo
-    modifiedComment.commentername = userInfo.username
-    modifiedComment.userpostedname = postUserInfo.username
-    emitNewPostComment(modifiedComment)
-    return modifiedComment
+      modifiedComment.commenterInfo = userInfo
+      modifiedComment.commentername = userInfo.username
+      modifiedComment.userpostedname = postUserInfo.username
+      emitNewPostComment(modifiedComment)
+      return modifiedComment
+    } catch (error) {
+      throw new Error(
+        VALIDATION_MESSAGES.COMMENTS_CREATION_FAILURE + ` ${error.message}`
+      )
+    }
   }
 }
 

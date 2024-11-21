@@ -17,4 +17,8 @@ const likeCommentSchema = new mongoose.Schema({
   },
 })
 
+likeCommentSchema.index({ likerId })
+likeCommentSchema.index({ commentId })
+likeCommentSchema.index({ commentId: 1, likerId: 1 })
+
 module.exports = mongoose.model('LikeComment', likeCommentSchema)

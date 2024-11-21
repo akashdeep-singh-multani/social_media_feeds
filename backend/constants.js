@@ -12,6 +12,11 @@ const SUCCESS_MESSAGES = {
 
 const VALIDATION_MESSAGES = {
   USERID_REQUIRED: 'UserId is required',
+  POSTID_REQUIRED: 'PostId is required',
+  NO_COMMENTS_FOUND: 'No Comments found for this post',
+  NOT_RECEIVED_ALL_REQUIRED_PARAMIDS: 'Not received all required param ids',
+  COMMENTS_RETRIEVAL_FAILURE: 'Failed to retrieve comments:',
+  COMMENTS_CREATION_FAILURE: 'Failed to create a comment:',
   USERNAME_AND_PASSWORD_REQUIRED: 'Username and password are required',
   USER_NOT_FOUND: 'User not found',
   INVALID_CREDENTIALS: 'Invalid credentials',

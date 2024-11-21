@@ -17,4 +17,8 @@ const likePostSchema = new mongoose.Schema({
   },
 })
 
+likePostSchema.index({ likerId: 1 })
+likePostSchema.index({ postId: 1 })
+likePostSchema.index({ postId: 1, likerId: 1 })
+
 module.exports = mongoose.model('LikePost', likePostSchema)

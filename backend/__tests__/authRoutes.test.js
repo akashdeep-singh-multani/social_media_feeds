@@ -73,17 +73,6 @@ describe('POST /api/auth/signup', () => {
     expect(res.body.errors).toBeDefined()
   })
 
-  //   it('should return 400 when duplicate email is used', async () => {
-  //     const res = await request(app).post('/api/auth/signup').send({
-  //       username: 'test2@gmail.com',
-  //       password: 'Test@123',
-  //       email: 'test1@gmail.com',
-  //     })
-
-  //     expect(res.status).toBe(400)
-  //     expect(res.body.message).toBe('Email is already in use')
-  //   })
-
   it('should return 400 when password is not strong enough', async () => {
     const res = await request(app).post('/api/auth/signup').send({
       username: 'weakpassworduser1@gmail.com',
@@ -92,6 +81,5 @@ describe('POST /api/auth/signup', () => {
     })
 
     expect(res.status).toBe(400)
-    // expect(res.body.message).toBe('')
   })
 })
