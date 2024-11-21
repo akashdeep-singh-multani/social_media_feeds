@@ -1,5 +1,5 @@
-export interface CommentRequest{
-    text:string;
-    commenter_id:number;
-    post_id:number;
+export interface CommentRequest {
+  text: string;
+  commenterId: number;
+  postId: number;
 }

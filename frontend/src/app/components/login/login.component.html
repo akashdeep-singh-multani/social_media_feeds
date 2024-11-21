@@ -1,28 +1,65 @@
 <div class="auth-container">
-    <h2>Login</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-        <div class="form-field">
-            <mat-form-field appearance="fill">
-                <input matInput formControlName="username" placeholder="Username" required>
-                <mat-error *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
-                    Username is required
-                </mat-error>
-            </mat-form-field>
-        </div>
-
-        <div class="form-field">
-            <mat-form-field appearance="fill">
-                <input matInput type="password" formControlName="password" placeholder="Password" required>
-                <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-                    Password is required
-                </mat-error>
-            </mat-form-field>
-        </div>
-
-        <button class="auth-button" mat-raised-button color="primary" type="submit"
-            [disabled]="loginForm.invalid">Login</button>
-    </form>
-    <div class="signup-link">
-        Don't have an account?<a href="/signup"> Signup</a>
+  <h2 aria-label="Login form heading">Login</h2>
+  <form
+    [formGroup]="loginForm"
+    (ngSubmit)="login()"
+    aria-labelledby="login-form-heading"
+  >
+    <div class="form-field">
+      <mat-form-field appearance="fill">
+        <input
+          matInput
+          formControlName="username"
+          placeholder="Username"
+          required
+          aria-label="Enter username"
+        />
+        <mat-error
+          *ngIf="
+            loginForm.get('username')?.invalid &&
+            loginForm.get('username')?.touched
+          "
+        >
+          Username is required
+        </mat-error>
+      </mat-form-field>
     </div>
+
+    <div class="form-field">
+      <mat-form-field appearance="fill">
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+          required
+          aria-label="Enter password"
+        />
+        <mat-error
+          *ngIf="
+            loginForm.get('password')?.invalid &&
+            loginForm.get('password')?.touched
+          "
+        >
+          Password is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <button
+      class="auth-button"
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="loginForm.invalid"
+      aria-label="Login to your account"
+    >
+      Login
+    </button>
+  </form>
+  <div class="signup-link">
+    Don't have an account?<a href="/signup" aria-label="Go to signup page">
+      Signup</a
+    >
+  </div>
 </div>

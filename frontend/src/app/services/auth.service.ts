@@ -7,29 +7,44 @@ import { User } from '../models/user.model';
 import { decodeJwtToken } from '../utils/decode-jwt-token';
 import * as AuthActions from '../store/actions/auth.action';
 import { Store } from '@ngrx/store';
+import { SignupRequest } from '../models/signup-request.model';
+import { AuthResponse } from '../models/auth-response.model';
+import { LoginRequest } from '../models/login-request.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  private AUTH_API_URL = BASE_URL + "auth";
+  private AUTH_API_URL = BASE_URL + 'auth';
   private userSubject = new BehaviorSubject<any>(null);
   user$ = this.userSubject.asObservable();
 
-  constructor(private store: Store, private httpClient: HttpClient, private cookieService: CookieService) {
+  constructor(
+    private store: Store,
+    private httpClient: HttpClient,
+    private cookieService: CookieService
+  ) {
     this.loadUserFromToken();
   }
 
-  signup(request: any): Observable<any> {
-    return this.httpClient.post<any>(`${this.AUTH_API_URL}/signup`, request);
+  signup(request: SignupRequest): Observable<AuthResponse> {
+    return this.httpClient.post<AuthResponse>(
+      `${this.AUTH_API_URL}/signup`,
+      request
+    );
   }
 
-  login(request: any): Observable<any> {
-    return this.httpClient.post<any>(`${this.AUTH_API_URL}/login`, request);
+  login(request: LoginRequest): Observable<AuthResponse> {
+    return this.httpClient.post<AuthResponse>(
+      `${this.AUTH_API_URL}/login`,
+      request
+    );
   }
 
-  getUserInfo(user_id: number): Observable<User> {
-    return this.httpClient.post<User>(`${this.AUTH_API_URL}/user-info`, { user_id });
+  getUserInfo(userId: number): Observable<User> {
+    return this.httpClient.post<User>(`${this.AUTH_API_URL}/user-info`, {
+      userId,
+    });
   }
 
   setToken(token: string) {
@@ -59,10 +74,9 @@ export class AuthService {
     this.cookieService.set('jwt', token);
   }
 
-  getLoggedInUser(){
+  getLoggedInUser() {
     const token = this.cookieService.get('jwt');
     const user = decodeJwtToken(token).user;
     return user;
   }
-
 }

@@ -1,8 +1,26 @@
-<button mat-raised-button color="primary" class="feature_buttons" (click)="handleAddPhotoClick()">{{actionName}}
-    Photo</button>
+<button
+  mat-raised-button
+  color="primary"
+  class="feature_buttons"
+  (click)="handleAddPhotoClick()"
+  aria-label="Add Photo"
+>
+  {{ actionName }} Photo
+</button>
 
-<input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" style="display:none;">
+<input
+  #fileInput
+  type="file"
+  (change)="onFileSelected($event)"
+  accept="image/*"
+  style="display: none"
+  aria-label="Select a photo to upload"
+/>
 
 <div *ngIf="selectedImage && displayImagePreview">
-    <img [src]="imagePreviewUrl" style="max-width:100%; height:auto;">
+  <img
+    [src]="imagePreviewUrl"
+    style="max-width: 100%; height: auto"
+    aria-label="Image preview of the selected photo"
+  />
 </div>

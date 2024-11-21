@@ -8,24 +8,35 @@ import { Store } from '@ngrx/store';
 import { addPost } from '../../store/actions/post.action';
 import { CookieService } from 'ngx-cookie-service';
 import { decodeJwtToken } from '../../utils/decode-jwt-token';
+import { LoaderService } from '../../services/loader.service';
 
 @Component({
   selector: 'app-create-post',
   standalone: true,
-  imports: [FormsModule, CommonModule, AddPhotoComponent, MatButtonModule, AddPhotoComponent],
+  imports: [
+    FormsModule,
+    CommonModule,
+    AddPhotoComponent,
+    MatButtonModule,
+    AddPhotoComponent,
+  ],
   templateUrl: './create-post.component.html',
-  styleUrl: './create-post.component.css'
+  styleUrl: './create-post.component.css',
 })
 export class CreatePostComponent {
   selectedImageObject: File | null = null;
-  postText = "";
-  user_id!: number;
+  postText = '';
+  userId!: number;
 
-  constructor(private router: Router, private store: Store, private cookieService: CookieService) {
-    const token = this.cookieService.get('jwt');;
+  constructor(
+    private router: Router,
+    private store: Store,
+    private cookieService: CookieService,
+    private loaderService: LoaderService
+  ) {
+    const token = this.cookieService.get('jwt');
     const user = decodeJwtToken(token).user;
-    this.user_id = user._id;
-
+    this.userId = user._id;
   }
 
   handlePhotoSelection(imageObj: File | null) {
@@ -35,12 +46,12 @@ export class CreatePostComponent {
   handleCreatePostSubmission() {
     const formData = new FormData();
     formData.append('text', this.postText);
-    formData.append('user_id', this.user_id.toString());
+    formData.append('userId', this.userId.toString());
     if (this.selectedImageObject) {
       formData.append('image', this.selectedImageObject);
     }
+    this.loaderService.showLoader();
     this.store.dispatch(addPost({ post: formData }));
-    this.router.navigate(['user_post'])
+    this.router.navigate(['user_post']);
   }
-
 }

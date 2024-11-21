@@ -1,7 +1,19 @@
 <mat-card-header class="user-profile-header">
-    <img class="avatar" mat-card-image [src]="avatar_image" alt="User Avatar">
-    <div class="user-info">
-        <mat-card-title class="profile_title">{{title}}</mat-card-title>
-        <mat-card-subtitle class="profile_subtitle">{{subtitle}}</mat-card-subtitle>
-    </div>
+  <img
+    aria-label="avatar image"
+    class="avatar"
+    mat-card-image
+    [src]="avatar_image"
+    alt="User Avatar"
+  />
+  <div class="user-info">
+    <mat-card-title aria-label="Profile Name" class="profile_title">{{
+      title
+    }}</mat-card-title>
+    <mat-card-subtitle
+      class="profile_subtitle"
+      aria-label="Profile description"
+      >{{ subtitle }}</mat-card-subtitle
+    >
+  </div>
 </mat-card-header>

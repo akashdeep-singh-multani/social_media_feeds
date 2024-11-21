@@ -1,38 +1,38 @@
-import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { PostState } from "../reducers/post.reducer";
-import { LikesState } from "../reducers/likes.reducer";
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { PostState } from '../reducers/post.reducer';
+import { LikesState } from '../reducers/likes.reducer';
 
 export const selectPostsState = createFeatureSelector<PostState>('posts');
 export const selectLikesState = createFeatureSelector<LikesState>('likes');
 
 export const selectAllPostsLoaded = createSelector(
-    selectPostsState,
-    (state: PostState) => state.allPostsLoaded
+  selectPostsState,
+  (state: PostState) => state.allPostsLoaded
 );
 
 export const selectPosts = createSelector(
-    selectPostsState,
-    (state: PostState) => state.posts
+  selectPostsState,
+  (state: PostState) => state.posts
 );
 
-export const selectPostsByUserId = (userId: string) => createSelector(
-    selectPosts,
-    (posts) => {
-        const post = posts.filter(post => String(post.user_id) === userId);
-        return post;
-    }
-);
+export const selectPostsByUserId = (userId: string) =>
+  createSelector(selectPosts, (posts) => {
+    const post = posts.filter((post) => String(post.userId) === userId);
+    return post;
+  });
 
 export const selectPostsWithLikes = createSelector(
-    selectPostsState,
-    selectLikesState,
-    (postsState: PostState, likesState: LikesState) => {
-        return postsState.posts.map(post => {
-            const isLiked = likesState.postLikes.some(like => String(like.post_id) === String(post._id));
-            return {
-                ...post,
-                isLiked: isLiked
-            };
-        });
-    }
+  selectPostsState,
+  selectLikesState,
+  (postsState: PostState, likesState: LikesState) => {
+    return postsState.posts.map((post) => {
+      const isLiked = likesState.postLikes.some(
+        (like) => String(like.postId) === String(post._id)
+      );
+      return {
+        ...post,
+        isLiked: isLiked,
+      };
+    });
+  }
 );

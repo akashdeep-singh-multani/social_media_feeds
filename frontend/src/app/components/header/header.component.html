@@ -1,8 +1,17 @@
 <mat-toolbar>
-    <button mat-icon-button (click)="toggleSidebar()">
-        <mat-icon>menu</mat-icon>
-    </button>
-    <div class="centralizedHeading">Social Media Feed</div>
+  <button
+    mat-icon-button
+    (click)="toggleSidebar()"
+    aria-label="Open sidebar menu"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <div class="centralizedHeading" aria-label="Social media feed heading">
+    Social Media Feed
+  </div>
 </mat-toolbar>
 
-<app-sidenav *ngIf="isSidenavOpen"></app-sidenav>
+<app-sidenav
+  *ngIf="isSidenavOpen"
+  aria-label="Navigation sidenav content"
+></app-sidenav>

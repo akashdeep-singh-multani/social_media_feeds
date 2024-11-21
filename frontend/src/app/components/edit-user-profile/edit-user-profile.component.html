@@ -1,15 +1,40 @@
 <div class="container">
-    <div class="edit-profile-container">
-        <img [src]="avatarUrl" class="profile-avatar">
-        <app-add-photo [displayImagePreview]="false" [actionName]="actionName"
-            (onPhotoSelection)="onSelectedImageObj($event)"></app-add-photo>
-        <div class="input-container">
-            <input [value]="username" type="text" class="edit-input" (input)="onProfileNameChange($event)">
-            <button *ngIf="isInputChanged" class="feature_buttons" (click)="handleProfileEdit()" mat-raised-button
-                color="primary">Save</button>
-        </div>
+  <div class="edit-profile-container">
+    <img
+      [src]="avatarUrl"
+      class="profile-avatar"
+      aria-label="Profile avatar image"
+    />
+    <app-add-photo
+      [displayImagePreview]="false"
+      [actionName]="actionName"
+      (onPhotoSelection)="onSelectedImageObj($event)"
+      aria-label="Edit profile photo"
+    ></app-add-photo>
+    <div class="input-container">
+      <input
+        [value]="username"
+        type="text"
+        class="edit-input"
+        (input)="onProfileNameChange($event)"
+        aria-label="Edit username"
+      />
+      <button
+        *ngIf="isInputChanged"
+        class="feature_buttons"
+        (click)="handleProfileEdit()"
+        mat-raised-button
+        color="primary"
+        aria-label="Save profile details"
+      >
+        Save
+      </button>
     </div>
-    <div class="profile-posts-container">
-        <app-user-post [myProfileObj]="myProfileObj"></app-user-post>
-    </div>
+  </div>
+  <div class="profile-posts-container">
+    <app-user-post
+      [myProfileObj]="myProfileObj"
+      aria-label="User's all posts section"
+    ></app-user-post>
+  </div>
 </div>

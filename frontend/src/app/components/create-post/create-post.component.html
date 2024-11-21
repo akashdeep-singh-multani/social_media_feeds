@@ -1,12 +1,25 @@
 <div class="page_style">
-    <textarea [(ngModel)]="postText" placeholder="What's in your mind?" class="post_textarea" rows="6"
-        cols="50"></textarea>
-    <div class="button-container">
-        <button mat-raised-button color="primary" class="feature_buttons submit_button"
-            (click)="handleCreatePostSubmission()">
-            Submit
-        </button>
-        <app-add-photo (onPhotoSelection)="handlePhotoSelection($event)"></app-add-photo>
-    </div>
-
+  <textarea
+    [(ngModel)]="postText"
+    placeholder="What's in your mind?"
+    class="post_textarea"
+    rows="6"
+    cols="50"
+    aria-label="Enter post content"
+  ></textarea>
+  <div class="button-container">
+    <button
+      mat-raised-button
+      color="primary"
+      class="feature_buttons submit_button"
+      (click)="handleCreatePostSubmission()"
+      aria-label="Submit your Post"
+    >
+      Submit
+    </button>
+    <app-add-photo
+      (onPhotoSelection)="handlePhotoSelection($event)"
+      aria-label="Add a photo"
+    ></app-add-photo>
+  </div>
 </div>

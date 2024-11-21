@@ -1,6 +1,6 @@
-export interface LikeInfo{
-    liker_id:string;
-    post_id:string;
-    _id:string;
-    createdAt:string;
+export interface LikeInfo {
+  likerId: string;
+  postId: string;
+  _id: string;
+  createdAt: string;
 }

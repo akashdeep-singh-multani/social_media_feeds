@@ -1,37 +1,88 @@
 <div class="auth-container">
-    <h2>Signup</h2>
-    <form [formGroup]="signupForm" (ngSubmit)="signup()">
-        <div class="form-field">
-            <mat-form-field appearance="fill">
-                <input matInput formControlName="username" placeholder="Username" required>
-                <mat-error *ngIf="signupForm.get('username')?.invalid && signupForm.get('username')?.touched">
-                    Username is required
-                </mat-error>
-            </mat-form-field>
-        </div>
-
-        <div class="form-field">
-            <mat-form-field appearance="fill">
-                <input matInput type="email" formControlName="email" placeholder="Email" required>
-                <mat-error *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
-                    Email is required
-                </mat-error>
-            </mat-form-field>
-        </div>
-
-        <div class="form-field">
-            <mat-form-field appearance="fill">
-                <input matInput type="password" formControlName="password" placeholder="Password" required>
-                <mat-error *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
-                    Password is required
-                </mat-error>
-            </mat-form-field>
-        </div>
-
-        <button class="auth-button" mat-raised-button color="primary" type="submit"
-            [disabled]="signupForm.invalid">Signup</button>
-    </form>
-    <div class="signup-link">
-        Do have an account already?<a href="/login"> Login</a>
+  <h2 aria-label="Signup heading">Signup</h2>
+  <form
+    [formGroup]="signupForm"
+    (ngSubmit)="signup()"
+    aria-labelledby="Signup form heading"
+  >
+    <div class="form-field">
+      <mat-form-field appearance="fill">
+        <input
+          matInput
+          formControlName="username"
+          placeholder="Username"
+          required
+          aria-label="Enter a username"
+        />
+        <mat-error
+          *ngIf="
+            signupForm.get('username')?.invalid &&
+            signupForm.get('username')?.touched
+          "
+          aria-live="assertive"
+        >
+          Username is required
+        </mat-error>
+      </mat-form-field>
     </div>
+
+    <div class="form-field">
+      <mat-form-field appearance="fill">
+        <input
+          matInput
+          type="email"
+          formControlName="email"
+          placeholder="Email"
+          required
+          aria-label="Enter email"
+        />
+        <mat-error
+          *ngIf="
+            signupForm.get('email')?.invalid && signupForm.get('email')?.touched
+          "
+          aria-live="assertive"
+        >
+          Email is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-field">
+      <mat-form-field appearance="fill">
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+          required
+          aria-label="Enter password"
+        />
+        <mat-error
+          *ngIf="
+            signupForm.get('password')?.invalid &&
+            signupForm.get('password')?.touched
+          "
+          aria-live="assertive"
+        >
+          Password is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <button
+      class="auth-button"
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="signupForm.invalid"
+      aria-label="Signup button"
+    >
+      Signup
+    </button>
+  </form>
+  <div class="signup-link">
+    Do have an account already?<a href="/login" aria-label="Switch to login">
+      Login</a
+    >
+  </div>
 </div>

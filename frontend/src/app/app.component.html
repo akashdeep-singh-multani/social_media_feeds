@@ -1,4 +1,10 @@
+<app-loader></app-loader>
 <router-outlet>
-    <app-header *ngIf="currentRouteName!=='/' && currentRouteName!=='/login' && currentRouteName!=='/signup'"></app-header>
+  <app-header
+    *ngIf="
+      currentRouteName !== '/' &&
+      currentRouteName !== '/login' &&
+      currentRouteName !== '/signup'
+    "
+  ></app-header>
 </router-outlet>
-

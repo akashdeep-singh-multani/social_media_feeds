@@ -1,11 +1,24 @@
-<div class="centralizedHeading">Comments</div>
+<div class="centralizedHeading" aria-label="Comments section heading">
+  Comments
+</div>
 <div class="comments-container">
-    <div class="comments-list">
-        <div class="flex-row" *ngFor="let comment of comments$ | async">
-            <app-user-profile [action]="action" [commenter_info]="comment"></app-user-profile>
-        </div>
+  <div class="comments-list">
+    <div
+      class="flex-row"
+      *ngFor="let comment of comments$ | async; trackBy: trackByCommentId"
+      aria-live="polite"
+    >
+      <app-user-profile
+        [action]="action"
+        [commenter_info]="comment"
+        aria-label="User profile of {{ comment.username }}"
+      ></app-user-profile>
     </div>
-    <div class="flex-end-column">
-        <app-post-comment-form [postId]="postId"></app-post-comment-form>
-    </div>
+  </div>
+  <div class="flex-end-column">
+    <app-post-comment-form
+      [postId]="postId"
+      aria-label="Form to add a comment"
+    ></app-post-comment-form>
+  </div>
 </div>
