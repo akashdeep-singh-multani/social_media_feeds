@@ -73,7 +73,7 @@ export class UserPostComponent implements OnInit {
   user_id!: string;
   postLikes$: Observable<LikeInfo[]>;
   postWithLikes$!: Observable<Post[]>;
-  @Input() myProfileObj: { user_id: number } = { user_id: -1 };
+  @Input() myProfileObj: { userId: number } = { userId: -1 };
 
   constructor(
     private authService: AuthService,
@@ -109,6 +109,7 @@ export class UserPostComponent implements OnInit {
   syncPostsWithLikes() {
     this.postWithLikes$ = combineLatest([this.posts$, this.postLikes$]).pipe(
       map(([posts, likes]) => {
+        console.log('posts with likes: ' + JSON.stringify(posts));
         return posts.map((post) => ({
           ...post,
           isLiked: likes.some(
@@ -117,6 +118,7 @@ export class UserPostComponent implements OnInit {
         }));
       })
     );
+    console.log('this.postWithLikes$: ' + JSON.stringify(this.postWithLikes$));
   }
 
   loadPostlikes() {
@@ -134,7 +136,7 @@ export class UserPostComponent implements OnInit {
         this.newPostReceived = true;
         this.loaderService.showLoader();
         this.store.dispatch(
-          loadPosts({ offset: 0, limit: 10, userId: this.myProfileObj.user_id })
+          loadPosts({ offset: 0, limit: 10, userId: this.myProfileObj.userId })
         );
         setTimeout(() => {
           this.newPostReceived = false;
@@ -150,7 +152,7 @@ export class UserPostComponent implements OnInit {
   private loadPosts() {
     if (this.loading) return;
     this.loading = true;
-    let myProfileUserId = this.myProfileObj.user_id;
+    let myProfileUserId = this.myProfileObj.userId;
     this.loaderService.showLoader();
     this.store.dispatch(
       loadPosts({
@@ -160,30 +162,30 @@ export class UserPostComponent implements OnInit {
       })
     );
 
-    this.allPostsLoaded$.pipe(takeUntil(this.destroy$)).subscribe((loaded) => {
-      if (!loaded) {
-        this.offset += this.limit;
-      } else {
-        this.loading = false;
-      }
-    });
+    // this.allPostsLoaded$.pipe(takeUntil(this.destroy$)).subscribe((loaded) => {
+    //   if (!loaded) {
+    //     this.offset += this.limit;
+    //   } else {
+    //     this.loading = false;
+    //   }
+    // });
   }
 
-  @HostListener('window:scroll', [])
-  onScroll(): void {
-    if (
-      window.innerHeight + window.scrollY >=
-      document.body.offsetHeight - 100
-    ) {
-      this.allPostsLoaded$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((loaded) => {
-          if (!loaded && !this.loading) {
-            this.loadPosts();
-          }
-        });
-    }
-  }
+  // @HostListener('window:scroll', [])
+  // onScroll(): void {
+  //   if (
+  //     window.innerHeight + window.scrollY >=
+  //     document.body.offsetHeight - 100
+  //   ) {
+  //     this.allPostsLoaded$
+  //       .pipe(takeUntil(this.destroy$))
+  //       .subscribe((loaded) => {
+  //         if (!loaded && !this.loading) {
+  //           this.loadPosts();
+  //         }
+  //       });
+  //   }
+  // }
 
   handleCreatePostClick() {
     this.router.navigate(['create_post']);

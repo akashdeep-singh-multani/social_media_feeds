@@ -41,7 +41,7 @@ export class PostEffects {
             } else {
               responseData = response.data;
             }
-            if (response.success) {
+            if (response.status) {
               const allPostsLoaded = response.data.length < limit;
               return [
                 loadPostsSuccess({ posts: responseData }),

@@ -5,9 +5,11 @@ const errorLogger = require('./middleware/errorLogger')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
+const helmet = require('helmet')
 require('dotenv').config()
 const errorHandler = require('./middleware/errorMiddleware')
 const passport = require('passport')
+require('./config/db')
 
 const authRoutes = require('./routes/auth')
 const postRoutes = require('./routes/postRoutes')
@@ -18,8 +20,16 @@ const { ERROR_MESSAGES } = require('./constants')
 const { sendValidationErrors } = require('./utils/response.util')
 
 const app = express()
+app.use(
+  cors({
+    origin: '*', // The URL of your Angular frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+)
+app.options('*', cors())
+app.use(helmet())
 
-app.use(cors())
 app.use(bodyParser.json())
 app.use(requestLogger)
 

@@ -6,44 +6,36 @@ import { CookieService } from 'ngx-cookie-service';
 import { decodeJwtToken } from '../../utils/decode-jwt-token';
 import { Subscription } from 'rxjs';
 import { PosterInfo } from '../../models/poster-info.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [CommonModule, MatCardModule],
   templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.css'
+  styleUrl: './user-profile.component.css',
 })
 export class UserProfileComponent {
-  title = "";
-  subtitle = "";
-  avatar_image = "";
+  title = '';
+  subtitle = '';
+  avatar_image = '';
   BASE_URL = BASE_URL;
-  @Input() commenter_info!: Comment ;
-  private userSubscription!: Subscription;
-  @Input() action = "";
+  @Input() commenter_info!: Comment;
+  @Input() action = '';
   @Input() posterInfo!: PosterInfo;
 
-  constructor(private cookieService: CookieService) { }
+  constructor(private cookieService: CookieService) {}
 
   ngOnInit() {
     if (this.action == 'feed') {
       this.getPostUserInfo();
-    }
-    else if(this.action=='comment'){
+    } else if (this.action == 'comment') {
       this.getCommentUserInfo();
-    }
-    else {
-      const token = this.cookieService.get('jwt');;
+    } else {
+      const token = this.cookieService.get('jwt');
       const user = decodeJwtToken(token).user;
       this.title = user.username;
       this.avatar_image = BASE_URL + 'uploads/' + user.image;
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
     }
   }
 
@@ -52,10 +44,10 @@ export class UserProfileComponent {
     this.title = this.posterInfo.username;
   }
 
-  getCommentUserInfo(){
-    this.avatar_image=BASE_URL + 'uploads/' + this.commenter_info.commenterInfo.image;
-    this.title=this.commenter_info.commenterInfo.username;
-    this.subtitle=this.commenter_info.text;
+  getCommentUserInfo() {
+    this.avatar_image =
+      BASE_URL + 'uploads/' + this.commenter_info.commenterInfo.image;
+    this.title = this.commenter_info.commenterInfo.username;
+    this.subtitle = this.commenter_info.text;
   }
-
 }

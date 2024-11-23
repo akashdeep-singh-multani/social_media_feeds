@@ -5,6 +5,7 @@ import * as AuthActions from '../actions/auth.action';
 import { catchError, map, mergeMap, of } from 'rxjs';
 import { ErrorHandlerService } from '../../services/error-handler.service';
 import { LoaderService } from '../../services/loader.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
@@ -12,7 +13,8 @@ export class AuthEffects {
     private loaderService: LoaderService,
     private errorHandlerService: ErrorHandlerService,
     private actions$: Actions,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   login$ = createEffect(() =>
@@ -22,10 +24,14 @@ export class AuthEffects {
         this.authService
           .login({ username: action.username, password: action.password })
           .pipe(
-            map(({ token, user }) => {
+            map(({ data }) => {
               this.loaderService.hideLoader();
-              this.authService.setToken(token);
-              return AuthActions.loginSuccess({ token, user });
+              this.authService.setToken(data.token);
+              // this.router.navigate(['user_post']);
+              return AuthActions.loginSuccess({
+                token: data.token,
+                user: data.user,
+              });
             }),
             catchError((error) => {
               this.loaderService.hideLoader();
@@ -48,10 +54,13 @@ export class AuthEffects {
             email: action.email,
           })
           .pipe(
-            map(({ token, user }) => {
+            map(({ data }) => {
               this.loaderService.hideLoader();
-              this.authService.setToken(token);
-              return AuthActions.signupSuccess({ token, user });
+              this.authService.setToken(data.token);
+              return AuthActions.signupSuccess({
+                token: data.token,
+                user: data.user,
+              });
             }),
             catchError((error) => {
               this.loaderService.hideLoader();

@@ -15,10 +15,10 @@
       aria-label="Post card"
       appearance="outlined"
       class="responsive-card"
-      *ngFor="let post of postWithLikes$ | async; trackBy: trackByPostId"
+      *ngFor="let post of postWithLikes$ | async"
     >
       <app-user-profile
-        [posterInfo]="post.user_id"
+        [posterInfo]="post.userId"
         [action]="action"
         aria-label="User profile avatar"
       ></app-user-profile>

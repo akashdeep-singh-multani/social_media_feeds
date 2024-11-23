@@ -32,6 +32,7 @@ exports.getPostLikes = async (req, res, next) => {
     const likes = await LikeService.getPostLikes(req.params.postId)
     return sendSuccessResponse(res, HTTP_STATUS_CODES.OK, likes)
   } catch (error) {
+    console.log(error)
     return next(
       new AppError(error.message, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
     )
@@ -48,6 +49,7 @@ exports.deletePostLikes = async (req, res, next) => {
       SUCCESS_MESSAGES.POST_LIKE_ROMOVAL_SUCCESSFUL
     )
   } catch (error) {
+    console.log(error)
     return next(error)
   }
 }
@@ -65,6 +67,7 @@ exports.createCommentLike = async (req, res, next) => {
       SUCCESS_MESSAGES.COMMENT_LIKE_SUCCESSFUL
     )
   } catch (error) {
+    console.log(error)
     return next(
       new AppError(error.message, ERROR_MESSAGES.INTERNAL_SERVER_ERROR)
     )
@@ -76,6 +79,7 @@ exports.getCommentLikes = async (req, res, next) => {
     const comments = await LikeService.getCommentLikes(req.params.commentId)
     return sendSuccessResponse(res, HTTP_STATUS_CODES.OK, comments, '')
   } catch (error) {
+    console.log(error)
     return next(
       new AppError(error.message, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
     )
@@ -92,6 +96,7 @@ exports.deleteCommentLikes = async (req, res, next) => {
       SUCCESS_MESSAGES.COMMENT_LIKE_REMOVAL_SUCCESSFUL
     )
   } catch (error) {
+    console.log(error)
     return next(error)
   }
 }

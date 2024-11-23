@@ -14,7 +14,6 @@ import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
   withFetch,
-  HttpClient,
 } from '@angular/common/http';
 import { authReducer } from './store/reducers/auth.reducer';
 import { AuthEffects } from './store/effects/auth.effects';
@@ -26,7 +25,6 @@ import { LikeEffects } from './store/effects/like.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    importProvidersFrom(HttpClient),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthGuard,
     CookieService,

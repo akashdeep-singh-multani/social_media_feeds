@@ -1,6 +1,6 @@
 const { Server } = require('socket.io')
 const { SERVER_MESSAGES } = require('../constants')
-const { logger } = require('../config/logger')
+const logger = require('../config/logger')
 let io
 
 const initSocket = (server) => {

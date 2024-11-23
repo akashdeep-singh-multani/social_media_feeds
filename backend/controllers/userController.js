@@ -7,6 +7,7 @@ const {
   SUCCESS_MESSAGES,
 } = require('../constants')
 const UserService = require('../services/userService')
+const userService = new UserService()
 
 exports.edit = async (req, res, next) => {
   const updateData = {}
@@ -21,8 +22,8 @@ exports.edit = async (req, res, next) => {
   if (req.body.username) updateData.username = req.body.username
   if (req.file) updateData.image = req.file.filename
   try {
-    const updatedUser = UserService.updatedUser(userId, updateData)
-    const token = UserService.generateToken(updatedUser)
+    const updatedUser = await userService.updateUser(userId, updateData)
+    const token = userService.generateToken(updatedUser)
 
     return sendSuccessResponse(
       res,

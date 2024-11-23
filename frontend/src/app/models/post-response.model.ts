@@ -1,6 +1,6 @@
-import { Post } from "./post.model";
+import { Post } from './post.model';
 
-export interface PostResponse{
-    success:boolean;
-    data:Post[]
+export interface PostResponse {
+  status: boolean;
+  data: Post[];
 }

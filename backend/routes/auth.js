@@ -7,7 +7,7 @@ const {
   protectedRoute,
   userInfo,
 } = require('../controllers/authController')
-const verifyToken = require('../middleware/verify-token')
+// const verifyToken = require('../middleware/verify-token')
 
 const router = express.Router()
 
@@ -34,7 +34,7 @@ router.post(
   login
 )
 
-router.use(verifyToken)
+// router.use(verifyToken)
 router.get(
   '/protected',
   passport.authenticate('jwt', { session: false }),
