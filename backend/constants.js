@@ -37,7 +37,11 @@ const ERROR_MESSAGES = {
 }
 
 const SERVER_MESSAGES = {
-  SERVER_ORIGIN_URL: ['http://localhost:4200', 'http://localhost:53455'],
+  SERVER_ORIGIN_URL: [
+    'http://localhost:4200',
+    'http://localhost:53455',
+    'http://localhost:3000',
+  ],
   ALLOWED_METHODS: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 }
 

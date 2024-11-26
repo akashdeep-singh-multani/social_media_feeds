@@ -26,13 +26,13 @@ exports.login = async (req, res, next) => {
   const { username, password } = req.body
   try {
     const user = await AuthService.login(username, password)
-    // if (!user)
-    //   return next(
-    //     new AppError(
-    //       VALIDATION_MESSAGES.USERID_REQUIRED,
-    //       HTTP_STATUS_CODES.BAD_REQUEST
-    //     )
-    //   )
+    if (!user)
+      return next(
+        new AppError(
+          VALIDATION_MESSAGES.USERID_REQUIRED,
+          HTTP_STATUS_CODES.BAD_REQUEST
+        )
+      )
     const token = userService.generateToken(user)
     return sendSuccessResponse(res, HTTP_STATUS_CODES.OK, { token, user })
   } catch (error) {

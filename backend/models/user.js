@@ -36,15 +36,9 @@ UserSchema.pre('save', async function (next) {
   next()
 })
 
-// UserSchema.methods.comparePassword = function (password) {
-//   return bcrypt.compare(password, this.password)
-// }
 UserSchema.methods.comparePassword = async function (password) {
-  //   console.log('Received password:', password)
-  //   const isMatch = await bcrypt.compare(password, this.password) // Comparing hashed password
-  //   console.log('Password comparison result:', isMatch) // Logs `true` or `false`
-  //   return isMatch
-  return true
+  const isMatch = await bcrypt.compare(password, this.password) // Comparing hashed password
+  return isMatch
 }
 
 module.exports = mongoose.model('User', UserSchema)
