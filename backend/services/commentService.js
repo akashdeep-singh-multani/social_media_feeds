@@ -1,7 +1,9 @@
 const User = require('../models/user')
 const Post = require('../models/post')
 const { emitNewPostComment } = require('../utils/socket.util')
-const { VALIDATION_MESSAGES } = require('../constants')
+const { VALIDATION_MESSAGES, HTTP_STATUS_CODES } = require('../constants')
+const Comment = require('../models/comments')
+const { sendSuccessResponse } = require('../utils/response.util')
 
 class CommentService {
   async getCommentsByPostId(postId) {

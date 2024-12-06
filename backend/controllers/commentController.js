@@ -6,6 +6,7 @@ const {
   SUCCESS_MESSAGES,
   VALIDATION_MESSAGES,
 } = require('../constants')
+const commentService = new CommentService()
 
 exports.getCommentsByPostId = async (req, res, next) => {
   try {
@@ -18,13 +19,13 @@ exports.getCommentsByPostId = async (req, res, next) => {
         )
       )
     }
-    let comments = await CommentService.getCommentsByPostId(req.params.postId)
+    let comments = await commentService.getCommentsByPostId(req.params.postId)
     if (comments.length === 0) {
-      return next(
-        new AppError(
-          VALIDATION_MESSAGES.NO_COMMENTS_FOUND,
-          HTTP_STATUS_CODES.NOT_FOUND
-        )
+      return sendSuccessResponse(
+        res,
+        HTTP_STATUS_CODES.NOT_FOUND,
+        {},
+        VALIDATION_MESSAGES.NO_COMMENTS_FOUND
       )
     }
     return sendSuccessResponse(res, HTTP_STATUS_CODES.OK, { data: comments })
@@ -46,7 +47,7 @@ exports.createComment = async (req, res, next) => {
     )
   }
   try {
-    let comment = await CommentService.createComment(commenterId, postId, text)
+    let comment = await commentService.createComment(commenterId, postId, text)
     return sendSuccessResponse(
       res,
       HTTP_STATUS_CODES.CREATED,

@@ -1,8 +1,9 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders social media feed link', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
+  const linkElement = screen.getByText(/Social Media Feed/i); // Adjusted regex for correct text
   expect(linkElement).toBeInTheDocument();
 });

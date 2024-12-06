@@ -90,6 +90,6 @@ export class PostCommentListComponent {
   }
 
   trackByCommentId(index: number, comment: Comment): string {
-    return comment._id.toString();
+    return comment?._id?.toString();
   }
 }

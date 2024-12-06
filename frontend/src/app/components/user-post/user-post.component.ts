@@ -118,7 +118,6 @@ export class UserPostComponent implements OnInit {
         }));
       })
     );
-    console.log('this.postWithLikes$: ' + JSON.stringify(this.postWithLikes$));
   }
 
   loadPostlikes() {

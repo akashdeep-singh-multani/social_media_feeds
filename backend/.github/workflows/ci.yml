@@ -30,36 +30,34 @@ jobs:
         with:
           node-version: '20'
 
-      # Install dependencies for the backend
+      # Install backend dependencies
       - name: Install backend dependencies
         working-directory: ./backend
         run: |
           npm install
 
-      # Run Jest tests for the backend
+      # Run backend tests
       - name: Run backend tests
         working-directory: ./backend
         run: |
           npm test
 
-      # Install dependencies for the frontend (optional if frontend is also in the repo)
+      # Install frontend dependencies
       - name: Install frontend dependencies
         working-directory: ./frontend
         run: |
           npm install
 
-      # Run Jest tests for the frontend (optional if frontend is also in the repo)
+      # Run frontend tests
       - name: Run frontend tests
         working-directory: ./frontend
         run: |
           npm test
 
-      # Deploy to production if tests pass
-      - name: Deploy to production
+      # Deployment to Vercel is handled by Vercel GitHub integration
+      # Vercel automatically deploys from the main branch, so no manual deployment script is required
+      # If you want to add a custom deployment step (e.g., Vercel CLI), you can include that here, but Vercel does most of it automatically.
+      - name: Vercel Deployment (Optional - if you want to trigger a deploy from CLI)
         if: success()
         run: |
-          echo "Deploying to production..."
-          # Add deployment scripts here (e.g., to AWS, Heroku, etc.)
-          # Example for Heroku:
-          # git remote add heroku https://git.heroku.com/your-app.git
-          # git push heroku main
+          echo "Vercel deployment triggered automatically after successful tests"

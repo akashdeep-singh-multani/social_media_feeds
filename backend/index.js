@@ -20,14 +20,7 @@ const { ERROR_MESSAGES } = require('./constants')
 const { sendValidationErrors } = require('./utils/response.util')
 
 const app = express()
-app.use(
-  cors({
-    origin: '*', // The URL of your Angular frontend
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-)
-app.options('*', cors())
+app.use(cors())
 app.use(helmet())
 
 app.use(bodyParser.json())
@@ -37,7 +30,14 @@ app.use(passport.initialize())
 require('./config/config')(passport)
 
 app.use('/api/auth', authRoutes)
-app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')))
+app.use(
+  '/api/uploads',
+  (req, res, next) => {
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin')
+    next()
+  },
+  express.static(path.join(__dirname, 'uploads'))
+)
 app.use(bodyParser.json())
 app.use('/api/posts', postRoutes)
 app.use('/api/comments', commentRoutes)

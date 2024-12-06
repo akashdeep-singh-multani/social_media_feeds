@@ -1,15 +1,15 @@
-import logo from "./logo.svg";
-import "./App.css";
-import Login from "./components/auth/Login";
-import Signup from "./components/auth/Signup";
+import './App.css';
+import React from 'react';
+import { UserProvider } from './contexts/UserContext';
+import ToastNotifications from './pages/toast/ToastNotifications';
+import RouterConfig from './RouterConfig';
 
 function App() {
   return (
-    <div>
-      <h1>Social Media Feed</h1>
-      <Login />
-      <Signup />
-    </div>
+    <UserProvider>
+      <ToastNotifications />
+      <RouterConfig />
+    </UserProvider>
   );
 }
 
