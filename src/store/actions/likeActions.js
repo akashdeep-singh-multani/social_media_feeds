@@ -17,7 +17,7 @@ export const createCommentLike = (commentId, userId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: 'CREATE_COMMENT_LIKE_FAILURE',
-      payload: error,
+      payload: error.message || error.toString(),
     });
   }
 };
@@ -27,7 +27,7 @@ export const getCommentLikes = (commentId) => async (dispatch) => {
     const commentLikes = await getCommentLikesData(commentId);
     dispatch({ type: 'GET_COMMENT_LIKES_SUCCESS', payload: commentLikes });
   } catch (error) {
-    dispatch({ type: 'GET_COMMENT_LIKES_FAILURE', payload: error });
+    dispatch({ type: 'GET_COMMENT_LIKES_FAILURE', payload: error.toString() });
   }
 };
 
@@ -36,16 +36,19 @@ export const deleteCommentLike = (commentId, likeId) => async (dispatch) => {
     await deleteCommentLikesData(commentId, likeId);
     dispatch({ type: 'DELETE_COMMENT_LIKE_SUCCESS', payload: likeId });
   } catch (error) {
-    dispatch({ type: 'DELETE_COMMENT_LIKE_FAILURE', payload: error });
+    dispatch({
+      type: 'DELETE_COMMENT_LIKE_FAILURE',
+      payload: error.toString(),
+    });
   }
 };
 
-export const createPostLike = (postId, userId) => async (dispatch) => {
+export const createPostLike = (request) => async (dispatch) => {
   try {
-    const response = await createNewPostLike(postId, userId);
+    const response = await createNewPostLike(request);
     dispatch({ type: 'CREATE_POST_LIKE_SUCCESS', payload: response.data[0] });
   } catch (error) {
-    dispatch({ type: 'CREATE_POST_LIKE_FAILURE', payload: error });
+    dispatch({ type: 'CREATE_POST_LIKE_FAILURE', payload: error.toString() });
   }
 };
 
@@ -54,7 +57,7 @@ export const getPostLikes = (postId) => async (dispatch) => {
     const postLikes = await getPostLikesData(postId);
     dispatch({ type: 'GET_POST_LIKES_SUCCESS', payload: postLikes.data });
   } catch (error) {
-    dispatch({ type: 'GET_POST_LIKES_FAILURE', payload: error });
+    dispatch({ type: 'GET_POST_LIKES_FAILURE', payload: error.toString() });
   }
 };
 
@@ -63,6 +66,6 @@ export const deletePostLike = (postId, likeId) => async (dispatch) => {
     await deletePostLikesData(postId, likeId);
     dispatch({ type: 'DELETE_POST_LIKE_SUCCESS', payload: likeId });
   } catch (error) {
-    dispatch({ type: 'DELETE_POST_LIKE_FAILURE', payload: error });
+    dispatch({ type: 'DELETE_POST_LIKE_FAILURE', payload: error.toString() });
   }
 };

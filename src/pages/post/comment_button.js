@@ -4,7 +4,7 @@ import { FaComment } from 'react-icons/fa'; // Using react-icons for comment ico
 import Modal from 'react-modal'; // React Modal for dialog functionality
 import PostCommentList from '../post/comment_list'; // Import your PostCommentList component
 import { CommentButtonStyled } from '../../components/styled-components/CommentButton.styled';
-
+Modal.setAppElement('#root');
 // React version of CommentButton component
 const CommentButton = ({ postId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,7 +45,7 @@ const CommentButton = ({ postId }) => {
 
 // Prop types for validation
 CommentButton.propTypes = {
-  postId: PropTypes.number.isRequired, // postId passed as prop
+  postId: PropTypes.string.isRequired, // postId passed as prop
 };
 
 export default CommentButton;

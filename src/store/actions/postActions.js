@@ -4,7 +4,6 @@ export const loadPost = () => async (dispatch) => {
   try {
     const response = await getPosts();
     const posts = response.data;
-    console.log('posts in actions: ' + JSON.stringify(posts));
     dispatch({
       type: '[Post] Load Posts Success',
       posts,

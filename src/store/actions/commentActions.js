@@ -24,11 +24,9 @@ export const addComment = (commentRequest) => async (dispatch) => {
 };
 
 export const loadComments = (postId) => async (dispatch) => {
-  console.log('postId in loadComments: ' + JSON.stringify(postId));
   try {
     dispatch(showLoader());
     const response = await getComments(postId);
-    console.log('comments load action: ' + JSON.stringify(response));
     if (response.status) {
       dispatch(hideLoader());
       dispatch({

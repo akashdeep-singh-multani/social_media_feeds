@@ -5,7 +5,7 @@ export const createNewPostLike = (request) => {
   return apiRequest(
     `${environment.BASE_URL}like/posts/${request.postId}/likes`,
     'POST',
-    { userId: request.userId }
+    request
   );
 };
 

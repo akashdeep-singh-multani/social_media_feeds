@@ -82,8 +82,6 @@ const PostCommentList = ({ postId, closeDialog }) => {
             {comments.map((comment) => (
               <CommentItemWrapper key={comment._id}>
                 <UserProfile action="comment" commenterInfo={comment} />
-                {/* <LikeButton commentId={comment._id} /> */}
-                {/* <CommentText>{comment.content}</CommentText> */}
               </CommentItemWrapper>
             ))}
           </CommentsList>
@@ -99,7 +97,6 @@ const PostCommentList = ({ postId, closeDialog }) => {
       {/* Snackbar for notifications */}
       <SnackbarWrapper
         open={openSnackbar}
-        autoHideDuration={6000}
         onClose={() => setOpenSnackbar(false)}
         message={snackbarMessage}
       />
@@ -109,8 +106,8 @@ const PostCommentList = ({ postId, closeDialog }) => {
 
 // Adding PropTypes for props validation
 PostCommentList.propTypes = {
-  postId: PropTypes.number.isRequired, // postId should be a number and is required
-  closeDialog: PropTypes.func.isRequired, // closeDialog should be a function and is required
+  postId: PropTypes.string.isRequired, // postId should be a number and is required
+  closeDialog: PropTypes.func, // closeDialog should be a function and is required
 };
 
 export default PostCommentList;

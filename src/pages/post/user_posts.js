@@ -77,6 +77,7 @@ const UserPost = () => {
   };
 
   const toggleLike = (event) => {
+    console.log('event: ' + JSON.stringify(event));
     const { postId, isLiked } = event;
     const likeInfo = postLikes.find((like) => like.postId === postId);
     dispatch(showLoader());
@@ -90,7 +91,8 @@ const UserPost = () => {
           throw error;
         });
     } else {
-      dispatch(createPostLike({ postId, userId: user._id }))
+      let request = { postId, userId: user.user._id };
+      dispatch(createPostLike(request))
         .then(() => {
           dispatch(hideLoader());
         })
@@ -157,7 +159,7 @@ const UserPost = () => {
       </PostStyled.PostList>
       {isCommentDialogOpen && (
         <PostCommentList
-          postId={postsWithLikes[0]._id} // Pass postId as needed
+          postId={parseInt(postsWithLikes[0]._id)} // Pass postId as needed
           closeDialog={handleCloseCommentDialog} // Pass the close dialog function
         />
       )}

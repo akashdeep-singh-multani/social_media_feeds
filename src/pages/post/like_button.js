@@ -5,6 +5,7 @@ import { LikeButtonStyled } from '../../components/styled-components/LikeButton.
 
 // Reusable LikeButton component
 const LikeButton = ({ isLiked, postId, onLikeToggled }) => {
+  console.log('postId received in like_button: ' + postId);
   const [liked, setLiked] = useState(isLiked);
 
   // Side effect to sync the initial isLiked value with the state
@@ -16,7 +17,7 @@ const LikeButton = ({ isLiked, postId, onLikeToggled }) => {
     if (liked === undefined) return; // Avoid toggle if undefined
     const newLikeStatus = !liked;
     setLiked(newLikeStatus);
-    onLikeToggled(postId, newLikeStatus); // Emit the like toggle change
+    onLikeToggled({ postId, newLikeStatus }); // Emit the like toggle change
   };
 
   return (

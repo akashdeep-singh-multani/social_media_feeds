@@ -50,7 +50,6 @@ const PostCommentForm = ({ postId }) => {
     <CommentFormWrapper onSubmit={handleSubmit}>
       <CommentInputWrapper>
         <CommentInput
-          formControlName="comment"
           placeholder="Add a comment"
           value={comment}
           onChange={handleCommentChange}
@@ -67,7 +66,7 @@ const PostCommentForm = ({ postId }) => {
 };
 
 PostCommentForm.propTypes = {
-  postId: PropTypes.number.isRequired,
+  postId: PropTypes.string.isRequired,
 };
 
 export default PostCommentForm;
