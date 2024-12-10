@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { showSuccessToast } from "../components/toast/ToastNotifications";
+import { useState } from 'react';
+import { showSuccessToast } from '../pages/toast/ToastNotifications';
 
 const useAuthForm = (initialValues, validate, submitCallback) => {
   const [formData, setFormData] = useState(initialValues);
@@ -24,9 +24,9 @@ const useAuthForm = (initialValues, validate, submitCallback) => {
     if (validateForm()) {
       try {
         const response = await submitCallback(formData);
-        if (response.status) showSuccessToast("Login Successful");
+        if (response.status) showSuccessToast('Login Successful');
       } catch (error) {
-        console.error("Form submission failed: ", error);
+        console.error('Form submission failed: ', error);
       } finally {
         setIsSubmitting(false);
       }

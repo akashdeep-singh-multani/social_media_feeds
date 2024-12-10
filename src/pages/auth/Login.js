@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router"; // Similar to Angular's Router
-import * as AuthActions from "../../store/actions/authActions";
-import { selectIsLoggedIn } from "../../store/selectors/authSelectors"; // Redux selector
-import useAuthForm from "../../hooks/useAuthForm";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router'; // Similar to Angular's Router
+import * as AuthActions from '../../store/actions/authActions';
+import { selectIsLoggedIn } from '../../store/selectors/authSelectors'; // Redux selector
+import useAuthForm from '../../hooks/useAuthForm';
 import {
   ACTION_NAMES,
   FIELD_NAMES,
   VALIDATION_MESSAGES,
-} from "../../constants";
-import { Button, ErrorMessage, Input } from "../common/StyledComponents";
-import "./centered-form.css";
+} from '../../constants';
+import { Button, ErrorMessage, Input } from '../common/StyledComponents';
+import './centered-form.css';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -35,11 +35,11 @@ const Login = () => {
   };
 
   const { formData, errors, isSubmitting, handleChange, handleSubmit } =
-    useAuthForm({ username: "", password: "" }, validateLogin, handleLogin);
+    useAuthForm({ username: '', password: '' }, validateLogin, handleLogin);
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/user_post");
+      navigate('/user_post');
     }
   }, [isLoggedIn, navigate]);
 

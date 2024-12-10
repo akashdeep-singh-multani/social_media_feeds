@@ -1,17 +1,15 @@
-import "./App.css";
-import Login from "./components/auth/Login";
-import Signup from "./components/auth/Signup";
-import { BrowserRouter as Router, Routes, Route } from "react-router";
+import './App.css';
+import React from 'react';
+import { UserProvider } from './contexts/UserContext';
+import ToastNotifications from './pages/toast/ToastNotifications';
+import RouterConfig from './RouterConfig';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        {/* <Route path="/user_post" element={<UserPost />} /> */}
-      </Routes>
-    </Router>
+    <UserProvider>
+      <ToastNotifications />
+      <RouterConfig />
+    </UserProvider>
   );
 }
 

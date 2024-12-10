@@ -1,13 +1,13 @@
 // theme.js - Centralized Theme file for Material-UI
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#3f51b5",
+      main: '#3f51b5',
     },
     secondary: {
-      main: "#f50057",
+      main: '#f50057',
     },
   },
   typography: {
@@ -20,16 +20,16 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          padding: "12px 20px",
-          borderRadius: "8px",
-          textTransform: "none", // Prevents all buttons from being uppercase
+          padding: '12px 20px',
+          borderRadius: '8px',
+          textTransform: 'none', // Prevents all buttons from being uppercase
         },
       },
     },
     MuiTextField: {
       styleOverrides: {
         root: {
-          marginBottom: "16px", // Consistent margin for text fields
+          marginBottom: '16px', // Consistent margin for text fields
         },
       },
     },

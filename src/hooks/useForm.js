@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 const useForm = (
-  initialValues = { username: "", email: "", password: "" },
+  initialValues = { username: '', email: '', password: '' },
   validate,
   submitCallback
 ) => {

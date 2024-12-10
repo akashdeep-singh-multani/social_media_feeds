@@ -1,14 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FIELD_NAMES } from "../../constants";
-import useAuthForm from "../../hooks/useAuthForm";
-import "./centered-form.css";
-import { Button, Input } from "../common/StyledComponents";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FIELD_NAMES } from '../../constants';
+import useAuthForm from '../../hooks/useAuthForm';
+import './centered-form.css';
+import { Button, Input } from '../common/StyledComponents';
 
 const AuthForm = ({ actionName, fields, validate, onSubmit }) => {
   const { formData, errors, isSubmitting, handleChange, handleSubmit } =
     useAuthForm(
-      { username: "", email: "", password: "" }, // Ensure initial values are always provided
+      { username: '', email: '', password: '' }, // Ensure initial values are always provided
       validate,
       onSubmit
     );
@@ -25,7 +25,7 @@ const AuthForm = ({ actionName, fields, validate, onSubmit }) => {
               type="text"
               id={FIELD_NAMES.USERNAME}
               name={FIELD_NAMES.USERNAME}
-              value={formData.username || ""}
+              value={formData.username || ''}
               onChange={handleChange}
               aria-label="Username"
             />
@@ -39,7 +39,7 @@ const AuthForm = ({ actionName, fields, validate, onSubmit }) => {
             type="email"
             id={FIELD_NAMES.EMAIL}
             name={FIELD_NAMES.EMAIL}
-            value={formData.email || ""}
+            value={formData.email || ''}
             onChange={handleChange}
             aria-label="Email"
           />
@@ -51,7 +51,7 @@ const AuthForm = ({ actionName, fields, validate, onSubmit }) => {
             type="password"
             id={FIELD_NAMES.PASSWORD}
             name={FIELD_NAMES.PASSWORD}
-            value={formData.password || ""}
+            value={formData.password || ''}
             onChange={handleChange}
             aria-label="Password"
           />

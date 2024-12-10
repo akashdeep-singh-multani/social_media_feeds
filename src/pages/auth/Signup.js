@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router"; // Router for navigation
-import { selectIsLoggedIn } from "../../store/selectors/authSelectors"; // Redux selector
-import { ACTION_NAMES, FIELD_NAMES, ERROR_MESSAGES } from "../../constants";
-import useAuthForm from "../../hooks/useAuthForm"; // Importing the refactored custom hook
-import * as AuthActions from "../../store/actions/authActions";
-import "./centered-form.css";
-import { Button, Input } from "../common/StyledComponents";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router'; // Router for navigation
+import { selectIsLoggedIn } from '../../store/selectors/authSelectors'; // Redux selector
+import { ACTION_NAMES, FIELD_NAMES, ERROR_MESSAGES } from '../../constants';
+import useAuthForm from '../../hooks/useAuthForm'; // Importing the refactored custom hook
+import * as AuthActions from '../../store/actions/authActions';
+import './centered-form.css';
+import { Button, Input } from '../common/StyledComponents';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -36,14 +36,14 @@ const Signup = () => {
   // Using the custom hook to handle form logic
   const { formData, errors, isSubmitting, handleChange, handleSubmit } =
     useAuthForm(
-      { username: "", email: "", password: "" },
+      { username: '', email: '', password: '' },
       validateSignup,
       handleSignup
     );
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/user_post");
+      navigate('/user_post');
     }
   }, [isLoggedIn, navigate]);
 
