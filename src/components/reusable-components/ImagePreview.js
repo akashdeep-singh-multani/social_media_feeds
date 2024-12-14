@@ -17,9 +17,9 @@ const ImagePreview = ({ imageUrl, altText, style }) => {
 };
 
 ImagePreview.propTypes = {
-  imageUrl: PropTypes.string, // URL of the image to display
-  altText: PropTypes.string, // Alt text for the image
-  style: PropTypes.object, // Optional styling for the image
+  imageUrl: PropTypes.string,
+  altText: PropTypes.string,
+  style: PropTypes.object,
 };
 
 ImagePreview.defaultProps = {

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Reusable Input Field Component
 const InputField = ({ value, onChange, placeholder, ariaLabel, isValid }) => {
   return (
     <input
@@ -17,11 +16,11 @@ const InputField = ({ value, onChange, placeholder, ariaLabel, isValid }) => {
 };
 
 InputField.propTypes = {
-  value: PropTypes.string.isRequired, // value should be a string and is required
-  onChange: PropTypes.func.isRequired, // onChange should be a function and is required
-  placeholder: PropTypes.string.isRequired, // placeholder should be a string and is required
-  ariaLabel: PropTypes.string.isRequired, // ariaLabel should be a string and is required
-  isValid: PropTypes.bool.isRequired, // isValid should be a boolean and is required
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string.isRequired,
+  isValid: PropTypes.bool.isRequired,
 };
 
 export default InputField;

@@ -16,8 +16,6 @@ export const selectPostsByUserId = (userId) => (state) => {
 export const selectPostsWithLikes = (state) => {
   const posts = selectPostsState(state) || [];
   const postLikes = selectLikesState(state) || [];
-  console.log('posts: ' + JSON.stringify(posts));
-  console.log('postLikes: ' + JSON.stringify(postLikes));
   return posts.map((post) => {
     const isLiked = postLikes.some((like) => {
       return String(like.postId) === String(post._id);

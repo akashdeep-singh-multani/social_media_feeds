@@ -111,14 +111,14 @@ const UserPost = () => {
     const { postId, newLikeStatus } = event; // Get new like status
 
     // Find the likeInfo for the post
-    const likeInfo = postLikes.find((like) => like.postId === postId);
+    const likeInfo = postLikes.find((like) => like?.postId === postId);
 
     // Dispatch show loader action
     dispatch(showLoader());
 
     if (newLikeStatus && !likeInfo) {
       // If liked and no existing like record, create a new like
-      const request = { postId, userId: user.user._id };
+      const request = { postId, userId: user?.user?._id };
       dispatch(createPostLike(request))
         .then(() => {
           // Update postsWithLikes state to reflect the like status change
@@ -135,7 +135,7 @@ const UserPost = () => {
         });
     } else if (!newLikeStatus && likeInfo) {
       // If unliked and there is a like record, delete the like
-      dispatch(deletePostLike({ postId, likeId: likeInfo._id }))
+      dispatch(deletePostLike({ postId, likeId: likeInfo?._id }))
         .then(() => {
           // Update postsWithLikes state to reflect the like status change
           setPostsWithLikes((prevPosts) =>
@@ -184,8 +184,8 @@ const UserPost = () => {
                   </PostStyled.PostImage>
                   <PostStyled.PostActions>
                     <LikeButton
-                      isLiked={post.isLiked}
-                      postId={post._id}
+                      isLiked={post?.isLiked}
+                      postId={post?._id}
                       onLikeToggled={toggleLike} // Pass the toggle function
                       aria-label="Like this post"
                     />

@@ -15,7 +15,6 @@ export const CommentListWrapper = styled.div`
   border-radius: 10px;
 `;
 
-// Wrapper for the Dialog
 export const DialogWrapper = styled(Dialog)`
   .MuiDialog-paper {
     border-radius: 20px;
@@ -23,7 +22,6 @@ export const DialogWrapper = styled(Dialog)`
   }
 `;
 
-// Dialog Title
 export const DialogTitleWrapper = styled(DialogTitle)`
   font-size: 18px;
   font-weight: bold;
@@ -31,7 +29,6 @@ export const DialogTitleWrapper = styled(DialogTitle)`
   border-bottom: 1px solid #e0e0e0;
 `;
 
-// Dialog Content Wrapper (for comments list and form)
 export const DialogContentWrapper = styled(DialogContent)`
   display: flex;
   flex-direction: column;
@@ -41,7 +38,6 @@ export const DialogContentWrapper = styled(DialogContent)`
   overflow-x: hidden;
 `;
 
-// Comments List Wrapper
 export const CommentsList = styled.div`
   flex-grow: 1;
   margin-bottom: 12px;
@@ -49,7 +45,6 @@ export const CommentsList = styled.div`
   max-height: 300px; /* Limit the height of the comments list */
 `;
 
-// Individual Comment Item Wrapper
 export const CommentItemWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -77,20 +72,17 @@ export const Username = styled.h3`
   display: inline-block;
 `;
 
-// Comment Text Styling
 export const CommentText = styled.p`
   font-size: 14px;
   color: #666;
   margin: 5px 0 0;
 `;
 
-// Close Button Styling (Dialog action)
 export const DialogActionsWrapper = styled(DialogActions)`
   padding: 12px 16px;
   border-top: 1px solid #e0e0e0;
 `;
 
-// Close Button
 export const CloseButton = styled.button`
   background-color: transparent;
   border: none;
@@ -106,7 +98,6 @@ export const CloseButton = styled.button`
   }
 `;
 
-// Snackbar for notifications
 export const SnackbarWrapper = styled.div`
   position: absolute;
   bottom: 20px;
@@ -124,7 +115,6 @@ export const SnackbarWrapper = styled.div`
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-// Form styling for the comment input and submit button (aligned horizontally)
 export const CommentFormWrapper = styled.form`
   display: flex;
   align-items: center;
@@ -132,7 +122,6 @@ export const CommentFormWrapper = styled.form`
   width: 100%;
 `;
 
-// Styling for the input field where user types the comment
 export const CommentInputWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -166,7 +155,7 @@ export const PostButton = styled.button`
     background-color: #007bb5;
   }
 `;
-// Input field for comment
+
 export const CommentInput = styled.textarea`
   flex: 1;
   padding: 10px;
@@ -190,7 +179,6 @@ export const CommentInput = styled.textarea`
   }
 `;
 
-// Submit Button Styling
 export const SubmitButtonWrapper = styled.div`
   margin-left: 10px;
 `;

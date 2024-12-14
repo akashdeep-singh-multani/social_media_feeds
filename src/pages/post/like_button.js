@@ -4,7 +4,7 @@ import { FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
 import { LikeButtonStyled } from '../../components/styled-components/LikeButton.styled';
 
 const LikeButton = ({ isLiked, postId, onLikeToggled }) => {
-  const [liked, setLiked] = useState(isLiked);
+  const [liked, setLiked] = useState(isLiked ?? false);
 
   // Side effect to sync the initial isLiked value with the state
   useEffect(() => {

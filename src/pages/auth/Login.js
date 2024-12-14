@@ -53,7 +53,7 @@ const Login = () => {
             type="text"
             id={FIELD_NAMES.USERNAME}
             name={FIELD_NAMES.USERNAME}
-            value={formData.USERNAME}
+            value={formData.username}
             onChange={handleChange}
             required
           />

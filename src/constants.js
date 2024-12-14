@@ -42,3 +42,4 @@ export const USE_USER_HOOK_USAGE_ERROR =
   'useUser must be used within a UserProvider';
 export const POST_CONTENT_PLACEHOLDER = 'What/s on your mind?';
 export const POST_ARIA_LABEL = 'Enter post content';
+export const SESSION_TIME_LIMIT = 15 * 60 * 1000;

@@ -6,13 +6,15 @@ export const login = (username, password) => async (dispatch) => {
     setToken(response.data.token);
     dispatch({
       type: 'LOGIN_SUCCESS',
-      payload: { username },
+      token: response.data.token,
     });
+    return response;
   } catch (error) {
     dispatch({
       type: 'LOGIN_FAILURE',
       error: error.message,
     });
+    throw error;
   }
 };
 

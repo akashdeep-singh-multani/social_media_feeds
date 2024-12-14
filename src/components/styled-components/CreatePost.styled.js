@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-// Container for the whole page
 export const CreatePostPageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -13,7 +12,6 @@ export const CreatePostPageContainer = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
-// Textarea for post content
 export const CreatePostStyledTextArea = styled.textarea`
   width: 100%;
   padding: 12px;
@@ -32,7 +30,6 @@ export const CreatePostStyledTextArea = styled.textarea`
   }
 `;
 
-// Container for buttons (Submit & Add Photo)
 export const CreatePostButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -40,7 +37,6 @@ export const CreatePostButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
-// Submit Button for form submission
 export const CreatePostStyledSubmitButton = styled.button`
   background-color: #007bff;
   color: white;
