@@ -6,8 +6,7 @@
     "test": "jest",
     "start": "node server.js",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "prepare": "husky"
+    "lint:fix": "eslint . --fix"
   },
   "author": "",
   "license": "ISC",
