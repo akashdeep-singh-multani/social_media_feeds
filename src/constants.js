@@ -23,11 +23,17 @@ export const INITIAL_VALUES = {
 
 export const INFO_MESSAGES = {
   SUCCESS_LOG: 'Api request is successful',
+  PROFILE_UPDATION_SUCCESSFUL: 'Profile Updated Successfully',
+  LOGIN_SUCCESSFUL: 'Login Successful',
 };
 
 export const ERROR_MESSAGES = {
   LOGIN_FAILURE: 'Login Failed',
   SIGNUP_FAILURE: 'Signup Failed',
+  LOAD_POST_FAILURE: 'Error loading post',
+  ADD_COMMENTS_FAILURE: 'Something went wrong while adding comments',
+  SOMETHING_WENT_WRONG: 'Something went wrong! Please try again later',
+  FORM_SUBMISSION_FAILED: 'Form Submission Failed',
 };
 
 export const POST_OFFSET = 1;

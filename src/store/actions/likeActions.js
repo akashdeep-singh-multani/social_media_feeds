@@ -55,9 +55,9 @@ export const createPostLike = (request) => async (dispatch) => {
 export const getPostLikes = (postId) => async (dispatch) => {
   try {
     const postLikes = await getPostLikesData(postId);
-    dispatch({ type: 'GET_POST_LIKES_SUCCESS', payload: postLikes.data });
+    dispatch({ type: 'GET_POST_LIKES_SUCCESS', postLikes: postLikes.data });
   } catch (error) {
-    dispatch({ type: 'GET_POST_LIKES_FAILURE', payload: error.toString() });
+    dispatch({ type: 'GET_POST_LIKES_FAILURE', postLikes: error.toString() });
   }
 };
 

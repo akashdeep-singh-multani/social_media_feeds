@@ -1,5 +1,5 @@
 export const selectPostsState = (state) => state?.post.posts || [];
-export const selectLikesState = (state) => state?.likes || [];
+export const selectLikesState = (state) => state?.likes.postLikes || [];
 
 export const selectAllPostsLoaded = (state) =>
   selectPostsState(state).allPostsLoaded;
@@ -14,12 +14,16 @@ export const selectPostsByUserId = (userId) => (state) => {
 };
 
 export const selectPostsWithLikes = (state) => {
-  const posts = selectPostsState(state)?.posts || [];
-  const postLikes = selectLikesState(state)?.postLikes || [];
+  const posts = selectPostsState(state) || [];
+  const postLikes = selectLikesState(state) || [];
+  console.log('posts: ' + JSON.stringify(posts));
+  console.log('postLikes: ' + JSON.stringify(postLikes));
   return posts.map((post) => {
-    const isLiked = postLikes.some(
-      (like) => String(like.postId) === String(post._id)
-    );
+    const isLiked = postLikes.some((like) => {
+      return String(like.postId) === String(post._id);
+    });
     return { ...post, isLiked };
   });
 };
+
+export const selectPostLikes = (state) => selectLikesState(state);

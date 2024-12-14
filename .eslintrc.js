@@ -1,9 +1,17 @@
+// eslint-disable-next-line no-undef
 module.exports = {
+  env: {
+    'jest/globals': true,
+    node: true,
+    es2021: true,
+  },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:prettier/recommended', // Optional: If you want to integrate Prettier with ESLint
+    'plugin:prettier/recommended',
+    'plugin:jest/recommended',
   ],
+  plugins: ['jest'],
   parserOptions: {
     ecmaVersion: 12,
     sourceType: 'module',
@@ -13,11 +21,19 @@ module.exports = {
   },
   settings: {
     react: {
-      version: 'detect', // Automatically detect the React version
+      version: 'detect',
     },
   },
   rules: {
-    'react/prop-types': 'off', // Example: Disable prop-types validation
-    'prettier/prettier': 'error', // Optional: Integrate Prettier with ESLint
+    'react/prop-types': 'off',
+    'prettier/prettier': 'error',
   },
+  overrides: [
+    {
+      files: ['*.js'],
+      rules: {
+        'no-undef': ['error', { typeof: true }],
+      },
+    },
+  ],
 };

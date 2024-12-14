@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa'; // Using React Icons for the thumbs up icon
+import { FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
 import { LikeButtonStyled } from '../../components/styled-components/LikeButton.styled';
 
-// Reusable LikeButton component
 const LikeButton = ({ isLiked, postId, onLikeToggled }) => {
-  console.log('postId received in like_button: ' + postId);
   const [liked, setLiked] = useState(isLiked);
 
   // Side effect to sync the initial isLiked value with the state
@@ -32,7 +30,6 @@ const LikeButton = ({ isLiked, postId, onLikeToggled }) => {
   );
 };
 
-// Prop types validation
 LikeButton.propTypes = {
   isLiked: PropTypes.bool, // Boolean indicating whether the post is liked
   postId: PropTypes.string.isRequired, // The ID of the post being liked

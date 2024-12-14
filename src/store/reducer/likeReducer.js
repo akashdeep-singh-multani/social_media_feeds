@@ -35,7 +35,7 @@ const likesReducer = (state = initialState, action) => {
     case 'GET_POST_LIKES_SUCCESS':
       return {
         ...state,
-        postLikes: action.payload,
+        postLikes: action.postLikes,
         error: null,
       };
     case 'DELETE_POST_LIKE_SUCCESS':

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 const { createGlobalStyle } = require('styled-components');
 
 const GlobalStyle = createGlobalStyle`

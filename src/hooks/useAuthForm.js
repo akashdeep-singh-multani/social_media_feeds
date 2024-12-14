@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { showSuccessToast } from '../pages/toast/ToastNotifications';
+import { handleError } from '../utils/errorHandler';
+import { ERROR_MESSAGES, INFO_MESSAGES } from '../constants';
 
 const useAuthForm = (initialValues, validate, submitCallback) => {
   const [formData, setFormData] = useState(initialValues);
@@ -24,9 +26,9 @@ const useAuthForm = (initialValues, validate, submitCallback) => {
     if (validateForm()) {
       try {
         const response = await submitCallback(formData);
-        if (response.status) showSuccessToast('Login Successful');
+        if (response.status) showSuccessToast(INFO_MESSAGES.LOGIN_SUCCESSFUL);
       } catch (error) {
-        console.error('Form submission failed: ', error);
+        handleError(error, ERROR_MESSAGES.FORM_SUBMISSION_FAILED);
       } finally {
         setIsSubmitting(false);
       }

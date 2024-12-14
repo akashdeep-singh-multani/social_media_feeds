@@ -5,9 +5,14 @@ import { useUser } from '../../hooks/useUser';
 import { hideLoader, showLoader } from '../../store/actions/loaderActions';
 import { addPost } from '../../store/actions/postActions';
 import { POST_ARIA_LABEL, POST_CONTENT_PLACEHOLDER } from '../../constants';
-import TextArea from '../../components/reusable-components/TextArea';
+// import TextArea from '../../components/reusable-components/TextArea';
 import SubmitButton from '../../components/reusable-components/SubmitButton';
 import AddPhoto from '../common/AddPhotoComponent';
+import {
+  CreatePostButtonContainer,
+  CreatePostPageContainer,
+  CreatePostStyledTextArea,
+} from '../../components/styled-components/CreatePost.styled';
 
 const CreatePost = () => {
   const [postText, setPostText] = useState('');
@@ -44,8 +49,8 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="page_style">
-      <TextArea
+    <CreatePostPageContainer>
+      <CreatePostStyledTextArea
         value={postText}
         onChange={handleTextChange}
         placeholder={POST_CONTENT_PLACEHOLDER}
@@ -54,19 +59,21 @@ const CreatePost = () => {
         cols={50}
         aria-label={POST_ARIA_LABEL}
       />
-      <div className="button-container">
+      <CreatePostButtonContainer>
         <SubmitButton
           onClick={handleCreatePostSubmission}
           ariaLabel="Submit your Post"
         >
           Submit
         </SubmitButton>
+      </CreatePostButtonContainer>
+      <CreatePostButtonContainer>
         <AddPhoto
           onPhotoSelection={handlePhotoSelection}
           ariaLabel="Add a photo"
         />
-      </div>
-    </div>
+      </CreatePostButtonContainer>
+    </CreatePostPageContainer>
   );
 };
 

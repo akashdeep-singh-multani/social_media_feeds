@@ -5,13 +5,12 @@ import Modal from 'react-modal'; // React Modal for dialog functionality
 import PostCommentList from '../post/comment_list'; // Import your PostCommentList component
 import { CommentButtonStyled } from '../../components/styled-components/CommentButton.styled';
 Modal.setAppElement('#root');
-// React version of CommentButton component
 const CommentButton = ({ postId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Function to handle opening the modal dialog
   const handleCommentClick = () => {
-    setIsModalOpen(true); // Open the modal
+    setIsModalOpen(true);
   };
 
   // Function to close the modal

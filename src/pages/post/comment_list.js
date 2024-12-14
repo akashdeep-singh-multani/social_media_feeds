@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { showLoader, hideLoader } from '../../store/actions/loaderActions'; // Import loader actions
@@ -30,8 +30,9 @@ const PostCommentList = ({ postId, closeDialog }) => {
   const [newCommentReceived, setNewCommentReceived] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-
+  const [dialogOpen, setDialogOpen] = useState(true);
   const socketManagerService = SocketManagerService();
+  const dialogRef = useRef(null);
 
   useEffect(() => {
     // dispatch(showLoader()); // Show loader when component is mounted
@@ -54,6 +55,12 @@ const PostCommentList = ({ postId, closeDialog }) => {
     };
   }, [dispatch, postId]);
 
+  useEffect(() => {
+    if (dialogOpen && dialogRef.current) {
+      dialogRef.current.focus(); // Set focus to dialog when opened
+    }
+  }, [dialogOpen]);
+
   const handleNewComment = (comment) => {
     const commentExists = comments.some((cmnt) => cmnt._id === comment._id);
     if (!commentExists && !newCommentReceived) {
@@ -72,9 +79,22 @@ const PostCommentList = ({ postId, closeDialog }) => {
     setOpenSnackbar(true);
   };
 
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+    if (closeDialog) {
+      closeDialog();
+    }
+  };
+
   return (
     <>
-      <DialogWrapper open={true} onClose={closeDialog} fullWidth maxWidth="md">
+      <DialogWrapper
+        open={dialogOpen}
+        fullWidth
+        maxWidth="md"
+        ref={dialogRef}
+        tabIndex="-1"
+      >
         <DialogTitleWrapper>Comments</DialogTitleWrapper>
 
         <DialogContentWrapper>
@@ -90,7 +110,7 @@ const PostCommentList = ({ postId, closeDialog }) => {
         </DialogContentWrapper>
 
         <DialogActionsWrapper>
-          <CloseButton onClick={closeDialog}>Close</CloseButton>
+          <CloseButton onClick={handleCloseDialog}>Close</CloseButton>
         </DialogActionsWrapper>
       </DialogWrapper>
 

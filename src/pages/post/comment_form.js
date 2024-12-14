@@ -12,6 +12,8 @@ import {
   SubmitButtonWrapper,
   SubmitButton,
 } from '../../components/styled-components/PostCommentForm.styled';
+import { handleError } from '../../utils/errorHandler';
+import { ERROR_MESSAGES } from '../../constants';
 
 const PostCommentForm = ({ postId }) => {
   const { user } = useUser();
@@ -40,7 +42,7 @@ const PostCommentForm = ({ postId }) => {
       dispatch(addComment(newComment));
       setComment(''); // Reset comment field after successful submission
     } catch (error) {
-      console.error('Error adding comment:', error);
+      handleError(error, ERROR_MESSAGES.ADD_COMMENTS_FAILURE);
     } finally {
       dispatch(hideLoader()); // Hide loader after action completion
     }

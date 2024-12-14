@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 export const handleError = (error, customMessage = '') => {
   let errorMessage = customMessage;
 
-  if (error.response) {
+  if (error?.response) {
     const statusCode = error.response.status;
 
     switch (statusCode) {
@@ -32,11 +32,11 @@ export const handleError = (error, customMessage = '') => {
       default:
         errorMessage = `Error ${statusCode}: ${error.response.data.message || error.response.statusText}`;
     }
-  } else if (error.request) {
+  } else if (error?.request) {
     errorMessage =
       'Network error: Unable to reach the server. Please check your internet connection.';
   } else {
-    errorMessage = `Error: ${error.message}`;
+    errorMessage = `Error: ${errorMessage}`;
   }
 
   toast.error(errorMessage);
