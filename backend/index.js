@@ -43,11 +43,14 @@ app.use('/api/posts', postRoutes)
 app.use('/api/comments', commentRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/like', likeRoutes)
+app.get('/', (req, res) => {
+  res.send('Backend is working')
+})
 
-app.use(errorHandler)
 app.use(errorLogger)
 app.use((err, req, res) => {
   logger.error(err.mesage || ERROR_MESSAGES.INTERNAL_SERVER_ERROR)
   sendValidationErrors(res, 500, ERROR_MESSAGES.INTERNAL_SERVER_ERROR)
 })
+app.use(errorHandler)
 module.exports = app
